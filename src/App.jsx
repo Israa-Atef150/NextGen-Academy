@@ -8,9 +8,10 @@ import AboutUs from './Modules/HomeModules/Components/AboutUs/AboutUs'
 import CallUs from './Modules/HomeModules/Components/CallUs/CallUs'
 import Edusystem from './Modules/HomeModules/Components/EduSystem/Edusystem'
 import Forgetpass from './Modules/AuthenticationModule/Components/ForgetPass/Forgetpass'
+import Register from './Modules/AuthenticationModule/Components/Register/Register'
 export default function App() {
   const routes=createBrowserRouter([
-   {
+    {
     path:"/",
     element:<AuthLayout/>,
     errorElement:<NotFound/>,
@@ -21,6 +22,10 @@ export default function App() {
     {
       path:"login",
       element:<Login/>
+    },
+    {
+      path:"register",
+      element:<Register/>
     },
     {
       path:"AboutUs",
@@ -40,7 +45,7 @@ export default function App() {
       element:<Forgetpass/>
     },
   ]
-   },
+    },
 
   //  {
   //   path:"MyAccount",

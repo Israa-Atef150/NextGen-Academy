@@ -1,15 +1,16 @@
+.HeroSection{
+  height: 700px;
+}
 .hero-container {
     position: relative;
     width: 100%;
-    height: 100vh; /* تجعل القسم يغطي الشاشة بالكامل */
-    margin-top: 64px; /* ارتفاع الـ Navbar */
+    height: 100%; /* تجعل القسم يغطي الشاشة بالكامل */
     overflow: hidden;
   }
   
   .hero-image {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* تجعل الصورة تغطي المساحة بدون تشويه */
   }
   
   .hero-content {
