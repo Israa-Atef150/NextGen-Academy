@@ -1,0 +1,52 @@
+.hero-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* تجعل القسم يغطي الشاشة بالكامل */
+    margin-top: 64px; /* ارتفاع الـ Navbar */
+    overflow: hidden;
+  }
+  
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* تجعل الصورة تغطي المساحة بدون تشويه */
+  }
+  
+  .hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.5); /* شفافية للخلفية */
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .hero-button {
+    background-color: rgb(234 88 12 );
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .hero-button:hover {
+    background-color: darkorange;
+  }
+  

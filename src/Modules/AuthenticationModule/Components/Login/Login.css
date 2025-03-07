@@ -1,0 +1,12 @@
+.background {
+    background-image: url(../../../../assets/imgs/slide2.jpg);
+    background-size: cover;
+    background-position: center;
+  
+}
+.background::before {
+    backdrop-filter: blur(200px); 
+    -webkit-backdrop-filter: blur(10px); 
+}
+
+
