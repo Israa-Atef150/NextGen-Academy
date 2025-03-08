@@ -4,10 +4,20 @@
     display: flex;
     gap: 30px;
     flex-direction: column;
+    align-items: center;
 }
 .Courses .Courses-title{
-    text-align: center;
     font-size: 32px;
+    position: relative;
+    width: fit-content;
+}
+.Courses .Courses-title::before{
+    content: '';
+    position: absolute;
+    border: 2.5px solid #ffb000;
+    width: 80%;
+    bottom: -10px;
+    left: 31px;
 }
 .Courses .Courses-content{
     width: 80%;

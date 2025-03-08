@@ -1,11 +1,12 @@
 .hero-container {
   width: 100%;
   position: relative;
+  height: 620px;
 }
 
 .hero-swiper {
   width: 100%;
-  height: 500px;
+  height: 100%;
 }
 
 .slide-content {
@@ -16,8 +17,8 @@
 
 .hero-image {
   width: 100%;
-  height: 500px;
-  object-fit: cover;
+  height: 100%;
+  /* object-fit: cover; */
 }
 
 .hero-content {
@@ -85,4 +86,9 @@
 
 .swiper-pagination-bullet-active {
   background: rgb(234 88 12);
+}
+
+
+.swiper-button-prev:after , .swiper-button-next:after{
+  font-size: 21px;
 }
