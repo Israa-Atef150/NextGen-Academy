@@ -1,13 +1,13 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Guide from './Modules/HomeModules/Components/Guide'
 import NotFound from './Modules/SharedModule/Components/NotFound/NotFound'
 import AuthLayout from './Modules/SharedModule/Components/AuthLayout/AuthLayout'
 import Login from './Modules/AuthenticationModule/Components/Login/Login'
-import AboutUs from './Modules/HomeModules/Components/AboutUs/AboutUs'
-import CallUs from './Modules/HomeModules/Components/CallUs/CallUs'
-import Edusystem from './Modules/HomeModules/Components/EduSystem/Edusystem'
 import Forgetpass from './Modules/AuthenticationModule/Components/ForgetPass/Forgetpass'
+import Guide from './Modules/GuideModule/Components/Guide';
+import AboutUs from './Modules/GuideModule/Components/AboutUs/AboutUs';
+import CallUs from './Modules/GuideModule/Components/CallUs/CallUs';
+import Edusystem from './Modules/GuideModule/Components/EduSystem/Edusystem';
 export default function App() {
   const routes=createBrowserRouter([
    {
