@@ -8,9 +8,10 @@ import Guide from './Modules/GuideModule/Components/Guide';
 import AboutUs from './Modules/GuideModule/Components/AboutUs/AboutUs';
 import CallUs from './Modules/GuideModule/Components/CallUs/CallUs';
 import Edusystem from './Modules/GuideModule/Components/EduSystem/Edusystem';
+import Register from './Modules/AuthenticationModule/Components/Register/Register'
 export default function App() {
   const routes=createBrowserRouter([
-   {
+    {
     path:"/",
     element:<AuthLayout/>,
     errorElement:<NotFound/>,
@@ -21,6 +22,10 @@ export default function App() {
     {
       path:"login",
       element:<Login/>
+    },
+    {
+      path:"register",
+      element:<Register/>
     },
     {
       path:"AboutUs",
@@ -40,22 +45,18 @@ export default function App() {
       element:<Forgetpass/>
     },
   ]
-   },
+    },
 
-  //  {
-  //   path:"MyAccount",
-  //   element:<MasterLayout/>,
-  //   errorElement:<NotFound/>,
-  //   children:[{
-    
+    // إذا كنت بحاجة إلى MasterLayout، تأكد من استيراده
+    // {
+    //   path: "myaccount",
+    //   element: <MasterLayout />,
+    //   errorElement: <NotFound />,
+    //   children: [
+    //     // ضع الصفحات الداخلية هنا
+    //   ],
+    // },
+  ]);
 
-
-  //   }]
-  //  }
- 
-
-  ])
-  return (
-    <RouterProvider router={routes} />
-  )
+  return <RouterProvider router={routes} />;
 }
