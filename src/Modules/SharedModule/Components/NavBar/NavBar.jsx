@@ -10,7 +10,7 @@ export default function NavBar() {
         
         {/* شعار الموقع */}
         <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="/assets/imgs/logo.jpg" className="h-12 w-12 rounded-full" alt="Logo" />
+          <img src="src/assets/imgs/logo.jpg" className="h-12 w-12 rounded-full" alt="Logo" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             إشراق
           </span>

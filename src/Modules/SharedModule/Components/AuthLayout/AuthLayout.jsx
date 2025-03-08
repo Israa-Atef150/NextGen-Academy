@@ -5,7 +5,8 @@ import { Outlet } from 'react-router-dom'
 export default function AuthLayout() {
   return (
     <> 
-      <NavBar/>
+    <div>  <NavBar/></div>
+     
       <Outlet/>
     </>
   )
