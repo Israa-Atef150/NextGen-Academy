@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from 'react-router-dom';
 // image
 import logo from '../../../../assets/imgs/logo.jpg'
 export default function NavBar() {
@@ -13,26 +13,26 @@ export default function NavBar() {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           
           {/* شعار الموقع */}
-          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={logo} className="h-12 w-12 rounded-full" alt="Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               إشراق
             </span>
 
-          </Link>
+          </NavLink>
 
           {/* أزرار التسجيل وتسجيل الدخول */}
           <div className="flex md:order-2 space-x-2 rtl:space-x-reverse">
-            <Link to="/register">
+            <NavLink to="/register">
               <button className="text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">
                 إنشاء حساب
               </button>
-            </Link>
-            <Link to="/login">
+            </NavLink>
+            <NavLink to="/login">
               <button className="text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">
                 تسجيل دخول
               </button>
-            </Link>
+            </NavLink>
 
             {/* زر القائمة الجانبية (للهواتف) */}
             <button
@@ -51,28 +51,57 @@ export default function NavBar() {
 
           {/* روابط القائمة (الهيدر) */}
           <div className={`${menuOpen ? "block" : "hidden"} md:flex md:items-center md:w-auto md:order-1`} id="navbar-menu">
-            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              <li>
-                <Link to="/" className="block py-2 px-3 text-orange-600 rounded-sm md:bg-transparent md:p-0 hover:text-orange-500 transition-colors duration-200">
-                  الصفحة الرئيسة
-                </Link>
-              </li>
-              <li>
-                <Link to="/Edusystem" className="block py-2 px-3 text-gray-900 rounded-sm md:p-0 hover:text-orange-500 transition-colors duration-200 dark:text-white">
-                  النظام الدراسي
-                </Link>
-              </li>
-              <li>
-                <Link to="/CallUs" className="block py-2 px-3 text-gray-900 rounded-sm md:p-0 hover:text-orange-500 transition-colors duration-200 dark:text-white">
-                  اتصل بنا
-                </Link>
-              </li>
-              <li>
-                <Link to="/AboutUs" className="block py-2 px-3 text-gray-900 rounded-sm md:p-0 hover:text-orange-500 transition-colors duration-200 dark:text-white">
-                  عن المعهد
-                </Link>
-              </li>
-            </ul>
+          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `block py-2 px-3 rounded-sm md:bg-transparent md:p-0 transition-colors duration-200 ${
+                    isActive ? "text-orange-600 font-bold" : "text-gray-900 dark:text-white hover:text-orange-500"
+                  }`
+                }
+              >
+                الصفحة الرئيسة
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/Edusystem"
+                className={({ isActive }) =>
+                  `block py-2 px-3 rounded-sm md:p-0 transition-colors duration-200 ${
+                    isActive ? "text-orange-600 font-bold" : "text-gray-900 dark:text-white hover:text-orange-500"
+                  }`
+                }
+              >
+                النظام الدراسي
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/CallUs"
+                className={({ isActive }) =>
+                  `block py-2 px-3 rounded-sm md:p-0 transition-colors duration-200 ${
+                    isActive ? "text-orange-600 font-bold" : "text-gray-900 dark:text-white hover:text-orange-500"
+                  }`
+                }
+              >
+                اتصل بنا
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/AboutUs"
+                className={({ isActive }) =>
+                  `block py-2 px-3 rounded-sm md:p-0 transition-colors duration-200 ${
+                    isActive ? "text-orange-600 font-bold" : "text-gray-900 dark:text-white hover:text-orange-500"
+                  }`
+                }
+              >
+                عن المعهد
+              </NavLink>
+            </li>
+      </ul>
+
           </div>
 
         </div>
