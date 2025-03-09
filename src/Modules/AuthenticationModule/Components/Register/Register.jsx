@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Register() {
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center p-6" dir="rtl">
+    <section className="bg-gray-50 dark:bg-gray-900  flex items-center justify-center p-6" style={{height:"100%"}} dir="rtl">
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 space-y-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white text-center">إنشاء حساب</h1>
         
