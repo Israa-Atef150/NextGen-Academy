@@ -9,6 +9,7 @@ import AboutUs from './Modules/GuideModule/Components/AboutUs/AboutUs';
 import CallUs from './Modules/GuideModule/Components/CallUs/CallUs';
 import Edusystem from './Modules/GuideModule/Components/EduSystem/Edusystem';
 import Register from './Modules/AuthenticationModule/Components/Register/Register'
+import'./App.css'
 export default function App() {
   const routes=createBrowserRouter([
     {

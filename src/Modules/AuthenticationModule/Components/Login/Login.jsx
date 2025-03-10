@@ -5,12 +5,9 @@ export default function Login() {
   return (
     <>
       <section className="bg-gray-50 dark:bg-gray-900 background">
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 text-right" dir="rtl">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto  lg:py-0 text-right" dir="rtl">
         <a href="#" className="flex items-center gap-x-2 mb-6 text-2xl font-semibold text-gray-900 dark:text-white flex-row-reverse">
-  إشراق
-  <img className="w-8 h-8 mr-3 login-img" src=".\src\assets\imgs\logo.jpg" alt="logo" />
 </a>
-
 
         <div className="w-full bg-gray-900 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-900 dark:border-gray-700">
 
