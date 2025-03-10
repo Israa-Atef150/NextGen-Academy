@@ -2,8 +2,8 @@
     import AboutSection from './AboutSection/AboutSection'
     import HeroSection from './HeroSection/HeroSection'
     import CoursesSection from './CoursesSection/CoursesSection'
-    import MapSection from './MapSection/MapSection'
     import Footer from '../../SharedModule/Components/Footer/Footer'
+    import ContactUs from './ContactUs/ContactUs'
 
     export default function Guide() {
 
@@ -12,7 +12,7 @@
     <HeroSection/>
     <AboutSection/>
     <CoursesSection/>
-    <MapSection/>
+    <ContactUs/>
     <Footer/>
     </div>
     )

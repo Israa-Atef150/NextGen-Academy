@@ -1,0 +1,9 @@
+.ContactUs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin: auto;
+    height: 500px;
+    gap: 9px;
+}
