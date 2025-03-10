@@ -12,7 +12,9 @@
     <HeroSection/>
     <AboutSection/>
     <CoursesSection/>
+    <div id="ContactUs">
     <ContactUs/>
+    </div>
     <Footer/>
     </div>
     )

@@ -13,13 +13,12 @@ export default function NavBar() {
         <div className=" flex flex-wrap items-center justify-between mx-auto p-4">
           
           {/* شعار الموقع */}
-
-
           <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={logo} className="h-12 w-12 rounded-full" alt="Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               إشراق
             </span>
+
           </NavLink>
 
           {/* أزرار التسجيل وتسجيل الدخول */}
@@ -77,18 +76,16 @@ export default function NavBar() {
                 النظام الدراسي
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/CallUs"
-                className={({ isActive }) =>
-                  `block py-2 px-3 rounded-sm md:p-0 transition-colors duration-200 ${
-                    isActive ? "text-orange-600 font-bold" : "text-gray-900 dark:text-white hover:text-orange-500"
-                  }`
-                }
-              >
-                اتصل بنا
-              </NavLink>
-            </li>
+            <NavLink
+              to="/"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("ContactUs")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="block py-2 px-3 rounded-sm md:p-0 transition-colors duration-200 text-gray-900 dark:text-white hover:text-orange-500"
+            >
+              اتصل بنا
+            </NavLink>
             <li>
               <NavLink
                 to="/AboutUs"
