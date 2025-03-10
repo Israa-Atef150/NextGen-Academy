@@ -2,7 +2,7 @@
 
     export default function From() {
         return (
-            <div className="max-w-lg mx-auto p-8 bg-gray-100 rounded-xl shadow-md" style={{height:"100%"}}>
+            <div className="max-w-lg  p-8 bg-gray-100 rounded-xl shadow-md" style={{height:"100%",width:"50%"}}>
                 <h3 className="text-blue-600 font-semibold text-center">Get In Touch</h3>
                 <h2 className="text-2xl font-bold text-center mb-6">Have Any Question?</h2>
                 <form className="space-y-4">
