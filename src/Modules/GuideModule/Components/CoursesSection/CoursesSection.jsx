@@ -1,28 +1,18 @@
-import React from 'react';
-import image from '../../../../assets/imgs/slide2.jpg';
-import Courses from '../../../SharedModule/Components/Courses/Courses';
+import Courses from "../../../SharedModule/Components/Courses/Courses";
 
-
-export default function CoursesSection() {
-    const coursesList = [
-        { id: 1, name: "قسم القانون", image: image, status: "أعلى كورسات تصنيف" },
-        { id: 2, name: "قسم الرياضيات", image: image, status: "أعلى كورسات تصنيف" },
-        { id: 3, name: "قسم البرمجيات", image: image, status: "أعلى كورسات تصنيف" },
-        { id: 4, name: "قسم الذكاء الاصطناعي", image: image, status: "الأكثر كورسات إعجابًا" },
-        { id: 5, name: "قسم الشبكات", image: image, status: "الأكثر كورسات إعجابًا" },
-        { id: 6, name: "قسم إدارة الأعمال", image: image, status: "الأكثر كورسات إعجابًا" },
-    ];
-
-    const trendingCourses = coursesList.filter(course => course.status === "أعلى كورسات تصنيف");
-    const bestSellingCourses = coursesList.filter(course => course.status === "الأكثر كورسات إعجابًا");
-
-    return (
-        <section className='courses-section' style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            {/* كورسات الأعلى تصنيفًا */}
-            <Courses title="أعلى كورسات تصنيف" courses={trendingCourses} />
-
-            {/* الكورسات الأكثر إعجابًا */}
-            <Courses title="الأكثر كورسات إعجابًا" courses={bestSellingCourses} />
-        </section>
-    );
+const coursesData = [
+    { id: 1, name: "تصميم المواقع", image: "src/assets/imgs/course-1.jpg", count: 100, link: "/courses/web-design" },
+    { id: 2, name: "تطوير البرمجيات", image: "src/assets/imgs/course-2.jpg", count: 100, link: "/courses/development" },
+    { id: 3, name: "تصميم الألعاب", image: "src/assets/imgs/course-3.jpg", count: 100, link: "/courses/game-design" },
+    { id: 4, name: "تصميم التطبيقات", image: "src/assets/imgs/course-4.jpg", count: 100, link: "/courses/apps-design" },
+    { id: 5, name: "التسويق الرقمي", image: "src/assets/imgs/course-5.jpg", count: 100, link: "/courses/marketing" },
+    { id: 6, name: "البحث العلمي", image: "src/assets/imgs/course-6 (1).jpg", count: 100, link: "/courses/research" },
+    { id: 7, name: "كتابة المحتوى", image: "src/assets/imgs/course-6.jpg", count: 100, link: "/courses/content-writing" },
+    { id: 8, name: "تحسين محركات البحث (SEO)", image: "src/assets/imgs/course-4.jpg", count: 100, link: "/courses/seo" },
+  ];
+  
+function GuidePage() {
+    return <Courses courses={coursesData} title="استكشف أهم المواد" />;
 }
+
+export default GuidePage;
