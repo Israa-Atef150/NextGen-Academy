@@ -7,8 +7,8 @@ import "swiper/css/pagination";
 import "./HeroSection.css";
 
 import slide1 from "../../../../assets/imgs/slide1.jpg";
-import slide2 from "../../../../assets/imgs/slide2.jpg";
-import about1 from "../../../../assets/imgs/about1.jpg";
+import slide2 from "../../../../assets/imgs/InstituteSection2.jpg";
+import about1 from "../../../../assets/imgs/InstituteSection4jpg.jpg";
 
 export default function HeroSection() {
   const slides = [
