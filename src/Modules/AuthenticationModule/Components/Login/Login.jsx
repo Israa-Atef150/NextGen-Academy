@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate=useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -14,14 +16,14 @@ export default function Login() {
     setError("");
 
     try {
-      const response = await axios.post("https://ishraaq.up.railway.app/api/student/login", {
+      const response = await axios.post("https://ishraaq.up.railway.app/api/login", {
         email,
         password,
       });
 
       console.log("تم تسجيل الدخول بنجاح:", response.data);
       alert("تم تسجيل الدخول بنجاح!");
-      
+      navigate("/dashboard")
       // مثال: تخزين التوكن في Local Storage
       localStorage.setItem("token", response.data.token);
       

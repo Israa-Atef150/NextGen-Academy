@@ -13,7 +13,7 @@ export default function Register() {
               className="w-full p-2.5 mt-1 border rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 focus:ring-blue-500 focus:border-blue-500" 
               placeholder="أدخل اسمك" />
           </div>
-          
+    
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-900 dark:text-white">البريد الإلكتروني</label>
             <input type="email" name="email" id="email" autoComplete="email" required

@@ -1,15 +1,20 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import NotFound from './Modules/SharedModule/Components/NotFound/NotFound'
-import AuthLayout from './Modules/SharedModule/Components/AuthLayout/AuthLayout'
-import Login from './Modules/AuthenticationModule/Components/Login/Login'
+import './App.css'
 import Forgetpass from './Modules/AuthenticationModule/Components/ForgetPass/Forgetpass'
-import Guide from './Modules/GuideModule/Components/Guide';
-import AboutUs from './Modules/GuideModule/Components/AboutUs/AboutUs';
-import CallUs from './Modules/GuideModule/Components/CallUs/CallUs';
-import Edusystem from './Modules/GuideModule/Components/EduSystem/Edusystem';
+import Login from './Modules/AuthenticationModule/Components/Login/Login'
 import Register from './Modules/AuthenticationModule/Components/Register/Register'
-import'./App.css'
+import AddCategory from './Modules/Dashboard/Pages/AddCategory'
+import Categories from './Modules/Dashboard/Pages/Categories'
+import Home from './Modules/Dashboard/Pages/Home'
+import AboutUs from './Modules/GuideModule/Components/AboutUs/AboutUs'
+import CallUs from './Modules/GuideModule/Components/CallUs/CallUs'
+import Edusystem from './Modules/GuideModule/Components/EduSystem/Edusystem'
+import Guide from './Modules/GuideModule/Components/Guide'
+import AuthLayout from './Modules/SharedModule/Components/AuthLayout/AuthLayout'
+import MasterLayout from './Modules/SharedModule/Components/MasterLayout/MasterLayout'
+import NotFound from './Modules/SharedModule/Components/NotFound/NotFound'
+import DashboardCourses from './Modules/Dashboard/Pages/DashboardCourses'
 export default function App() {
   const routes=createBrowserRouter([
     {
@@ -49,14 +54,29 @@ export default function App() {
     },
 
     // إذا كنت بحاجة إلى MasterLayout، تأكد من استيراده
-    // {
-    //   path: "myaccount",
-    //   element: <MasterLayout />,
-    //   errorElement: <NotFound />,
-    //   children: [
-    //     // ضع الصفحات الداخلية هنا
-    //   ],
-    // },
+    {
+      path: "/dashboard",
+      element: <MasterLayout/>,
+      errorElement: <NotFound />,
+      children: [
+        {
+          path:"/dashboard/home",
+          element:<Home/>
+        },
+        {
+          path:"/dashboard/categories",
+          element:<Categories/>
+        },
+        {
+          path:"/dashboard/categories/add-category",
+          element:<AddCategory/>
+        },
+        {
+          path:"/dashboard/courses",
+          element:<DashboardCourses/>
+        },
+      ],
+    },
   ]);
 
   return <RouterProvider router={routes} />;
