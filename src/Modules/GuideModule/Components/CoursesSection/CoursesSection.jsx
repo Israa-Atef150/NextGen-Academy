@@ -12,7 +12,7 @@ const coursesData = [
   ];
   
 function GuidePage() {
-    return <Courses courses={coursesData} title="استكشف أهم المواد" />;
+    return <Courses courses={coursesData} title="استكشف أهم المواد"  />;
 }
 
 export default GuidePage;

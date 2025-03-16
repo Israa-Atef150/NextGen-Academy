@@ -14,9 +14,7 @@ import InstituteSection from './InstituteSection/InstituteSection'
     <AboutSection/>
     <InstituteSection/>
     <CoursesSection/>
-    <div id="ContactUs">
     <ContactUs/>
-    </div>
     <Footer/>
     </div>
     )

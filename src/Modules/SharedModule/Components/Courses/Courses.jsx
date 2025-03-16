@@ -4,7 +4,7 @@ import "./Courses.css"; // تأكد من إنشاء ملف CSS مناسب للت
 
 export default function Courses({ courses, title }) {
     return (
-        <section className="Courses">
+        <section className="Courses" id="Courses">
             {/* العنوان الرئيسي للقسم */}
             <div className="text_center">
                 <h5 className="text_center-1">المواد الدراسية</h5>

@@ -18,7 +18,7 @@ export default function HeroSection() {
   ];
 
   return (
-    <div className="hero-container">
+    <div className="hero-container" id="hero-container">
       <Swiper
         modules={[Navigation, Pagination]}
         slidesPerView={1}

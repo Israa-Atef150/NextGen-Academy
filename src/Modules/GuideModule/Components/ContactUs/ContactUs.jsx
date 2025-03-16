@@ -4,7 +4,7 @@ import './ContactUs.css'
 import From from '../FromSection/From'
 export default function ContactUs() {
 return (
-    <div  className='ContactUs'>
+    <div  className='ContactUs' id="ContactUs">
         <MapSection/>
         <From/>
     </div>

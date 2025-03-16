@@ -1,6 +1,6 @@
 export default function InstituteSection() {
     return (
-      <div className="bg-[#ff7f00] bg-opacity-10 py-10 px-5 md:px-20 text-right">
+      <div className="bg-[#ff7f00] bg-opacity-10 py-10 px-5 md:px-20 text-right" id="InstituteSection">
         {/* العنوان الرئيسي */}
         <h1 className="text-4xl font-bold text-center text-[#ff7f00] mb-6">معهدنا</h1>
         

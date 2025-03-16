@@ -1,16 +1,38 @@
-import React, { useState } from "react";
-import { Link, NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 // image
 import logo from '../../../../assets/imgs/logo.jpg'
+
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // دالة التنقل ومعالجة الانتقال إلى القسم الصحيح
+  const handleNavigation = (e, sectionId) => {
+    e.preventDefault();
+    if (location.pathname === "/") {
+      // إذا كنت في الصفحة الرئيسية، انتقل مباشرةً إلى القسم
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // إذا كنت في صفحة أخرى، انتقل إلى الصفحة الرئيسية مع تمرير اسم القسم
+      navigate("/", { state: { scrollTo: sectionId } });
+    }
+  };
+
+  // تنفيذ `scrollIntoView` بعد التنقل إلى الصفحة الرئيسية
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      setTimeout(() => {
+        document.getElementById(location.state.scrollTo)?.scrollIntoView({ behavior: "smooth" });
+      }, 100); // تأخير بسيط للتأكد من تحميل الصفحة بالكامل
+    }
+  }, [location]);
 
   return (
-
     <>
-      {/* شريط التنقل */}
       <nav dir="rtl" className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-        <div className=" flex flex-wrap items-center justify-between mx-auto p-4">
+        <div className="flex flex-wrap items-center justify-between mx-auto p-4">
           
           {/* شعار الموقع */}
           <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
@@ -18,14 +40,13 @@ export default function NavBar() {
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               إشراق
             </span>
-
           </NavLink>
 
           {/* أزرار التسجيل وتسجيل الدخول */}
           <div className="flex md:order-2 space-x-2 rtl:space-x-reverse">
-            <NavLink to="/register">
+            <NavLink to="/AdmissionRequirements">
               <button className="text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">
-                إنشاء حساب
+                متطلبات القبول
               </button>
             </NavLink>
             <NavLink to="/login">
@@ -51,57 +72,49 @@ export default function NavBar() {
 
           {/* روابط القائمة (الهيدر) */}
           <div className={`${menuOpen ? "block" : "hidden"} md:flex md:items-center md:w-auto md:order-1`} id="navbar-menu">
-          <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  `block py-2 px-3 rounded-sm md:bg-transparent md:p-0 transition-colors duration-200 ${
-                    isActive ? "text-orange-600 font-bold" : "text-gray-900 dark:text-white hover:text-orange-500"
-                  }`
-                }
-              >
-                الصفحة الرئيسة
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/Edusystem"
-                className={({ isActive }) =>
-                  `block py-2 px-3 rounded-sm md:p-0 transition-colors duration-200 ${
-                    isActive ? "text-orange-600 font-bold" : "text-gray-900 dark:text-white hover:text-orange-500"
-                  }`
-                }
-              >
-                النظام الدراسي
-              </NavLink>
-            </li>
-            <NavLink
-              to="/"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById("ContactUs")?.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="block py-2 px-3 rounded-sm md:p-0 transition-colors duration-200 text-gray-900 dark:text-white hover:text-orange-500"
-            >
-              اتصل بنا
-            </NavLink>
-            <li>
-              <NavLink
-                to="/AboutUs"
-                className={({ isActive }) =>
-                  `block py-2 px-3 rounded-sm md:p-0 transition-colors duration-200 ${
-                    isActive ? "text-orange-600 font-bold" : "text-gray-900 dark:text-white hover:text-orange-500"
-                  }`
-                }
-              >
-                عن المعهد
-              </NavLink>
-            </li>
-      </ul>
-
+            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              <li>
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    `block py-2 px-3 rounded-sm md:bg-transparent md:p-0 transition-colors duration-200 ${
+                      isActive ? "text-orange-600 font-bold" : "text-gray-900 dark:text-white hover:text-orange-500"
+                    }`
+                  }
+                  onClick={(e) => handleNavigation(e, "hero-container")}
+                >
+                  الصفحة الرئيسة
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/"
+                  onClick={(e) => handleNavigation(e, "Courses")}
+                  className="block py-2 px-3 rounded-sm md:p-0 transition-colors duration-200 text-gray-900 dark:text-white hover:text-orange-500"
+                >
+                  النظام الدراسي
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/"
+                  onClick={(e) => handleNavigation(e, "ContactUs")}
+                  className="block py-2 px-3 rounded-sm md:p-0 transition-colors duration-200 text-gray-900 dark:text-white hover:text-orange-500"
+                >
+                  اتصل بنا
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/"
+                  onClick={(e) => handleNavigation(e, "InstituteSection")}
+                  className="block py-2 px-3 rounded-sm md:p-0 transition-colors duration-200 text-gray-900 dark:text-white hover:text-orange-500"
+                >
+                  عن المعهد
+                </NavLink>
+              </li>
+            </ul>
           </div>
-
         </div>
       </nav>
 

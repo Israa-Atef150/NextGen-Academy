@@ -1,0 +1,33 @@
+.requirements{
+    height: fit-content;
+    background: #e9e9e9;
+    margin: 1px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 1px 2px 12px 1px black;
+}
+.requirements .title{
+    font-size: 21px;
+    margin: unset;
+    color: white;
+    background: #212529;
+    padding: 15px;
+}
+.requirements .requirementInfo{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 1px 1px 40px 1px;
+}
+.requirements .requirementInfo .list{
+    list-style: decimal;
+    padding: 1px 30px 1px 1px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.requirements .requirementInfo .list h1{
+    color: #b48024;
+    font-size: 20px;
+}
