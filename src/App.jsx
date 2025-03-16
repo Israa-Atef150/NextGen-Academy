@@ -3,7 +3,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import Forgetpass from './Modules/AuthenticationModule/Components/ForgetPass/Forgetpass'
 import Login from './Modules/AuthenticationModule/Components/Login/Login'
-import Register from './Modules/GuideModule/Components/Register/AdmissionRequirements'
 import AddCategory from './Modules/Dashboard/Pages/AddCategory'
 import Categories from './Modules/Dashboard/Pages/Categories'
 import Home from './Modules/Dashboard/Pages/Home'
@@ -16,6 +15,8 @@ import MasterLayout from './Modules/SharedModule/Components/MasterLayout/MasterL
 import NotFound from './Modules/SharedModule/Components/NotFound/NotFound'
 import DashboardCourses from './Modules/Dashboard/Pages/DashboardCourses'
 import AdmissionRequirements from './Modules/GuideModule/Components/AdmissionRequirements/AdmissionRequirements'
+import Users from './Modules/Dashboard/Pages/Users'
+import Favourites from './Modules/Dashboard/Pages/Favourites'
 
 
 export default function App() {
@@ -77,6 +78,14 @@ export default function App() {
         {
           path:"/dashboard/courses",
           element:<DashboardCourses/>
+        },
+        {
+          path:"/dashboard/users",
+          element:<Users/>
+        },
+        {
+          path:"/dashboard/userFavourites",
+          element:<Favourites/>
         },
       ],
     },
