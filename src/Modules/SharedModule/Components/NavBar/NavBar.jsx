@@ -107,7 +107,7 @@ export default function NavBar() {
               <li>
                 <NavLink
                   to="/"
-                  onClick={(e) => handleNavigation(e, "InstituteSection")}
+                  onClick={(e) => handleNavigation(e, "instituteSection")}
                   className="block py-2 px-3 rounded-sm md:p-0 transition-colors duration-200 text-gray-900 dark:text-white hover:text-orange-500"
                 >
                   عن المعهد

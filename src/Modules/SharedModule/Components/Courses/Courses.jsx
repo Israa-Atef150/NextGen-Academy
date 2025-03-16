@@ -10,9 +10,8 @@ export default function Courses({ courses, title }) {
                 <h5 className="text_center-1">المواد الدراسية</h5>
                 <h1 className="text_center-2">{title}</h1>
             </div>
-
             {/* عرض الكورسات بطريقة مرنة */}
-            <div className="Courses-content">
+            <div className="Courses-content" style={{margin:"auto",width:"80%"}}>
                 {courses.map((course) => (
                     <div className="col" key={course.id}>
                         <div className="cat-item">
