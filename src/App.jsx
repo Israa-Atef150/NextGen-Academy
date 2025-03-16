@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import Forgetpass from './Modules/AuthenticationModule/Components/ForgetPass/Forgetpass'
 import Login from './Modules/AuthenticationModule/Components/Login/Login'
-import Register from './Modules/AuthenticationModule/Components/Register/AdmissionRequirements'
+import Register from './Modules/GuideModule/Components/Register/AdmissionRequirements'
 import AddCategory from './Modules/Dashboard/Pages/AddCategory'
 import Categories from './Modules/Dashboard/Pages/Categories'
 import Home from './Modules/Dashboard/Pages/Home'
@@ -15,7 +15,9 @@ import AuthLayout from './Modules/SharedModule/Components/AuthLayout/AuthLayout'
 import MasterLayout from './Modules/SharedModule/Components/MasterLayout/MasterLayout'
 import NotFound from './Modules/SharedModule/Components/NotFound/NotFound'
 import DashboardCourses from './Modules/Dashboard/Pages/DashboardCourses'
-import AdmissionRequirements from './Modules/AuthenticationModule/Components/Register/AdmissionRequirements'
+import AdmissionRequirements from './Modules/GuideModule/Components/AdmissionRequirements/AdmissionRequirements'
+
+
 export default function App() {
   const routes=createBrowserRouter([
     {
