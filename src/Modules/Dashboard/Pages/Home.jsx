@@ -28,7 +28,7 @@ export default function Home() {
     labels: ["Search Engine", "Social Post", "Paid Ads", "Referral Link", "Direct Link", "Other Source"],
     datasets: [{ data: [40, 15, 10, 10, 15, 10], backgroundColor: ["#22C55E", "#6366F1", "#FBBF24", "#EC4899", "#F97316", "#A855F7"] }],
   };
-
+  
   return (
     <div className="containerDashbord">
       <div className="grid-container">

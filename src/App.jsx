@@ -3,8 +3,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.css'
 import Forgetpass from './Modules/AuthenticationModule/Components/ForgetPass/Forgetpass'
 import Login from './Modules/AuthenticationModule/Components/Login/Login'
-import AddCategory from './Modules/Dashboard/Pages/AddCategory'
-import Categories from './Modules/Dashboard/Pages/Categories'
 import Home from './Modules/Dashboard/Pages/Home'
 import AboutUs from './Modules/GuideModule/Components/AboutUs/AboutUs'
 import CallUs from './Modules/GuideModule/Components/CallUs/CallUs'
@@ -15,8 +13,17 @@ import MasterLayout from './Modules/SharedModule/Components/MasterLayout/MasterL
 import NotFound from './Modules/SharedModule/Components/NotFound/NotFound'
 import DashboardCourses from './Modules/Dashboard/Pages/DashboardCourses'
 import AdmissionRequirements from './Modules/GuideModule/Components/AdmissionRequirements/AdmissionRequirements'
-import Users from './Modules/Dashboard/Pages/Users'
-import Favourites from './Modules/Dashboard/Pages/Favourites'
+import AddCourses from './Modules/Dashboard/Pages/AddCourses'
+import AddUsers from './Modules/Dashboard/Pages/AddStudents'
+import Students from './Modules/Dashboard/Pages/Students'
+import AddStudents from './Modules/Dashboard/Pages/AddStudents'
+import Docters from './Modules/Dashboard/Pages/Docters'
+import AddDocters from './Modules/Dashboard/Pages/AddDocters'
+import Employees from './Modules/Dashboard/Pages/Employees'
+import AddEmployees from './Modules/Dashboard/Pages/AddEmployees'
+import Exams from './Modules/Dashboard/Pages/Exams'
+import AddExams from './Modules/Dashboard/Pages/AddExams'
+import ChangePassword from './Modules/Dashboard/Pages/ChangePassword'
 
 
 export default function App() {
@@ -64,28 +71,57 @@ export default function App() {
       errorElement: <NotFound />,
       children: [
         {
-          path:"/dashboard/home",
+          path:"/dashboard",
           element:<Home/>
-        },
-        {
-          path:"/dashboard/categories",
-          element:<Categories/>
-        },
-        {
-          path:"/dashboard/categories/add-category",
-          element:<AddCategory/>
         },
         {
           path:"/dashboard/courses",
           element:<DashboardCourses/>
         },
         {
-          path:"/dashboard/users",
-          element:<Users/>
+          path:"/dashboard/Courses/add-Courses",
+          element:<AddCourses/>
+          
         },
         {
-          path:"/dashboard/userFavourites",
-          element:<Favourites/>
+          path:"/dashboard/students",
+          element:<Students/>
+        },
+        {
+          path:"/dashboard/Students/AddStudents",
+          element:<AddStudents/>
+        },
+        {
+          path:"/dashboard/Docters",
+          element:<Docters/>
+        },
+        {
+          path:"/dashboard/Docters/AddDocters",
+          element:<AddDocters/>
+        },
+        {
+          path:"/dashboard/employees",
+          element:<Employees/>
+        },
+        {
+          path:"/dashboard/Exams",
+          element:<Exams/>
+        },
+        {
+          path:"/dashboard/Exams/AddExams",
+          element:<AddExams/>
+        },
+        {
+          path:"/dashboard/Docters/AddDocters",
+          element:<AddEmployees/>
+        },
+        {
+          path:"/dashboard/ChangePassword",
+          element:<ChangePassword/>
+        },
+        {
+          path:"/dashboard/users/add-users",
+          element:<AddUsers/>
         },
       ],
     },

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FaHome, FaList, FaLock, FaHeart, FaSignOutAlt, FaUser, FaBookOpen, FaBars, FaTimes } from "react-icons/fa";
+import { FaHome,FaLock, FaSignOutAlt, FaUser, FaBookOpen, FaBars, FaTimes,FaUserGraduate,FaChalkboardTeacher,FaUserTie  } from "react-icons/fa";
 import Logo from "../../../../assets/imgs/logo.jpg";
-
+import { AiOutlineFileDone } from "react-icons/ai";
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
 
@@ -33,13 +33,14 @@ const SideBar = () => {
 };
 
 const menuItems = [
-  { path: "/dashboard/home", label: "الرئيسية", icon: FaHome },
+  { path: "/dashboard", label: "الرئيسية", icon: FaHome },
   { path: "/dashboard/courses", label: "الدورات", icon: FaBookOpen },
-  { path: "/dashboard/users", label: "المستخدمون", icon: FaUser },
-  { path: "/dashboard/categories", label: "التصنيفات", icon: FaList },
-  { path: "/dashboard/userFavourites", label: "المفضلة", icon: FaHeart },
-  { path: "/dashboard/change-password", label: "تغيير كلمة المرور", icon: FaLock },
-  { path: "/dashboard/logout", label: "تسجيل الخروج", icon: FaSignOutAlt },
+  { path: "/dashboard/students", label: "الطلاب", icon: FaUserGraduate },
+  { path: "/dashboard/Docters", label: "الأساتذة", icon: FaChalkboardTeacher },
+  { path: "/dashboard/employees", label: "موظفين", icon: FaUserTie },
+  { path: "/dashboard/Exams", label: "الامتحانات", icon: AiOutlineFileDone },
+  { path: "/dashboard/ChangePassword", label: "تغيير كلمة المرور", icon: FaLock },
+  { path: "/", label: "تسجيل الخروج", icon: FaSignOutAlt },
 ];
 
 export default SideBar;
