@@ -43,12 +43,12 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <div className="grid-container  mt-6">
-        <div className="chart-container">
+      <div className=" mt-6" style={{ height:"fit-content",display:"flex",gap:"4px"}}>
+        <div className="chart-container" style={{width:"50%"}}>
           <h3 className="text-lg font-semibold">Monthly Sales</h3>
           <Bar data={barData} />
         </div>
-        <div className="chart-container">
+        <div className="chart-container" style={{width:"38%"}}>
           <h3 className="text-lg font-semibold">Traffic Source</h3>
           <Doughnut data={doughnutData} />
         </div>
