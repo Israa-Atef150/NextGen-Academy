@@ -19,12 +19,13 @@ import Students from './Modules/Dashboard/Pages/Students'
 import AddStudents from './Modules/Dashboard/Pages/AddStudents'
 import Docters from './Modules/Dashboard/Pages/Docters'
 import AddDocters from './Modules/Dashboard/Pages/AddDocters'
-import Employees from './Modules/Dashboard/Pages/Employees'
-import AddEmployees from './Modules/Dashboard/Pages/AddEmployees'
+
+import AddAdmin from './Modules/Dashboard/Pages/AddAdmin'
 import Exams from './Modules/Dashboard/Pages/Exams'
 import AddExams from './Modules/Dashboard/Pages/AddExams'
 import ChangePassword from './Modules/Dashboard/Pages/ChangePassword'
-
+import Admin from './Modules/Dashboard/Pages/Admin'
+import { DataProvider } from "./Modules/Dashboard/DataContext/DataContext ";
 
 export default function App() {
   const routes=createBrowserRouter([
@@ -100,8 +101,8 @@ export default function App() {
           element:<AddDocters/>
         },
         {
-          path:"/dashboard/employees",
-          element:<Employees/>
+          path:"/dashboard/Admin",
+          element:<Admin/>
         },
         {
           path:"/dashboard/Exams",
@@ -112,8 +113,8 @@ export default function App() {
           element:<AddExams/>
         },
         {
-          path:"/dashboard/Docters/AddDocters",
-          element:<AddEmployees/>
+          path:"/dashboard/Admin/AddAdmin",
+          element:<AddAdmin/>
         },
         {
           path:"/dashboard/ChangePassword",
@@ -127,5 +128,9 @@ export default function App() {
     },
   ]);
 
-  return <RouterProvider router={routes} />;
+  return (
+  <DataProvider> {/* Wrap RouterProvider with DataProvider */}
+    <RouterProvider router={routes} />
+  </DataProvider>
+)
 }

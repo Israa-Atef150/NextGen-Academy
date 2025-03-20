@@ -37,7 +37,7 @@ const menuItems = [
   { path: "/dashboard/courses", label: "الدورات", icon: FaBookOpen },
   { path: "/dashboard/students", label: "الطلاب", icon: FaUserGraduate },
   { path: "/dashboard/Docters", label: "الأساتذة", icon: FaChalkboardTeacher },
-  { path: "/dashboard/employees", label: "موظفين", icon: FaUserTie },
+  { path: "/dashboard/Admin", label: "المشرفين", icon: FaUserTie },
   { path: "/dashboard/Exams", label: "الامتحانات", icon: AiOutlineFileDone },
   { path: "/dashboard/ChangePassword", label: "تغيير كلمة المرور", icon: FaLock },
   { path: "/", label: "تسجيل الخروج", icon: FaSignOutAlt },
