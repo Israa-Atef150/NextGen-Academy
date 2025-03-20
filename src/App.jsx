@@ -26,6 +26,8 @@ import AddExams from './Modules/Dashboard/Pages/AddExams'
 import ChangePassword from './Modules/Dashboard/Pages/ChangePassword'
 import Admin from './Modules/Dashboard/Pages/Admin'
 import { DataProvider } from "./Modules/Dashboard/DataContext/DataContext ";
+import Assistant from './Modules/Dashboard/Pages/Assistant'
+import AddAssistant from './Modules/Dashboard/Pages/AddAssistant'
 
 export default function App() {
   const routes=createBrowserRouter([
@@ -123,6 +125,14 @@ export default function App() {
         {
           path:"/dashboard/users/add-users",
           element:<AddUsers/>
+        },
+        {
+          path:"/dashboard/Assistant",
+          element:<Assistant/>
+        },
+        {
+          path:"/dashboard/Assistant/AddAssistant",
+          element:<AddAssistant/>
         },
       ],
     },

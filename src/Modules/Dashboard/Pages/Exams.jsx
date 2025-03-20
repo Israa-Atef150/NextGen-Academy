@@ -29,7 +29,7 @@
             <th className='p-3'>اسم الامتحان</th>
             <th className='p-3'>اسم الماده</th>
             <th className='p-3'>السنه الدراسيه</th>
-            <th className='p-3'>طلاب معنين </th>
+            <th className='p-3'>طلاب معين </th>
             <th className='p-3'>الإجراء</th>
             </tr>
         </thead>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaHome,FaLock, FaSignOutAlt, FaUser, FaBookOpen, FaBars, FaTimes,FaUserGraduate,FaChalkboardTeacher,FaUserTie  } from "react-icons/fa";
+import { GiTeacher } from "react-icons/gi";
 import Logo from "../../../../assets/imgs/logo.jpg";
 import { AiOutlineFileDone } from "react-icons/ai";
 const SideBar = () => {
@@ -37,6 +38,7 @@ const menuItems = [
   { path: "/dashboard/courses", label: "الدورات", icon: FaBookOpen },
   { path: "/dashboard/students", label: "الطلاب", icon: FaUserGraduate },
   { path: "/dashboard/Docters", label: "الأساتذة", icon: FaChalkboardTeacher },
+  { path: "/dashboard/Assistant", label: "معيد", icon: GiTeacher },
   { path: "/dashboard/Admin", label: "المشرفين", icon: FaUserTie },
   { path: "/dashboard/Exams", label: "الامتحانات", icon: AiOutlineFileDone },
   { path: "/dashboard/ChangePassword", label: "تغيير كلمة المرور", icon: FaLock },

@@ -5,6 +5,7 @@
 
     export function DataProvider({ children }) {
     const [doctors, setDoctors] = useState([]);
+    const [assistants, Setassistants] = useState([]);
     const [admins, setAdmins] = useState([]);
     const [exams, setExams] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -116,7 +117,7 @@ const getExams = async () => {
             },
         });
 
-        console.log("📢 البيانات المستلمة من API:", response.data);
+        // console.log("📢 البيانات المستلمة من API:", response.data);
 
         // استخدام exams بدلًا من users
         if (response.data && Array.isArray(response.data.exams)) {
@@ -131,8 +132,6 @@ const getExams = async () => {
         setLoading(false);
     }
 };
-
-
 
 const createExams = async (examsData) => {
     try {
@@ -156,7 +155,7 @@ const createExams = async (examsData) => {
             }
         });
 
-        console.log("✅ تمت إضافة الامتحان:", response.data);
+        // console.log("✅ تمت إضافة الامتحان:", response.data);
         getExams(); 
         return response.data;
     } catch (error) {
@@ -165,9 +164,56 @@ const createExams = async (examsData) => {
         throw error;
     }
 };
+// admins////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Assistant////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const getAssistant = async () => {
+    setLoading(true);
+    try {
+        const response = await axios.get(`${API_URL}/assistants`, {
+            headers: {
+                Authorization: `Bearer 65|fa2rHOWvsLQa24oggXAopw7iIi49MZ9QriCaKZM14509aa7d`,
+                "Content-Type": "application/json",
+            },
+        });
+
+        console.log("📢 البيانات المستلمة من API:", response.data);
+
+        // استخراج المصفوفة فقط
+        if (response.data && Array.isArray(response.data.assistants)) {
+            Setassistants(response.data.assistants); // ✅ تخزين المصفوفة فقط
+        } else {
+            console.error("❌ البيانات المستلمة غير صحيحة!", response.data);
+            Setassistants([]); // تجنب الأخطاء بمصفوفة فارغة
+        }
+    } catch (err) {
+        setError(err.message);
+    } finally {
+        setLoading(false);
+    }
+};
+
+const createAssistant = async (assistantData) => {
+    try {
+        const token = "62|WxuenaUInagSwCwvMGQXb9DNh5t1nkQeiH7l5nnf7c1b6b9a";
+        const response = await axios.post(`${API_URL}/assistant/create`, assistantData, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        });
+
+        console.log("✅ تمت إضافة المشرف:", response.data);
+        getAssistant(); // ✅ تحديث القائمة فورًا بعد الإضافة
+        return response.data;
+    } catch (error) {
+        console.error("❌ خطأ في إنشاء المشرف:", error);
+        throw error;
+    }
+};
 
 
-
+// Assistant////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -189,10 +235,11 @@ const createExams = async (examsData) => {
     getDoctors();
     getAdmins();
     getExams();
+    getAssistant()
     }, []);
 
     return (
-        <DataContext.Provider value={{ doctors, admins, loading, error,exams, getDoctors, createDoctor, getAdmins,createAdmin,getExams,createExams }}>
+        <DataContext.Provider value={{ doctors, admins, loading, error,exams,assistants, getDoctors, createDoctor, getAdmins,createAdmin,getExams,createExams,getAssistant,createAssistant }}>
         {children}
     </DataContext.Provider>
     );
