@@ -82,7 +82,7 @@ export default function App() {
           element:<DashboardCourses/>
         },
         {
-          path:"/dashboard/Courses/add-Courses",
+          path:"/dashboard/Courses/AddCourses",
           element:<AddCourses/>
           
         },

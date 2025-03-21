@@ -6,7 +6,7 @@ export default function AddDoctor() {
     const { createDoctor, getDoctors } = useData(); // ✅ جلب الدالة من الكونتكست
     const [doctorData, setDoctorData] = useState({
         name: "", phone: "", birthDate: "", email: "",
-        salary: "", specialty: "", gender: "", address: "", assistants: ""
+        salary: "", specialty: "", gender: "male", address: "", assistants: ""
     });
 
     const handleChange = (e) => {
@@ -33,9 +33,14 @@ export default function AddDoctor() {
         try {
             await createDoctor(formattedData);
             alert("تمت إضافة الدكتور بنجاح!");
+            console.log("🔵 البيانات المرسلة للخادم:", formattedData);
+
             getDoctors(); // ✅ إعادة تحميل قائمة الأطباء بعد الإضافة
         } catch (error) {
-            alert("حدث خطأ أثناء الإضافة. حاول مرة أخرى.");
+            // alert("حدث خطأ أثناء الإضافة. حاول مرة أخرى.");
+            console.log("🔵 البيانات المرسلة للخادم:", formattedData);
+            console.error("❌ خطأ أثناء الإرسال:", error.response?.data || error);
+            alert(`حدث خطأ: ${error.response?.data?.message || "خطأ غير معروف"}`);
         }
     };
 
@@ -52,7 +57,15 @@ export default function AddDoctor() {
                 <input type="email" name="email" placeholder="البريد الإلكتروني" value={doctorData.email} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full" />
                 <input type="number" name="salary" placeholder="الراتب" value={doctorData.salary} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full" />
                 <input type="text" name="specialty" placeholder="التخصص" value={doctorData.specialty} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full" />
-                <input type="text" name="gender" placeholder="النوع (ذكر / أنثى)" value={doctorData.gender} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full" />
+                <select
+                name="gender"
+                value={doctorData.gender || ""}
+                onChange={handleChange}
+                className="border border-gray-300 p-2 rounded-md text-right w-full"
+                >
+                <option value="male">ذكر</option>
+                <option value="female">أنثى</option>
+                </select>
                 <input type="text" name="address" placeholder="العنوان" value={doctorData.address} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full" />
                 <input type="text" name="assistants" placeholder="معرفات المساعدين (مثال: 1, 3, 5)" value={doctorData.assistants} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full" />
                 <button type="submit" className="col-span-2 bg-green-500 text-white p-2 rounded-md w-full">إضافة</button>

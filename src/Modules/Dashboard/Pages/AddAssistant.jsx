@@ -74,7 +74,15 @@ export default function AddAssistant() {
                 <input type="email" name="email" placeholder="البريد الإلكتروني" value={assistantData.email} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full"/>
                 <input type="number" name="salary" placeholder="الراتب" value={assistantData.salary} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full"/>
                 <input type="text" name="specialist" placeholder="التخصص" value={assistantData.specialist} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full"/>
-                <input type="text" name="gender" placeholder="النوع (ذكر / أنثى)" value={assistantData.gender} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full"/>
+                <select
+                name="gender"
+                value={assistantData.gender || ""}
+                onChange={handleChange}
+                className="border border-gray-300 p-2 rounded-md text-right w-full"
+                >
+                <option value="male">ذكر</option>
+                <option value="female">أنثى</option>
+                </select>
                 <input type="text" name="address" placeholder="العنوان" value={assistantData.address} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full"/>
                 <input type="text" name="doctor_id" placeholder="رقم الدكتور" value={assistantData.doctor_id} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full"/>
                 <input type="text" name="student_ids" placeholder="معرفات الطلاب (مثال: 1, 3, 5)" value={assistantData.student_ids} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full"/>
