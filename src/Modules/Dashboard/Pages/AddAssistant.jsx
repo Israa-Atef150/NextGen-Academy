@@ -12,7 +12,7 @@ export default function AddAssistant() {
         email: "",
         salary: "",
         specialist: "",
-        gender: "",
+        gender: "male",
         address: "",
         doctor_id: "",
         student_ids: "",

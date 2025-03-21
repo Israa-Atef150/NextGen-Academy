@@ -8,7 +8,7 @@
     phone_number: "",
     birth_of_date: "",
     email: "",
-    gender: "",
+    gender: "male",
     address: "",
     year_study: "",
     });
@@ -21,6 +21,7 @@
     e.preventDefault();
     try {
         const token = localStorage.getItem("token");
+        console.log("📤 البيانات المرسلة:", formData);
         const response = await axios.post("https://ishraaq.up.railway.app/api/student/create", formData, {
         headers: { Authorization: `Bearer ${token}` },
         });
@@ -38,12 +39,16 @@
         });
 
             alert(" تم التسجيل بنجاح ")
+            console.log("📤 البيانات المرسلة:", formData);
         } else{
         alert(" الايميل او الرقم موجودي بالفعل ")
+        // console.log("🔹 التوكن المستخدم:", token);
+        console.log("📤 البيانات المرسلة:", formData);
         }
     } catch (error) {
         console.error("Error adding student:", error);
-        
+        console.log("🔹 التوكن المستخدم:", token);
+        console.log("📤 البيانات المرسلة:", formData);
     }
     };
 

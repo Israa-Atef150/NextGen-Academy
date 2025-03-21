@@ -35,12 +35,12 @@ const SideBar = () => {
 
 const menuItems = [
   { path: "/dashboard", label: "الرئيسية", icon: FaHome },
-  { path: "/dashboard/courses", label: "الدورات", icon: FaBookOpen },
   { path: "/dashboard/students", label: "الطلاب", icon: FaUserGraduate },
   { path: "/dashboard/Docters", label: "الأساتذة", icon: FaChalkboardTeacher },
   { path: "/dashboard/Assistant", label: "معيد", icon: GiTeacher },
-  { path: "/dashboard/Admin", label: "المشرفين", icon: FaUserTie },
+  { path: "/dashboard/courses", label: "الدورات", icon: FaBookOpen },
   { path: "/dashboard/Exams", label: "الامتحانات", icon: AiOutlineFileDone },
+  { path: "/dashboard/Admin", label: "المشرفين", icon: FaUserTie },
   { path: "/dashboard/ChangePassword", label: "تغيير كلمة المرور", icon: FaLock },
   { path: "/", label: "تسجيل الخروج", icon: FaSignOutAlt },
 ];

@@ -15,6 +15,7 @@
 /////// doctors/////////////////////////////////////////////////////////////////////////////////////////
     // ✅ رابط الـ API
     const API_URL = "https://ishraaq.up.railway.app/api";
+    const token = localStorage.getItem("token");
 
     // ✅ جلب قائمة دكتور باستخدام Axios
     const getDoctors = async () => {
@@ -22,7 +23,7 @@
     try {
         const response = await axios.get(`${API_URL}/doctors`, {
         headers: {
-            Authorization: `Bearer 65|fa2rHOWvsLQa24oggXAopw7iIi49MZ9QriCaKZM14509aa7d`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
         },
         });
@@ -44,7 +45,6 @@
     // ✅ إنشاء دكتور جديد
     const createDoctor = async (doctorData) => {
         try {
-            const token = "62|WxuenaUInagSwCwvMGQXb9DNh5t1nkQeiH7l5nnf7c1b6b9a"; // تأكد من صحة التوكن
             const response = await axios.post(`${API_URL}/doctor/create`, doctorData, {
                 headers: {
                     "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const getAdmins = async () => {
     try {
         const response = await axios.get(`${API_URL}/users`, {
             headers: {
-                Authorization: `Bearer 65|fa2rHOWvsLQa24oggXAopw7iIi49MZ9QriCaKZM14509aa7d`,
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
         });
@@ -89,7 +89,6 @@ const getAdmins = async () => {
 
 const createAdmin = async (adminData) => {
     try {
-        const token = "62|WxuenaUInagSwCwvMGQXb9DNh5t1nkQeiH7l5nnf7c1b6b9a";
         const response = await axios.post(`${API_URL}/user/create`, adminData, {
             headers: {
                 "Content-Type": "application/json",
@@ -112,7 +111,7 @@ const getExams = async () => {
     try {
         const response = await axios.get(`${API_URL}/exams`, {
             headers: {
-                Authorization: `Bearer 65|fa2rHOWvsLQa24oggXAopw7iIi49MZ9QriCaKZM14509aa7d`,
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
         });
@@ -135,8 +134,6 @@ const getExams = async () => {
 
 const createExams = async (examsData) => {
     try {
-        const token = "62|WxuenaUInagSwCwvMGQXb9DNh5t1nkQeiH7l5nnf7c1b6b9a";
-        
         const formattedData = {
             name: examsData.exam_name,
             course_id: Number(examsData.course_id),
@@ -155,7 +152,7 @@ const createExams = async (examsData) => {
             }
         });
 
-        // console.log("✅ تمت إضافة الامتحان:", response.data);
+        console.log("✅ تمت إضافة الامتحان:", response.data);
         getExams(); 
         return response.data;
     } catch (error) {
@@ -172,7 +169,7 @@ const getAssistant = async () => {
     try {
         const response = await axios.get(`${API_URL}/assistants`, {
             headers: {
-                Authorization: `Bearer 65|fa2rHOWvsLQa24oggXAopw7iIi49MZ9QriCaKZM14509aa7d`,
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
         });
@@ -195,7 +192,6 @@ const getAssistant = async () => {
 
 const createAssistant = async (assistantData) => {
     try {
-        const token = "62|WxuenaUInagSwCwvMGQXb9DNh5t1nkQeiH7l5nnf7c1b6b9a";
         const response = await axios.post(`${API_URL}/assistant/create`, assistantData, {
             headers: {
                 "Content-Type": "application/json",
