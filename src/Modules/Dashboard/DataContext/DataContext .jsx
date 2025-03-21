@@ -60,6 +60,21 @@
             throw error; // إعادة الخطأ لمعالجته في الواجهة
         }
     }
+    const handleDeleteDoctor = async (id) => {
+        try {
+            const response = await axios.delete(`${API_URL}/doctor/${id}/delete`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+    
+            if (response.status === 200) {
+                setDoctors(prev => prev.filter(doctor => doctor.id !== id)); // تحديث القائمة
+                console.log(`✅ تم حذف الطبيب ID: ${id}`);
+            }
+        } catch (error) {
+            console.error("❌ خطأ في حذف الطبيب:", error);
+        }
+    };
+    
 /////////// doctors///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////admins/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const getAdmins = async () => {
@@ -105,7 +120,23 @@ const createAdmin = async (adminData) => {
     }
 };
 
+const handleDeleteAdmin = async (id) => {
+    try {
+        const response = await axios.delete(`${API_URL}/user/${id}/delete`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (response.status === 200) {
+            setAdmins(prev => prev.filter(admin => admin.id !== id));
+            console.log(`✅ تم حذف الأدمن ID: ${id}`);
+        }
+    } catch (error) {
+        console.error("❌ خطأ في حذف الأدمن:", error);
+    }
+};
+
 // admins////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Exams////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const getExams = async () => {
     setLoading(true);
     try {
@@ -161,7 +192,55 @@ const createExams = async (examsData) => {
         throw error;
     }
 };
-// admins////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const handleDeleteExam = async (id) => {
+    try {
+        const response = await axios.delete(`${API_URL}/exam/${id}/delete`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (response.status === 200) {
+            setExams(prev => prev.filter(exam => exam.id !== id));
+            console.log(`✅ تم حذف الامتحان ID: ${id}`);
+        }
+    } catch (error) {
+        console.error("❌ خطأ في حذف الامتحان:", error);
+    }
+};
+
+
+const updateExam = async (id, examsData) => {
+    try {
+        const formattedData = {
+            name: examsData.exam_name,
+            course_id: Number(examsData.course_id),
+            student_year: examsData.year
+        };
+
+        if (examsData.students.length > 0) {
+            formattedData.students = examsData.students.map(Number);
+        }
+
+        const response = await axios.put(`${API_URL}/exam/${id}/edit`, formattedData, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        console.log("✅ تم تحديث الامتحان:", response.data);
+        getExams(); 
+        return response.data;
+    } catch (error) {
+        console.error("❌ خطأ في تحديث الامتحان:", error.response?.data || error);
+        throw error;
+    }
+};
+
+
+
+
+// Exams////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Assistant////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const getAssistant = async () => {
@@ -208,6 +287,20 @@ const createAssistant = async (assistantData) => {
     }
 };
 
+const handleDeleteAssistant = async (id) => {
+    try {
+        const response = await axios.delete(`${API_URL}/assistant/${id}/delete`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (response.status === 200) {
+            Setassistants(prev => prev.filter(assistant => assistant.id !== id));
+            console.log(`✅ تم حذف المساعد ID: ${id}`);
+        }
+    } catch (error) {
+        console.error("❌ خطأ في حذف المساعد:", error);
+    }
+};
 
 // Assistant////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -235,7 +328,7 @@ const createAssistant = async (assistantData) => {
     }, []);
 
     return (
-        <DataContext.Provider value={{ doctors, admins, loading, error,exams,assistants, getDoctors, createDoctor, getAdmins,createAdmin,getExams,createExams,getAssistant,createAssistant }}>
+    <DataContext.Provider value={{ doctors, admins, loading, error,exams,assistants, getDoctors, createDoctor, getAdmins,createAdmin,getExams,createExams,getAssistant,createAssistant,handleDeleteExam,handleDeleteAssistant,handleDeleteAdmin,handleDeleteDoctor,updateExam }}>
         {children}
     </DataContext.Provider>
     );

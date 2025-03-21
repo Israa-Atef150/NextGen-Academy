@@ -5,7 +5,7 @@
 
     export default function Exams() {
     // الوصول إلى البيانات من DataContext باستخدام useData
-    const { exams, loading, error, getExams } = useData();
+    const { exams, loading, error,handleDeleteExam } = useData();
 
     // عرض حالة التحميل أو الخطأ
     if (loading) return <p className="text-center text-gray-500">جارٍ تحميل البيانات...</p>;
@@ -22,7 +22,7 @@
         </Link>
         </div>
             {/* ✅ إضافة Scroll للجدول */}
-        <div className="overflow-auto max-h-[800px] border rounded-lg" style={{ direction: 'ltr' }}>
+        <div className="overflow-auto max-h-[780px] border rounded-lg" style={{ direction: 'ltr' }}>
         <table className='w-full border-collapse rounded-lg'  style={{ direction: 'rtl' }}>
         <thead>
             <tr className='bg-orange-500 text-white'>
@@ -63,13 +63,13 @@
                 <span className="text-gray-500">لا يوجد طلاب</span>
             )}
         </td>
-
-
-                <td className='p-3 flex gap-x-4 justify-center'>
-                    <button className='text-blue-500 hover:text-blue-700 transition'>
+                <td className='p-3 flex gap-x-4 justify-center' style={{alignItems:"baseline"}}>
+                <Link to={'/dashboard/Exams/AddExams'} state={{ exam }}>
+                <button className='text-blue-500 hover:text-blue-700 transition'>
                     <FaEdit className='text-lg' />
-                    </button>
-                    <button className='text-red-500 hover:text-red-700 transition'>
+                </button>
+                </Link>
+                    <button className='text-red-500 hover:text-red-700 transition' onClick={()=>{handleDeleteExam(exam.id)}}>
                     <FaTrash className='text-lg' />
                     </button>
                 </td>

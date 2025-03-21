@@ -4,7 +4,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export default function Assistant() {
-    const { assistants, loading, error } = useData();
+    const { assistants, loading, error,handleDeleteAssistant } = useData();
 
     if (loading) return <p className="text-center text-gray-500">جاري التحميل...</p>;
     if (error) return <p className="text-center text-red-500">حدث خطأ أثناء جلب البيانات!</p>;
@@ -52,7 +52,9 @@ export default function Assistant() {
                                     <button className="text-blue-500 hover:text-blue-700 transition">
                                         <FaEdit className="text-lg" />
                                     </button>
-                                    <button className="text-red-500 hover:text-red-700 transition">
+                                    <button className="text-red-500 hover:text-red-700 transition"onClick={()=>{
+                                        handleDeleteAssistant(assistant.id)
+                                    }}>
                                         <FaTrash className="text-lg" />
                                     </button>
                                 </td>

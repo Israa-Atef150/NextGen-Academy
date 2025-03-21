@@ -4,7 +4,7 @@
     import { Link } from "react-router-dom";
 
     export default function Docters() {
-    const { doctors, loading, error } = useData(); // جلب البيانات من الـ context
+    const { doctors, loading, error,handleDeleteDoctor} = useData(); // جلب البيانات من الـ context
 
     useEffect(() => {
     console.log("📢 بيانات الأطباء:", doctors);
@@ -66,7 +66,7 @@
                 <button className="text-blue-500 hover:text-blue-700 transition">
                     <FaEdit className="text-lg" />
                 </button>
-                <button className="text-red-500 hover:text-red-700 transition">
+                <button className="text-red-500 hover:text-red-700 transition"onClick={()=>{handleDeleteDoctor(doctor.id)}}>
                     <FaTrash className="text-lg" />
                 </button>
                 </td>

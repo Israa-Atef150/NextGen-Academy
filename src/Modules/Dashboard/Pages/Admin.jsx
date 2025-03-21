@@ -4,7 +4,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export default function Admin() {
-    const { admins, loading, error ,getAdmins} = useData(); // ✅ جلب المشرفين من DataContext
+    const { admins, loading, error ,handleDeleteAdmin} = useData(); // ✅ جلب المشرفين من DataContext
 
     if (loading) return <p className="text-center text-gray-500">جارٍ تحميل البيانات...</p>;
     if (error) return <p className="text-center text-red-500">حدث خطأ: {error}</p>;
@@ -38,7 +38,7 @@ export default function Admin() {
                                     <button className="text-blue-500 hover:text-blue-700 transition">
                                         <FaEdit className="text-lg" />
                                     </button>
-                                    <button className="text-red-500 hover:text-red-700 transition">
+                                    <button className="text-red-500 hover:text-red-700 transition" onClick={()=>{handleDeleteAdmin(admin.id)}}>
                                         <FaTrash className="text-lg" />
                                     </button>
                                 </td>
