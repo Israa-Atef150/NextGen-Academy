@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function AddAdmin() {
-    const { createAdmin, updateAdmin } = useData();
+    const { createAdmin, updateAdmin , getAdmins} = useData();
     const navigate = useNavigate();
     const location = useLocation();
     const adminToEdit = location.state?.admin; // ✅ استلام بيانات المشرف عند التعديل
@@ -39,6 +39,7 @@ export default function AddAdmin() {
         try {
             if (adminToEdit) {
                 await updateAdmin(adminToEdit.id, formData);
+                getAdmins()
                 toast.success("✅ تم تحديث بيانات المشرف بنجاح!");
             } else {
                 await createAdmin(formData);
@@ -98,7 +99,7 @@ export default function AddAdmin() {
                 >
                     <option value="User">user</option>
                     <option value="Admin">Admin</option>
-                    <option value="SuperAdmin">SuperAdmin</option>
+                    {/* <option value="SuperAdmin">SuperAdmin</option> */}
                 </select>
 
                 <button type="submit" className="bg-green-500 text-white p-2 rounded-lg w-full">
