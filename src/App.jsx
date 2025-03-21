@@ -14,9 +14,8 @@ import NotFound from './Modules/SharedModule/Components/NotFound/NotFound'
 import DashboardCourses from './Modules/Dashboard/Pages/DashboardCourses'
 import AdmissionRequirements from './Modules/GuideModule/Components/AdmissionRequirements/AdmissionRequirements'
 import AddCourses from './Modules/Dashboard/Pages/AddCourses'
-import AddUsers from './Modules/Dashboard/Pages/AddStudents'
-import Students from './Modules/Dashboard/Pages/Students'
 import AddStudents from './Modules/Dashboard/Pages/AddStudents'
+import Students from './Modules/Dashboard/Pages/Students'
 import Docters from './Modules/Dashboard/Pages/Docters'
 import AddDocters from './Modules/Dashboard/Pages/AddDocters'
 import Employees from './Modules/Dashboard/Pages/Employees'
@@ -25,104 +24,40 @@ import Exams from './Modules/Dashboard/Pages/Exams'
 import AddExams from './Modules/Dashboard/Pages/AddExams'
 import ChangePassword from './Modules/Dashboard/Pages/ChangePassword'
 
-
 export default function App() {
-  const routes=createBrowserRouter([
+  const routes = createBrowserRouter([
     {
-    path:"/",
-    element:<AuthLayout/>,
-    errorElement:<NotFound/>,
-    children:[{
-      path:"",
-      element:<Guide/>
-    },
-    {
-      path:"login",
-      element:<Login/>
-    },
-    {
-      path:"AdmissionRequirements",
-      element:<AdmissionRequirements/>
-    },
-    {
-      path:"AboutUs",
-      element:<AboutUs/>
-    },
-    {
-      path:"CallUS",
-      element:<CallUs/>
-    },
-    {
-      path:"Edusystem",
-      element:<Edusystem/>
-    },
-
-    {
-      path:"forgetpass",
-      element:<Forgetpass/>
-    },
-  ]
-    },
-
-    // إذا كنت بحاجة إلى MasterLayout، تأكد من استيراده
-    {
-      path: "/dashboard",
-      element: <MasterLayout/>,
+      path: "/",
+      element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
-        {
-          path:"/dashboard",
-          element:<Home/>
-        },
-        {
-          path:"/dashboard/courses",
-          element:<DashboardCourses/>
-        },
-        {
-          path:"/dashboard/Courses/add-Courses",
-          element:<AddCourses/>
-          
-        },
-        {
-          path:"/dashboard/students",
-          element:<Students/>
-        },
-        {
-          path:"/dashboard/Students/AddStudents",
-          element:<AddStudents/>
-        },
-        {
-          path:"/dashboard/Docters",
-          element:<Docters/>
-        },
-        {
-          path:"/dashboard/Docters/AddDocters",
-          element:<AddDocters/>
-        },
-        {
-          path:"/dashboard/employees",
-          element:<Employees/>
-        },
-        {
-          path:"/dashboard/Exams",
-          element:<Exams/>
-        },
-        {
-          path:"/dashboard/Exams/AddExams",
-          element:<AddExams/>
-        },
-        {
-          path:"/dashboard/Docters/AddDocters",
-          element:<AddEmployees/>
-        },
-        {
-          path:"/dashboard/ChangePassword",
-          element:<ChangePassword/>
-        },
-        {
-          path:"/dashboard/users/add-users",
-          element:<AddUsers/>
-        },
+        { path: "", element: <Guide /> },
+        { path: "login", element: <Login /> },
+        { path: "admission-requirements", element: <AdmissionRequirements /> },
+        { path: "about-us", element: <AboutUs /> },
+        { path: "call-us", element: <CallUs /> },
+        { path: "edu-system", element: <Edusystem /> },
+        { path: "forgetpass", element: <Forgetpass /> },
+      ],
+    },
+
+    {
+      path: "/dashboard",
+      element: <MasterLayout />,
+      errorElement: <NotFound />,
+      children: [
+        { path: "/dashboard", element: <Home /> },
+        { path: "/dashboard/courses", element: <DashboardCourses /> },
+        { path: "/dashboard/courses/add", element: <AddCourses /> },
+        { path: "/dashboard/students", element: <Students /> },
+        { path: "/dashboard/students/add", element: <AddStudents /> },  
+        { path: "/dashboard/docters", element: <Docters /> },
+        { path: "/dashboard/docters/add", element: <AddDocters /> },  
+        { path: "/dashboard/employees", element: <Employees /> },
+        { path: "/dashboard/employees/add", element: <AddEmployees /> },
+        { path: "/dashboard/exams", element: <Exams /> },
+        { path: "/dashboard/exams/add", element: <AddExams /> },
+        { path: "/dashboard/change-password", element: <ChangePassword /> },
       ],
     },
   ]);

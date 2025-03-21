@@ -39,7 +39,7 @@ const menuItems = [
   { path: "/dashboard/Docters", label: "الأساتذة", icon: FaChalkboardTeacher },
   { path: "/dashboard/employees", label: "موظفين", icon: FaUserTie },
   { path: "/dashboard/Exams", label: "الامتحانات", icon: AiOutlineFileDone },
-  { path: "/dashboard/ChangePassword", label: "تغيير كلمة المرور", icon: FaLock },
+  { path: "/dashboard/change-password", label: "تغيير كلمة المرور", icon: FaLock },
   { path: "/", label: "تسجيل الخروج", icon: FaSignOutAlt },
 ];
 
