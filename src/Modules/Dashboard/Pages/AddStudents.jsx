@@ -1,6 +1,7 @@
     import React, { useState } from "react";
     import axios from "axios";
-
+    import { ToastContainer, toast } from "react-toastify";
+    import "react-toastify/dist/ReactToastify.css";
     export default function AddStudent() {
     const [students, setStudents] = useState([]);
     const [formData, setFormData] = useState({
@@ -38,7 +39,15 @@
             year_study: "",
         });
 
-            alert(" تم التسجيل بنجاح ")
+                toast.success("✅  تمت اضافة طلاب بنجاح", {
+                    position: "top-right",
+                    autoClose: 2000, // يغلق بعد 3 ثواني
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    });
             console.log("📤 البيانات المرسلة:", formData);
         } else{
         alert(" الايميل او الرقم موجودي بالفعل ")
@@ -46,14 +55,17 @@
         console.log("📤 البيانات المرسلة:", formData);
         }
     } catch (error) {
-        console.error("Error adding student:", error);
-        console.log("🔹 التوكن المستخدم:", token);
+            toast.error("⚠️ حدث خطأ أثناء الإضافة، تأكد من صحة البيانات!", {
+                position: "top-right",
+                autoClose: 5000, // 5 ثواني
+            });
         console.log("📤 البيانات المرسلة:", formData);
     }
     };
 
     return (
     <div className="p-6">
+        <ToastContainer icon={false} />
         <h3 className="text-2xl font-bold text-gray-800 mb-4 text-right">إضافة طالب جديد</h3>
         <form onSubmit={handleAddStudent} className="grid grid-cols-2 gap-4 bg-white p-6 shadow-md rounded-lg">
         <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="الاسم" required className="border p-2 w-full rounded-md" />

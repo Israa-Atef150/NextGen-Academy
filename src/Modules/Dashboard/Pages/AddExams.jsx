@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {useData} from '../DataContext/DataContext '
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function AddExams() {
     const { createExams } = useData(); // Access createExams from the context
     const [examName, setExamName] = useState('');
@@ -20,14 +22,28 @@ export default function AddExams() {
     
         try {
             await createExams(examsData);
-        } catch (error) {
+            toast.success("✅   تمت اضافة امتحان بنجاح  ", {
+                position: "top-right",
+                autoClose: 2000, // يغلق بعد 3 ثواني
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } catch  {
             console.error("❌ Error in adding exam:", error.response?.data || error);
+            toast.error("⚠️ حدث خطأ أثناء الإضافة، تأكد من صحة البيانات!", {
+                position: "top-right",
+                autoClose: 5000, // 5 ثواني
+            });
         }
     };
     
 
     return (
         <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+            <ToastContainer icon={false} />
             <h3 className="text-lg font-semibold mb-4 text-right">إضافة امتحان</h3>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                 

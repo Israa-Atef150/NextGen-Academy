@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {useData}from'../DataContext/DataContext '
-import axios from 'axios';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function AddAdmin() {
     const { createAdmin } = useData();
     const [formData, setFormData] = useState({
@@ -19,14 +19,26 @@ export default function AddAdmin() {
         e.preventDefault();
         try {
             await createAdmin(formData);
-            alert("✅ تمت إضافة المشرف بنجاح!");
+            toast.success("✅  تمت اضافة ادمن بنجاح", {
+                position: "top-right",
+                autoClose: 2000, // يغلق بعد 3 ثواني
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         } catch (error) {
-            alert("❌ فشل في إضافة المشرف");
+            toast.error("⚠️ حدث خطأ أثناء الإضافة، تأكد من صحة البيانات!", {
+            position: "top-right",
+            autoClose: 5000, // 5 ثواني
+        });
         }
     };
 
     return (
         <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+            <ToastContainer icon={false} />
             <h3 className="text-lg font-semibold mb-4 text-right">إضافة مشرف</h3>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                 <input

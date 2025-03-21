@@ -157,7 +157,7 @@ const createExams = async (examsData) => {
         return response.data;
     } catch (error) {
         console.error("❌ خطأ في إنشاء الامتحان:", error.response?.data || error);
-        alert("حدث خطأ أثناء إضافة الامتحان، يرجى التحقق من البيانات.");
+        // alert("حدث خطأ أثناء إضافة الامتحان، يرجى التحقق من البيانات.");
         throw error;
     }
 };

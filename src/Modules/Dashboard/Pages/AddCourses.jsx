@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function AddCourses() {
   const [courseName, setCourseName] = useState('');
   const [doctorCode, setDoctorCode] = useState('');
@@ -34,19 +35,31 @@ export default function AddCourses() {
         }
       });
       
-      alert('تمت إضافة الدورة بنجاح');
+      toast.success("✅  تمت اضافة الدورة بنجاح", {
+      position: "top-right",
+      autoClose: 2000, // يغلق بعد 3 ثواني
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
       setCourseName('');
       setDoctorCode('');
       setAcademicYear('');
       // setVideo(null);
     } catch (error) {
       console.error('خطأ أثناء إضافة الدورة:', error);
-      alert('حدث خطأ أثناء الإضافة، يرجى المحاولة لاحقًا');
+        toast.error("⚠️ حدث خطأ أثناء الإضافة، تأكد من صحة البيانات!", {
+                position: "top-right",
+                autoClose: 5000, // 5 ثواني
+            });
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <ToastContainer icon={false} />
       <div className="bg-white p-6 rounded-lg shadow-md w-96 mb-8">
         <h3 className="text-2xl font-semibold text-center text-gray-700 mb-4">إضافة دورة</h3>
         <form className='space-y-4' onSubmit={handleSubmit}>

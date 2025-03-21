@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {useData} from'../DataContext/DataContext '
 import { FaCalendarAlt } from "react-icons/fa";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function AddDoctor() {
     const { createDoctor, getDoctors } = useData(); // ✅ جلب الدالة من الكونتكست
     const [doctorData, setDoctorData] = useState({
@@ -32,20 +33,32 @@ export default function AddDoctor() {
 
         try {
             await createDoctor(formattedData);
-            alert("تمت إضافة الدكتور بنجاح!");
             console.log("🔵 البيانات المرسلة للخادم:", formattedData);
-
+                toast.success("✅  تمت اضافة دكتود بنجاح  ", {
+                            position: "top-right",
+                            autoClose: 2000, // يغلق بعد 3 ثواني
+                            hideProgressBar: false,
+                            closeOnClick: false,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        });
             getDoctors(); // ✅ إعادة تحميل قائمة الأطباء بعد الإضافة
         } catch (error) {
             // alert("حدث خطأ أثناء الإضافة. حاول مرة أخرى.");
             console.log("🔵 البيانات المرسلة للخادم:", formattedData);
             console.error("❌ خطأ أثناء الإرسال:", error.response?.data || error);
-            alert(`حدث خطأ: ${error.response?.data?.message || "خطأ غير معروف"}`);
+            // alert(`حدث خطأ: ${error.response?.data?.message || "خطأ غير معروف"}`);
+                toast.error("⚠️ حدث خطأ أثناء الإضافة، تأكد من صحة البيانات!", {
+                            position: "top-right",
+                            autoClose: 5000, // 5 ثواني
+                        });
         }
     };
 
     return (
         <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+            <ToastContainer icon={false} />
             <h3 className="text-lg font-semibold mb-4 text-right">إضافة دكتور جديد</h3>
             <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
                 <input type="text" name="name" placeholder="الاسم" value={doctorData.name} onChange={handleChange} className="border border-gray-300 p-2 rounded-md text-right w-full" />

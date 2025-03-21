@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import {useData} from'../DataContext/DataContext '
 import { FaCalendarAlt } from "react-icons/fa";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default function AddAssistant() {
     const { getAssistants, createAssistant } = useData(); // ✅ جلب `createAssistant`
-    
     const [assistantData, setAssistantData] = useState({
         name: "",
         phone_number: "",
@@ -52,15 +52,29 @@ export default function AddAssistant() {
     
         try {
             await createAssistant(formattedData);
-            alert("تمت إضافة المساعد بنجاح!");
+            // alert("تمت إضافة المساعد بنجاح!");
+            toast.success("✅  تمت اضافة معيد بنجاح", {
+                                        position: "top-right",
+                                        autoClose: 2000, // يغلق بعد 3 ثواني
+                                        hideProgressBar: false,
+                                        closeOnClick: false,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        progress: undefined,
+                                    });
         } catch (error) {
             console.error("❌ خطأ أثناء الإرسال:", error.response?.data || error);
-            alert("حدث خطأ أثناء الإضافة. تحقق من البيانات وأعد المحاولة.");
+            // alert("حدث خطأ أثناء الإضافة. تحقق من البيانات وأعد المحاولة.");
+                toast.error("⚠️ حدث خطأ أثناء الإضافة، تأكد من صحة البيانات!", {
+                    position: "top-right",
+                    autoClose: 5000, // 5 ثواني
+                });
         }
     };
     
     return (
         <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+            <ToastContainer icon={false} />
             <h3 className="text-lg font-semibold mb-4 text-right">
                 إضافة مساعد جديد
             </h3>
