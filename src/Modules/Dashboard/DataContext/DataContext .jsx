@@ -75,6 +75,43 @@
         }
     };
     
+    const updateDoctor = async (id, DoctorData) => {
+        try {
+            const formattedData = {
+                name: DoctorData.name,
+                phone_number: DoctorData.phone_number,
+                birth_of_date: DoctorData.birth_of_date,
+                email: DoctorData.email,
+                salary: Number(DoctorData.salary),
+                specialist: DoctorData.specialist,
+                gender: DoctorData.gender,
+                address: DoctorData.address,
+                assistant_ids: DoctorData.assistant_ids ? DoctorData.assistant_ids.map(Number) : []
+            };
+    
+            const response = await axios.put(`${API_URL}/doctor/${id}/edit`, formattedData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+    
+            console.log("✅ تم تحديث بيانات الطبيب:", response.data);
+            getDoctors(); // تحديث قائمة الأطباء بعد التعديل
+            return response.data;
+        } catch (error) {
+            console.error("❌ خطأ في تحديث الطبيب:", error.response?.data || error);
+            throw error;
+        }
+    };
+    
+
+
+
+
+
+
+
 /////////// doctors///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////admins/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const getAdmins = async () => {
@@ -87,7 +124,7 @@ const getAdmins = async () => {
             },
         });
 
-        // console.log("📢 البيانات المستلمة من API:", response.data);
+        console.log("📢 البيانات المستلمة من API:", response.data);
 
         if (response.data && Array.isArray(response.data.users)) {
             setAdmins(response.data.users); // ✅ تصحيح الخطأ
@@ -134,6 +171,29 @@ const handleDeleteAdmin = async (id) => {
         console.error("❌ خطأ في حذف الأدمن:", error);
     }
 };
+const updateAdmin = async (id, AdminData) => {
+    try {
+        const formattedData = {
+            name: AdminData.name, 
+            email: AdminData.email, 
+            role: AdminData.role
+        };
+
+        const response = await axios.put(`${API_URL}/user/${id}/edit`, formattedData, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        console.log("✅ تم تحديث بيانات المسؤول:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("❌ خطأ في تحديث المسؤول:", error.response?.data || error);
+        throw error;
+    }
+};
+
 
 // admins////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Exams////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -302,6 +362,37 @@ const handleDeleteAssistant = async (id) => {
     }
 };
 
+const updateAssistant= async (id, assistantData) => {
+    try {
+        const formattedData = {
+            name: assistantData.exam_name,
+            course_id: Number(assistantData.course_id),
+            student_year: assistantData.year
+        };
+
+        if (assistantData.students.length > 0) {
+            formattedData.students = assistantData.students.map(Number);
+        }
+
+        const response = await axios.put(`${API_URL}/assistant/${id}/edit`, assistantData, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        console.log("✅ تم تحديث الامتحان:", response.data);
+        getExams(); 
+        return response.data;
+    } catch (error) {
+        console.error("❌ خطأ في تحديث الامتحان:", error.response?.data || error);
+        throw error;
+    }
+};
+
+
+
+
 // Assistant////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -328,7 +419,7 @@ const handleDeleteAssistant = async (id) => {
     }, []);
 
     return (
-    <DataContext.Provider value={{ doctors, admins, loading, error,exams,assistants, getDoctors, createDoctor, getAdmins,createAdmin,getExams,createExams,getAssistant,createAssistant,handleDeleteExam,handleDeleteAssistant,handleDeleteAdmin,handleDeleteDoctor,updateExam }}>
+    <DataContext.Provider value={{ doctors, admins, loading, error,exams,assistants, getDoctors, createDoctor, getAdmins,createAdmin,getExams,createExams,getAssistant,createAssistant,handleDeleteExam,handleDeleteAssistant,handleDeleteAdmin,handleDeleteDoctor,updateExam,updateAssistant,updateAdmin,updateDoctor }}>
         {children}
     </DataContext.Provider>
     );

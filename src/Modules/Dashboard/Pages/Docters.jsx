@@ -62,10 +62,12 @@
 
                 <td className="p-3 text-center">{doctor.email || "غير متوفر"}</td>
                 <td className="p-3 text-center">{doctor.salary || "غير متوفر"}</td>
-                <td className="p-3 flex gap-x-3 justify-center text-center">
-                <button className="text-blue-500 hover:text-blue-700 transition">
-                    <FaEdit className="text-lg" />
-                </button>
+                <td className="p-3 flex gap-x-3 justify-center text-center" style={{alignItems:"baseline"}}>
+                <Link to={'/dashboard/Docters/AddDocters'} state={{ doctor }}>
+                    <button className='text-blue-500 hover:text-blue-700 transition'>
+                        <FaEdit className='text-lg' />
+                    </button>
+                </Link>
                 <button className="text-red-500 hover:text-red-700 transition"onClick={()=>{handleDeleteDoctor(doctor.id)}}>
                     <FaTrash className="text-lg" />
                 </button>

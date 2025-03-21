@@ -4,7 +4,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export default function Assistant() {
-    const { assistants, loading, error,handleDeleteAssistant } = useData();
+    const { assistants, loading, error,handleDeleteAssistant} = useData();
 
     if (loading) return <p className="text-center text-gray-500">جاري التحميل...</p>;
     if (error) return <p className="text-center text-red-500">حدث خطأ أثناء جلب البيانات!</p>;
@@ -42,16 +42,18 @@ export default function Assistant() {
                                 <td className="p-3 text-center">{assistant.specialist || 'غير متوفر'}</td>
                                 <td className="p-3 text-center">
                                 {assistant.assistant_doctors?.length > 0
-    ? assistant.assistant_doctors.map((doc) => `(${doc.id}) - ${doc.name}`).join(' ')
-    : 'غير متوفر'}
+                                ? assistant.assistant_doctors.map((doc) => `(${doc.id}) - ${doc.name}`).join(' ')
+                                : 'غير متوفر'}
 
                                 </td>
                                 <td className="p-3 text-center">{assistant.email || 'غير متوفر'}</td>
                                 <td className="p-3 text-center">{assistant.salary || 'غير متوفر'}</td>
-                                <td className="p-3 flex gap-x-4 justify-center">
-                                    <button className="text-blue-500 hover:text-blue-700 transition">
-                                        <FaEdit className="text-lg" />
-                                    </button>
+                                <td className="p-3 flex gap-x-4 justify-center" style={{alignItems:"baseline"}}>
+                                    <Link to={'/dashboard/Assistant/AddAssistant'} state={{ assistant }}>
+                                                    <button className='text-blue-500 hover:text-blue-700 transition'>
+                                                        <FaEdit className='text-lg' />
+                                                    </button>
+                                                    </Link>
                                     <button className="text-red-500 hover:text-red-700 transition"onClick={()=>{
                                         handleDeleteAssistant(assistant.id)
                                     }}>

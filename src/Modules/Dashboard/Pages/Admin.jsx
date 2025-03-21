@@ -34,10 +34,12 @@ export default function Admin() {
                                 <td className="p-3 text-center">{admin.name}</td>
                                 <td className="p-3 text-center">{admin.email}</td>
                                 <td className="p-3 text-center">{admin.role || "غير محدد"}</td>
-                                <td className="p-3 flex gap-x-4 justify-center">
-                                    <button className="text-blue-500 hover:text-blue-700 transition">
-                                        <FaEdit className="text-lg" />
-                                    </button>
+                                <td className="p-3 flex gap-x-4 justify-center" style={{alignItems:"baseline"}}>
+                                    <Link to={'/dashboard/Admin/AddAdmin'} state={{ admin }}>
+                                        <button className='text-blue-500 hover:text-blue-700 transition'>
+                                            <FaEdit className='text-lg' />
+                                        </button>
+                                        </Link>
                                     <button className="text-red-500 hover:text-red-700 transition" onClick={()=>{handleDeleteAdmin(admin.id)}}>
                                         <FaTrash className="text-lg" />
                                     </button>
