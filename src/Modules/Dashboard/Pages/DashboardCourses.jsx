@@ -61,9 +61,9 @@ export default function DashboardCourses() {
               courses.courses.map((item) => (
                 <tr key={item.id} className='border-b border-gray-300 hover:bg-gray-100 transition'>
 
-                  <td className='p-3 text-right'>{item.name}</td>
-                  <td className='p-3 text-right'>{item.doctor.name}</td>
-                  <td className='p-3 text-right'>{item.assistants.map((assi)=> (<p className='text-center space-y-4'>{assi.name}</p>))}</td>
+                  <td className='p-3 text-center'>{item.name}</td>
+                  <td className='p-3 text-center'>{item.doctor.name}</td>
+                  <td className='p-3 text-center'>{item.assistants.length > 0 ? item.assistants.map((assi)=> (<p key={assi.id} className=' space-y-4'>{assi.name}</p>)) : 'غير متوفر'}</td>
                   <td className='p-3 text-center'>{item.year_study}</td>
                   <td className='p-3 flex justify-center items-center gap-4'>
                     <button className='text-blue-600 hover:text-blue-800 transition'>
