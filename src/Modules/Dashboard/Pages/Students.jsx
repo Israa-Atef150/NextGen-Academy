@@ -36,7 +36,9 @@ export default function Students() {
     <div className='w-full p-6 rounded-lg space-y-6'>
       <div className='flex justify-between items-center'>
         <h2 className='text-2xl font-semibold text-gray-800'>الطلاب</h2>
-        <Link to="/dashboard/students/add">  
+
+        <Link to="/dashboard/students/AddStudents">  
+
           <button className='bg-orange-500 py-3 px-5 text-white rounded-xl'>
             إضافة الطلاب
           </button>
@@ -88,4 +90,7 @@ export default function Students() {
       </table>
     </div>
   );
+
+
 }
+

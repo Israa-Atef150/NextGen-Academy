@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function AddStudent() {
   const [students, setStudents] = useState([]);
@@ -8,7 +10,7 @@ export default function AddStudent() {
     phone_number: "",
     birth_of_date: "",
     email: "",
-    gender: "",
+    gender: "male",
     address: "",
     year_study: "",
   });
@@ -21,6 +23,7 @@ export default function AddStudent() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
+      console.log("📤 البيانات المرسلة:", formData);
       const response = await axios.post("https://ishraaq.up.railway.app/api/student/create", formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -32,23 +35,35 @@ export default function AddStudent() {
           phone_number: "",
           birth_of_date: "",
           email: "",
-          gender: "",
+          gender: "male",
           address: "",
           year_study: "",
         });
 
-         alert(" تم التسجيل بنجاح ")
-      } else{
-       alert(" الايميل او الرقم موجودي بالفعل ")
+        toast.success("✅ تمت إضافة الطالب بنجاح", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        alert("⚠️ الإيميل أو رقم الهاتف موجود بالفعل");
       }
     } catch (error) {
-      console.error("Error adding student:", error);
-      
+      toast.error("⚠️ حدث خطأ أثناء الإضافة، تأكد من صحة البيانات!", {
+        position: "top-right",
+        autoClose: 5000,
+      });
+      console.error("خطأ أثناء إضافة الطالب:", error);
     }
   };
 
   return (
     <div className="p-6">
+      <ToastContainer icon={false} />
       <h3 className="text-2xl font-bold text-gray-800 mb-4 text-right">إضافة طالب جديد</h3>
       <form onSubmit={handleAddStudent} className="grid grid-cols-2 gap-4 bg-white p-6 shadow-md rounded-lg">
         <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="الاسم" required className="border p-2 w-full rounded-md" />

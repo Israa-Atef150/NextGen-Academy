@@ -5,18 +5,18 @@ import "./Home.css"; // استيراد ملف CSS
 import { FaBookOpen } from "react-icons/fa";
 import { FaUserGraduate } from "react-icons/fa";
 import { FaChalkboardTeacher } from "react-icons/fa";
-import { FaUserShield } from "react-icons/fa";
+import { GiTeacher } from "react-icons/gi";
 import { FaUserTie } from "react-icons/fa";
-import { FaUsers } from "react-icons/fa";
-import { FaBriefcase } from "react-icons/fa";
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
 export default function Home() {
   const [stats] = useState([
     { icon: <FaUserGraduate/>, label: "الطلاب", value: "30", change: "", color: "text-pink-500" },
     { icon: < FaChalkboardTeacher/>, label: "الأساتذة", value: "30", change: "", color: "text-yellow-500" },
+    { icon: < GiTeacher/>, label: "المعدين", value: "30", change: "", color: "text-yellow-500" },
     { icon: <FaBookOpen />, label: "couress", value: "50", change: "", color: "text-green-500" },
-    { icon: <FaUserTie />, label: "موظفين", value: "40", change: "", color: "text-blue-500" },
+    { icon: <FaUserTie />, label: "المشرفين", value: "40", change: "", color: "text-blue-500" },
   ]);
 
   const barData = {
@@ -45,7 +45,7 @@ export default function Home() {
       </div>
       <div className=" mt-6" style={{ height:"fit-content",display:"flex",gap:"4px"}}>
         <div className="chart-container" style={{width:"50%"}}>
-          <h3 className="text-lg font-semibold">Monthly Sales</h3>
+          <h3 className="text-lg font-semibold">Monthly</h3>
           <Bar data={barData} />
         </div>
         <div className="chart-container" style={{width:"38%"}}>
