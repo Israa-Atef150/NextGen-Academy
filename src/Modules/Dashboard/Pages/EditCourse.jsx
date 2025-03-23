@@ -22,10 +22,10 @@ export default function EditCourse() {
                 'https://ishraaq.up.railway.app/api/course/18/edit',
                 { /* course data */ },
                 {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Ensure token is included
-                        'Content-Type': 'application/json',
-                    },
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
                 }
             );
             console.log(response.data);
