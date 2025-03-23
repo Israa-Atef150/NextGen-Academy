@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Students() {
   const [data, setData] = useState([]);
@@ -32,13 +34,24 @@ export default function Students() {
     fetchData();
   }, [token]);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`https://ishraaq.up.railway.app/api/student/${id}/delete`, {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      setData(data.filter(student => student.id !== id));
+      toast.success("تم حذف الطالب بنجاح");
+    } catch (error) {
+      toast.error("حدث خطأ أثناء الحذف");
+    }
+  };
+
   return (
     <div className='w-full p-6 rounded-lg space-y-6'>
       <div className='flex justify-between items-center'>
         <h2 className='text-2xl font-semibold text-gray-800'>الطلاب</h2>
 
-        <Link to="/dashboard/students/AddStudents">  
-
+        <Link to="/dashboard/students/add">  
           <button className='bg-orange-500 py-3 px-5 text-white rounded-xl'>
             إضافة الطلاب
           </button>
@@ -75,7 +88,10 @@ export default function Students() {
                       <FaEdit className='text-lg' />
                     </button>
                   </Link>
-                  <button className='text-red-500 hover:text-red-700 transition'>
+                  <button 
+                    className='text-red-500 hover:text-red-700 transition'
+                    onClick={() => handleDelete(item.id)}
+                  >
                     <FaTrash className='text-lg' />
                   </button>
                 </td>
@@ -90,7 +106,4 @@ export default function Students() {
       </table>
     </div>
   );
-
-
 }
-

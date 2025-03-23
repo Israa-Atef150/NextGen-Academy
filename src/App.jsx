@@ -26,6 +26,8 @@ import Admin from './Modules/Dashboard/Pages/Admin';
 import { DataProvider } from './Modules/Dashboard/DataContext/DataContext ';
 import Assistant from './Modules/Dashboard/Pages/Assistant';
 import AddAssistant from './Modules/Dashboard/Pages/AddAssistant';
+import EditCourse from './Modules/Dashboard/Pages/EditCourse';
+import EditStudent from './Modules/Dashboard/Pages/EditStudent'; // ✅ استيراد EditStudent
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -51,8 +53,10 @@ export default function App() {
         { path: '', element: <Home /> },
         { path: 'courses', element: <DashboardCourses /> },
         { path: 'courses/add', element: <AddCourses /> },
+        { path: 'courses/edit/:id', element: <EditCourse /> }, 
         { path: 'students', element: <Students /> },
         { path: 'students/add', element: <AddStudents /> },
+        { path: 'students/edit/:id', element: <EditStudent /> }, // ✅ مسار تعديل الطالب
         { path: 'docters', element: <Docters /> },
         { path: 'docters/add', element: <AddDocters /> },
         { path: 'admin', element: <Admin /> },
