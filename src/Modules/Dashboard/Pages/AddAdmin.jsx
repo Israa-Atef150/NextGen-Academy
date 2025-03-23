@@ -14,7 +14,7 @@ export default function AddAdmin() {
         name: "",
         email: "",
         password: "",
-        role: "user"
+        role: "User"
     });
 
     // ✅ تحميل بيانات المشرف عند التعديل
@@ -39,13 +39,15 @@ export default function AddAdmin() {
         try {
             if (adminToEdit) {
                 await updateAdmin(adminToEdit.id, formData);
-                toast.success("✅ تم تحديث بيانات المشرف بنجاح!");
+                toast.success("✅ تم تحديث الببانات  مشرف بنجاح   !", {
+                    icon: false
+                });
             } else {
                 await createAdmin(formData);
-                toast.success("✅ تمت إضافة المشرف بنجاح!");
+                toast.success("✅ تمت إضافة مشرف بنجاح!",{
+                    icon: false
+                });
             }
-
-            navigate("/dashboard/Admin"); // ✅ إعادة التوجيه بعد الإضافة/التحديث
         } catch (error) {
             toast.error("⚠️ حدث خطأ أثناء الحفظ، تأكد من صحة البيانات!");
             console.error("❌ خطأ:", error.response?.data || error);
@@ -98,7 +100,6 @@ export default function AddAdmin() {
                 >
                     <option value="User">user</option>
                     <option value="Admin">Admin</option>
-                    <option value="SuperAdmin">SuperAdmin</option>
                 </select>
 
                 <button type="submit" className="bg-green-500 text-white p-2 rounded-lg w-full">

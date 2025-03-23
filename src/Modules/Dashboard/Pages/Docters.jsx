@@ -2,7 +2,7 @@
     import {useData} from '../DataContext/DataContext '
     import { FaEdit, FaTrash } from "react-icons/fa";
     import { Link } from "react-router-dom";
-
+    import { ToastContainer } from "react-toastify";
     export default function Docters() {
     const { doctors, loading, error,handleDeleteDoctor} = useData(); // جلب البيانات من الـ context
 
@@ -20,6 +20,7 @@
 
     return (
     <div className="w-full p-6 rounded-lg space-y-6">
+        <ToastContainer position="top-right" autoClose={3000} />
         <div className="flex justify-between items-center">
         <h2 className="text-2xl font-semibold text-gray-800">الأساتذة</h2>
         <Link to={"/dashboard/Docters/AddDocters"}>

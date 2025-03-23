@@ -57,14 +57,17 @@ export default function AddDoctor() {
         try {
             if (doctorToEdit) {
                 await updateDoctor(doctorToEdit.id, formattedData);
-                toast.success("✅ تم تحديث الطبيب بنجاح!");
+                toast.success("✅ تم تحديث الببانات الاستاذ بنجاح   !", {
+                    icon: false
+                });
             } else {
                 await createDoctor(formattedData);
-                toast.success("✅ تمت إضافة الطبيب بنجاح!");
+                toast.success("✅ تمت اضافة استاذ بنجاح   !", {
+                    icon: false
+                });
             }
 
             getDoctors();
-            navigate("/dashboard/Docters"); // إعادة التوجيه بعد الإضافة أو التعديل
         } catch (error) {
             console.error("❌ خطأ:", error.response?.data || error);
             toast.error("⚠️ حدث خطأ أثناء الحفظ، تأكد من صحة البيانات!");

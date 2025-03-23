@@ -2,7 +2,7 @@
     import {useData}from'../DataContext/DataContext '
     import { FaEdit, FaTrash } from 'react-icons/fa';
     import { Link } from 'react-router-dom';
-
+    import { ToastContainer } from "react-toastify";
     export default function Exams() {
     // الوصول إلى البيانات من DataContext باستخدام useData
     const { exams, loading, error,handleDeleteExam } = useData();
@@ -13,6 +13,7 @@
 
     return (
     <div className='w-full p-6 rounded-lg space-y-6'>
+            <ToastContainer position="top-right" autoClose={3000}  />
         <div className='flex justify-between items-center'>
         <h2 className='text-2xl font-semibold text-gray-800'>الامتحانات</h2>
         <Link to={'/dashboard/Exams/AddExams'}>
@@ -49,7 +50,7 @@
                         </div>
                     ))}
 
-                    {exam.student_exams.length > 2 && (
+                    {exam.student_exams.length > 1 && (
                         <button
                             className="text-blue-500 text-xs mt-1 underline"
                             style={{background:"none",color:"orange",textDecoration:"none"}}

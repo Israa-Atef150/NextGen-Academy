@@ -19,11 +19,9 @@ import Students from './Modules/Dashboard/Pages/Students'
 import AddStudents from './Modules/Dashboard/Pages/AddStudents'
 import Docters from './Modules/Dashboard/Pages/Docters'
 import AddDocters from './Modules/Dashboard/Pages/AddDocters'
-
 import AddAdmin from './Modules/Dashboard/Pages/AddAdmin'
 import Exams from './Modules/Dashboard/Pages/Exams'
 import AddExams from './Modules/Dashboard/Pages/AddExams'
-import ChangePassword from './Modules/Dashboard/Pages/ChangePassword'
 import Admin from './Modules/Dashboard/Pages/Admin'
 import { DataProvider } from "./Modules/Dashboard/DataContext/DataContext ";
 import Assistant from './Modules/Dashboard/Pages/Assistant'
@@ -117,10 +115,6 @@ export default function App() {
         {
           path:"/dashboard/Admin/AddAdmin",
           element:<AddAdmin/>
-        },
-        {
-          path:"/dashboard/ChangePassword",
-          element:<ChangePassword/>
         },
         {
           path:"/dashboard/users/add-users",
