@@ -26,7 +26,7 @@ export default function AddCourses() {
     formData.append("name", courseName);
     formData.append("doctor_id", doctorCode);
     formData.append("year_study", academicYear);
-    // if (video) formData.append("video", video);
+    if (video) formData.append("video", video);
 
     try {
       await axios.post("https://ishraaq.up.railway.app/api/course/create", formData, {
@@ -36,25 +36,15 @@ export default function AddCourses() {
         },
       });
 
-      toast.success("✅ تمت إضافة الدورة بنجاح", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      toast.success("✅ تمت إضافة الدورة بنجاح", { position: "top-right", autoClose: 2000 });
 
       setCourseName("");
       setDoctorCode("");
       setAcademicYear("");
-      // setVideo(null);
+      setVideo(null);
     } catch (error) {
       console.error("خطأ أثناء إضافة الدورة:", error);
-      toast.error("⚠️ حدث خطأ أثناء الإضافة، تأكد من صحة البيانات!", {
-        position: "top-right",
-        autoClose: 5000,
-      });
+      toast.error("⚠️ حدث خطأ أثناء الإضافة، تأكد من صحة البيانات!", { position: "top-right" });
     }
   };
 
@@ -64,31 +54,17 @@ export default function AddCourses() {
       <div className="bg-white p-6 rounded-lg shadow-md w-96 mb-8">
         <h3 className="text-2xl font-semibold text-center text-gray-700 mb-4">إضافة دورة</h3>
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={courseName}
-            onChange={(e) => setCourseName(e.target.value)}
-            placeholder="اسم الدورة"
-            required
-            className="w-full px-3 py-2 border rounded-lg"
-          />
-          <input
-            type="text"
-            value={doctorCode}
-            onChange={(e) => setDoctorCode(e.target.value)}
-            placeholder="كود الدكتور"
-            required
-            className="w-full px-3 py-2 border rounded-lg"
-          />
-          <input
-            type="text"
-            value={academicYear}
-            onChange={(e) => setAcademicYear(e.target.value)}
-            placeholder="السنة الدراسية"
-            required
-            className="w-full px-3 py-2 border rounded-lg"
-          />
-          {/* <input type='file' accept='video/*' onChange={handleFileChange} className='w-full px-3 py-2 border rounded-lg' /> */}
+          <input type="text" value={courseName} onChange={(e) => setCourseName(e.target.value)}
+            placeholder="اسم الدورة" required className="w-full px-3 py-2 border rounded-lg" />
+          
+          <input type="text" value={doctorCode} onChange={(e) => setDoctorCode(e.target.value)}
+            placeholder="كود الدكتور" required className="w-full px-3 py-2 border rounded-lg" />
+          
+          <input type="text" value={academicYear} onChange={(e) => setAcademicYear(e.target.value)}
+            placeholder="السنة الدراسية" required className="w-full px-3 py-2 border rounded-lg" />
+          
+          <input type="file" accept="video/*" onChange={handleFileChange} className="w-full px-3 py-2 border rounded-lg" />
+
           <button type="submit" className="w-full py-2 bg-blue-600 text-white rounded-lg">
             إضافة الدورة
           </button>

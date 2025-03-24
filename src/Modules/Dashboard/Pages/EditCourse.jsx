@@ -10,8 +10,7 @@ export default function EditCourse() {
   const [course, setCourse] = useState({
     name: "",
     doctor_id: "",
-    student_st_year: "",
-    additional_student_st_year: ""
+    year_study: "",
   });
 
   useEffect(() => {
@@ -28,8 +27,6 @@ export default function EditCourse() {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-
-        console.log("Course Data:", response.data);
 
         if (response.data?.courses?.length > 0) {
           setCourse(response.data.courses[0]);
@@ -64,15 +61,14 @@ export default function EditCourse() {
     const apiUrl = `https://ishraaq.up.railway.app/api/course/${id}/edit`;
 
     try {
-      const response = await axios.put(apiUrl, course, {
+      await axios.put(apiUrl, course, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log("Update successful:", response.data);
       toast.success("تم تحديث الدورة بنجاح");
     } catch (error) {
       console.error("Error updating course:", error.response?.data || error.message);
-      toast.error(error.response?.data?.message || "حدث خطأ أثناء التحديث");
+      toast.error("حدث خطأ أثناء التحديث");
     }
   };
 
@@ -108,19 +104,8 @@ export default function EditCourse() {
           <label className="block text-gray-700">السنة الدراسية</label>
           <input
             type="text"
-            name="student_st_year"
-            value={course.student_st_year || ""}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700">السنة الدراسية الإضافية</label>
-          <input
-            type="text"
-            name="additional_student_st_year"
-            value={course.additional_student_st_year || ""}
+            name="year_study"
+            value={course.year_study || ""}
             onChange={handleChange}
             className="w-full p-2 border rounded"
           />
