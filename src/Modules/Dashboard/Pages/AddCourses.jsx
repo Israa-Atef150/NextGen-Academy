@@ -1,75 +1,102 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import {useData} from '../DataContext/DataContext '
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, useLocation } from "react-router-dom";
+
 export default function AddCourses() {
-  const [courseName, setCourseName] = useState('');
-  const [doctorCode, setDoctorCode] = useState('');
-  const [academicYear, setAcademicYear] = useState('');
-  const [video, setVideo] = useState(null);
+  const { updateCouressCouress, createCouress, getCourses } = useData();
+
+  const navigate = useNavigate();
+  const location = useLocation(); 
+  const courseToEdit = location.state?.course; 
+  console.log(courseToEdit)
+
+  const [courseData, setCourseData] = useState({
+    name: "",
+    doctor_id: "",
+    year_study: "",
+    Path_of_Video: "",  // ✅ استخدم الاسم كما هو في الـ Backend
+    student_st_year: ""
+});
+
+
+
+
+useEffect(() => {
+  if (courseToEdit) {
+      setCourseData({
+          name: courseToEdit.name || "",
+          doctor_id: courseToEdit.doctor_id || "",
+          year_study: courseToEdit.year_study || "",
+          Path_of_Video: courseToEdit.Path_of_Video || "", // ✅ الاسم مطابق للـ Backend
+          student_st_year: courseToEdit.student_st_year || ""
+      });
+  }
+}, [courseToEdit]);
+
+
+
   
-  const handleFileChange = (e) => {
-    setVideo(e.target.files[0]);
-  };
+const handleChange = (e) => {
+  setCourseData((prev) => ({
+    ...prev,
+    [e.target.name]: e.target.value
+  }));
+};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      alert('لا يوجد توكن، يرجى تسجيل الدخول');
-      return;
-    }
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('name', courseName);
-    formData.append('doctor_id', doctorCode);
-    formData.append('year_study', academicYear);
-    // if (video) formData.append('video', video);
+  try {
+      const newCourse = {
+          name: courseData.name,
+          doctor_id: courseData.doctor_id,
+          year_study: courseData.year_study,
+          Path_of_Video: courseData.Path_of_Video, // ✅ الاسم مطابق للـ Backend
+          student_st_year: courseData.student_st_year,
+      };
 
-    try {
-      await axios.post('https://ishraaq.up.railway.app/api/course/create', formData, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      
-      toast.success("✅  تمت اضافة الدورة بنجاح", {
-      position: "top-right",
-      autoClose: 2000, // يغلق بعد 3 ثواني
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      });
-      setCourseName('');
-      setDoctorCode('');
-      setAcademicYear('');
-      // setVideo(null);
-    } catch (error) {
-      console.error('خطأ أثناء إضافة الدورة:', error);
-        toast.error("⚠️ حدث خطأ أثناء الإضافة، تأكد من صحة البيانات!", {
-                position: "top-right",
-                autoClose: 5000, // 5 ثواني
-            });
-    }
-  };
+      console.log("📤 إرسال البيانات:", newCourse); // ✅ طباعة البيانات قبل الإرسال
+
+      if (courseToEdit) {
+          await updateCouressCouress(courseToEdit.id, newCourse);
+          toast.success("✅ تم تحديث بيانات الدورة بنجاح!");
+      } else {
+          await createCouress(newCourse);
+          toast.success("✅ تمت إضافة الدورة بنجاح!");
+      }
+  } catch (error) {
+      console.error("❌ خطأ:", error.response?.data || error);
+      toast.error("⚠️ حدث خطأ أثناء الحفظ، تأكد من صحة البيانات!");
+  }
+};
+
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <ToastContainer icon={false} />
-      <div className="bg-white p-6 rounded-lg shadow-md w-96 mb-8">
-        <h3 className="text-2xl font-semibold text-center text-gray-700 mb-4">إضافة دورة</h3>
-        <form className='space-y-4' onSubmit={handleSubmit}>
-          <input type='text' value={courseName} onChange={(e) => setCourseName(e.target.value)} placeholder='اسم الدورة' required className='w-full px-3 py-2 border rounded-lg' />
-          <input type='text' value={doctorCode} onChange={(e) => setDoctorCode(e.target.value)} placeholder='كود الدكتور' required className='w-full px-3 py-2 border rounded-lg' />
-          <input type='text' value={academicYear} onChange={(e) => setAcademicYear(e.target.value)} placeholder='السنة الدراسية' required className='w-full px-3 py-2 border rounded-lg' />
-          {/* <input type='file' accept='video/*' onChange={handleFileChange} className='w-full px-3 py-2 border rounded-lg' /> */}
-          <button type='submit' className='w-full py-2 bg-blue-600 text-white rounded-lg'>إضافة الدورة</button>
-        </form>
-      </div>
+    <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+      <ToastContainer />
+      <h3 className="text-lg font-semibold mb-4 text-right">
+        {courseToEdit ? "تعديل بيانات الدورة" : "إضافة دورة جديدة"}
+      </h3>
+      <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
+      <input type='text' name='name' placeholder='اسم الدورة' value={courseData.name} onChange={handleChange} className='border border-gray-300 p-2 rounded-md text-right w-full' />
+      <input type='text' name='doctor_id' placeholder='كود الدكتور' value={courseData.doctor_id} onChange={handleChange} className='border border-gray-300 p-2 rounded-md text-right w-full' />
+      <input type='text' name='year_study' placeholder='السنة الدراسية' value={courseData.year_study} onChange={handleChange} className='border border-gray-300 p-2 rounded-md text-right w-full' />
+      <input 
+    type='text' 
+    name='Path_of_Video' // ✅ يجب أن يكون مطابقًا للحقل في useState
+    placeholder='مسار الفيديو' 
+    value={courseData.Path_of_Video}  
+    onChange={handleChange} 
+    className='border border-gray-300 p-2 rounded-md text-right w-full' 
+/>
+
+      <input type='text' name='student_st_year' placeholder='سنة الطالب الدراسية' value={courseData.student_st_year} onChange={handleChange} className='border border-gray-300 p-2 rounded-md text-right w-full' />
+        <button type="submit" className="col-span-2 bg-green-500 text-white p-2 rounded-md w-full">
+          {courseToEdit ? "تحديث" : "إضافة"}
+        </button>
+      </form>
     </div>
   );
 }

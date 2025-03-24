@@ -10,6 +10,7 @@
     const [assistants, Setassistants] = useState([]);
     const [admins, setAdmins] = useState([]);
     const [exams, setExams] = useState([]);
+    const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -18,6 +19,7 @@
     const [assistantsCount, SetAssistantsCount] = useState(0);
     const [adminsCount, SetAdminsCount] = useState(0);
     const [StudentCount, setStudentCount] = useState(0);
+    const [CoursesCount, SetCoursesCount] = useState(0);
     //////////////////////
     // ✅ رابط الـ API
     const API_URL = "https://ishraaq.up.railway.app/api";
@@ -35,7 +37,6 @@
                 "Content-Type": "application/json",
             },
             });
-            console.log("📢 البيانات المستلمة من API:", response.data); // ✅ تحقق من البيانات المستلمة
             if (response.data && Array.isArray(response.data.students)) {
                 setStudents(response.data.students); // ✅ استخدم المصفوفة فقط
                 setStudentCount(response.data.student_count)
@@ -124,11 +125,111 @@
 
 
 
-
-
-
 ///////// students/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////// couress/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const getCouress = async () => {
+    setLoading(true);
+    try {
+        const response = await axios.get(`${API_URL}/courses`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        });
+        if (response.data && Array.isArray(response.data.courses)) {
+            setCourses(response.data.courses); // ✅ استخدم المصفوفة فقط
+            SetCoursesCount(response.data.course_count)
+        } else {
+        console.error("❌ البيانات المستلمة غير صحيحة!", response.data);
+        setCourses([]); // تجنب الأخطاء بوضع مصفوفة فارغة
+        }
+    } catch (err) {
+        setError(err.message);
+    } finally {
+        setLoading(false);
+    }
+    };
 
+    const createCouress = async (CouressData) => {
+        console.log("📤 البيانات المُرسلة إلى السيرفر:", CouressData); // ✅ تحقق مما يتم إرساله
+        
+        try {
+            const response = await axios.post(`${API_URL}/course/create`, CouressData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+            });
+    
+            console.log("✅ تم إنشاء الدورة:", response.data);
+            setCourses((prev) => [...prev, response.data.course]); // تحديث القائمة مباشرة
+    
+            return response.data;
+        } catch (error) {
+            console.error("❌ خطأ في إنشاء الدورة:", error.response?.data || error);
+            throw error;
+        }
+    };
+    
+
+    const handleDeleteCouress = async (id) => {
+        try {
+            const response = await axios.delete(`${API_URL}/course/${id}/delete`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+    
+            if (response.status === 200) {
+                // setDoctors(prev => prev.filter(student => student.id !== id)); // تحديث القائمة
+                console.log(`✅ تم حذف الماده ID: ${id}`);
+                toast.success("✅ تمت حذف طالب الماده   !", {
+                    icon: false
+                });
+                getCouress()
+            }
+        } catch (error) {
+            console.error("❌ خطأ في حذف الماده:", error);
+            toast.error("❌ فشل في حذف الماده!", { icon: false }); 
+        }
+    };
+    
+
+    const updateCouressCouress = async (id, CouressData) => {
+        try {
+            console.log("🔍 ID الدورة:", id);
+            console.log("🔍 بيانات الدورة المُرسلة إلى updateCouressCouress:", CouressData);
+            const formattedData = {
+                name: CouressData.name,
+                doctor_id: CouressData.doctor_id,
+                year_study: CouressData.year_study,
+                Path_of_video: CouressData.Path_of_video,
+                student_st_year: CouressData. student_st_year,
+            };
+    
+            const response = await axios.put(`${API_URL}/course/${id}/edit`, formattedData, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+    
+            console.log("✅ تم تحديث بيانات الطالب:", response.data);
+            getCouress(); // تحديث القائمة بعد التعديل
+           // ✅ ضع التوست هنا فقط
+            toast.success("✅ تم تحديث بيانات الطالب بنجاح!", { icon: false });
+        } catch (error) {
+            console.error("❌ خطأ في تحديث بيانات الطالب:", error.response?.data || error);
+            // throw error;
+            toast.error("⚠️ حدث خطأ أثناء التحديث، تأكد من صحة البيانات!");
+        }
+    };
+    
+
+
+
+
+
+
+///////// couress/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////// doctors/////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -536,27 +637,17 @@ const updateAssistant = async (id, assistantData) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     useEffect(() => {
     getDoctors();
     getAdmins();
     getExams();
     getAssistant();
     getstudents()
+    getCouress()
     }, []);
 
     return (
-    <DataContext.Provider value={{ doctors, admins,students, loading, error,exams,assistants,doctorsCount,assistantsCount,adminsCount,StudentCount,getDoctors, createDoctor, getAdmins,createAdmin,getExams,createExams,getAssistant,createAssistant,createstudents,handleDeleteExam,handleDeleteStudent,handleDeleteAssistant,handleDeleteAdmin,handleDeleteDoctor,updateExam,updateAssistant,updateAdmin,updateDoctor,updatestudents }}>
+    <DataContext.Provider value={{ doctors,courses, admins,students, loading, error,exams,assistants,doctorsCount,assistantsCount,adminsCount,StudentCount,CoursesCount,getDoctors,createCouress,createDoctor, getAdmins,getCouress,createAdmin,getExams,createExams,getAssistant,createAssistant,createstudents,handleDeleteExam,handleDeleteCouress,handleDeleteStudent,handleDeleteAssistant,handleDeleteAdmin,handleDeleteDoctor,updateExam,updateAssistant,updateAdmin,updateDoctor,updatestudents,updateCouressCouress }}>
         {children}
     </DataContext.Provider>
     );
