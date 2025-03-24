@@ -9,18 +9,18 @@ import{useData} from '../DataContext/DataContext '
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
 export default function Home() {
-  const { doctorsCount, assistantsCount, adminsCount } = useData();
+  const { doctorsCount, assistantsCount, adminsCount,StudentCount } = useData();
   const [stats, setStats] = useState([]);
 
   useEffect(() => {
     setStats([
-      { icon: <FaUserGraduate />, label: "الطلاب", value: "30", color: "text-pink-500" },
+      { icon: <FaUserGraduate />, label: "الطلاب", value: StudentCount, color: "text-pink-500" },
       { icon: <FaChalkboardTeacher />, label: "الأساتذة", value: doctorsCount, color: "text-yellow-500" },
       { icon: <GiTeacher />, label: "المعدين", value: assistantsCount, color: "text-yellow-500" },
       { icon: <FaBookOpen />, label: "الدورات", value: "50", color: "text-green-500" },
       { icon: <FaUserTie />, label: "المشرفين", value: adminsCount, color: "text-blue-500" },
     ]);
-  }, [doctorsCount, assistantsCount, adminsCount]);
+  }, [doctorsCount, assistantsCount, adminsCount,StudentCount]);
 
   const barData = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],

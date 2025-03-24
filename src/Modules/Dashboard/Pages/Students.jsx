@@ -1,39 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-
+import {useData} from'../DataContext/DataContext '
+import { ToastContainer } from "react-toastify";
 export default function Students() {
-  const [data, setData] = useState([]);
-  const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!token) {
-        console.error("No token found!");
-        return;
+   const { students, loading, error,handleDeleteStudent} = useData(); // جلب البيانات من الـ context
+  
+      useEffect(() => {
+      console.log("📢 بيانات الأطباء:", students);
+      }, [students]);
+      if (error) return <p className="text-center text-red-500">حدث خطأ: {error}</p>;
+      if (!Array.isArray(students)) {
+      return <p className="text-center text-red-500">البيانات غير صحيحة</p>;
       }
+  
 
-      try {
-        const res = await axios.get("https://ishraaq.up.railway.app/api/students", {
-          headers: { "Authorization": `Bearer ${token}` }
-        });
 
-        if (res.data && Array.isArray(res.data.students)) {
-          setData(res.data.students);
-        } else {
-          console.error("Unexpected response structure:", res.data);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
 
-    fetchData();
-  }, [token]);
 
   return (
     <div className='w-full p-6 rounded-lg space-y-6'>
+      <ToastContainer position="top-right" autoClose={3000}  />
       <div className='flex justify-between items-center'>
         <h2 className='text-2xl font-semibold text-gray-800'>الطلاب</h2>
         <Link to="/dashboard/students/AddStudents">  
@@ -57,25 +45,34 @@ export default function Students() {
           </tr>
         </thead>
         <tbody>
-          {data.length > 0 ? (
-            data.map((item, index) => (
+          {students.length > 0 ? (
+            students.map((student, index) => (
               <tr key={index} className='border-b border-gray-300 hover:bg-gray-100 transition'>
-                <td className='p-3'>{item.name || "غير متوفر"}</td>
-                <td className='p-3'>{item.phone_number || "غير متوفر"}</td>
-                <td className='p-3'>{item.birth_of_date || "غير متوفر"}</td>
-                <td className='p-3'>{item.year_study || "غير متوفر"}</td>
-                <td className='p-3'>{item.gender || "غير متوفر"}</td>
-                <td className='p-3'>{item.address || "غير متوفر"}</td>
-                <td className='p-3'>{item.email || "غير متوفر"}</td>
-                <td className='p-3 flex gap-x-4 justify-center'>
-                  <Link to={`/dashboard/students/edit/${item.id}`}>
-                    <button className='text-blue-500 hover:text-blue-700 transition'>
-                      <FaEdit className='text-lg' />
-                    </button>
-                  </Link>
-                  <button className='text-red-500 hover:text-red-700 transition'>
-                    <FaTrash className='text-lg' />
+                <td className='p-3'>{student.name || "غير متوفر"}</td>
+                <td className='p-3'>{student.phone_number || "غير متوفر"}</td>
+                <td className='p-3'>{student.birth_of_date || "غير متوفر"}</td>
+                <td className='p-3'>{student.year_study || "غير متوفر"}</td>
+                <td className='p-3'>{student.gender || "غير متوفر"}</td>
+                <td className='p-3'>{student.address || "غير متوفر"}</td>
+                <td className='p-3'>{student.email || "غير متوفر"}</td>
+                <td className='p-3 flex gap-x-4 justify-center' style={{alignItems:"baseline"}}>
+                <Link to="/dashboard/students/AddStudents" state={{ student }} >
+                  <button className="text-blue-500 hover:text-blue-700 transition">
+                  <FaEdit className="text-lg" />
                   </button>
+                </Link>
+
+            <button
+            className='text-red-500 hover:text-red-700 transition'
+            onClick={() => {
+              console.log("Student ID:", student.id); // فحص الـ ID قبل الإرسال
+              handleDeleteStudent(student.id);
+            }}
+            
+            >
+              <FaTrash className='text-lg' />
+            </button>
+
                 </td>
               </tr>
             ))

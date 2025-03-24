@@ -6,20 +6,131 @@
 
     export function DataProvider({ children }) {
     const [doctors, setDoctors] = useState([]);
+    const [students, setStudents] = useState([]);
     const [assistants, Setassistants] = useState([]);
     const [admins, setAdmins] = useState([]);
     const [exams, setExams] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
     // count//////////////////////////////////////////////////////
     const [doctorsCount, SetdoctorsCount] = useState(0);
     const [assistantsCount, SetAssistantsCount] = useState(0);
     const [adminsCount, SetAdminsCount] = useState(0);
-    
-/////// doctors/////////////////////////////////////////////////////////////////////////////////////////
+    const [StudentCount, setStudentCount] = useState(0);
+    //////////////////////
     // ✅ رابط الـ API
     const API_URL = "https://ishraaq.up.railway.app/api";
     const token = localStorage.getItem("token");
+    /////////////////////////
+
+    //// students/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ✅ جلب قائمة طالب باستخدام Axios
+    const getstudents = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`${API_URL}/students`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            });
+            console.log("📢 البيانات المستلمة من API:", response.data); // ✅ تحقق من البيانات المستلمة
+            if (response.data && Array.isArray(response.data.students)) {
+                setStudents(response.data.students); // ✅ استخدم المصفوفة فقط
+                setStudentCount(response.data.student_count)
+            } else {
+            console.error("❌ البيانات المستلمة غير صحيحة!", response.data);
+            setStudents([]); // تجنب الأخطاء بوضع مصفوفة فارغة
+            }
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+        };
+
+        const createstudents = async (studentsdata) => {
+            try {
+                const response = await axios.post(`${API_URL}/student/create`, studentsdata, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                });
+        
+                console.log("تمت إضافة طالب:", response.data);
+                setStudents((prev) => [...prev, response.data]); // تحديث القائمة مباشرة
+                getstudents()
+                return response.data;
+            } catch (error) {
+                console.error("خطأ في إنشاء طالب:", error);
+                throw error; // إعادة الخطأ لمعالجته في الواجهة
+            }
+        }
+    
+        const handleDeleteStudent = async (id) => {
+            try {
+                const response = await axios.delete(`${API_URL}/student/${id}/delete`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+        
+                if (response.status === 200) {
+                    // setDoctors(prev => prev.filter(student => student.id !== id)); // تحديث القائمة
+                    console.log(`✅ تم حذف طالب ID: ${id}`);
+                    toast.success("✅ تمت حذف طالب بنجاح   !", {
+                        icon: false
+                    });
+                    getstudents()
+                }
+            } catch (error) {
+                console.error("❌ خطأ في حذف طالب:", error);
+                toast.error("❌ فشل في حذف طالب!", { icon: false }); 
+            }
+        };
+        
+
+        const updatestudents = async (id, studentsData) => {
+            try {
+                const formattedData = {
+                    name: studentsData.name,
+                    phone_number: studentsData.phone_number,
+                    birth_of_date: studentsData.birth_of_date,
+                    email: studentsData.email,
+                    gender: studentsData.gender,
+                    address: studentsData.address,
+                    year_study: studentsData.year_study
+                };
+        
+                const response = await axios.put(`${API_URL}/student/${id}/edit`, formattedData, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+        
+                console.log("✅ تم تحديث بيانات الطالب:", response.data);
+                getstudents(); // تحديث القائمة بعد التعديل
+               // ✅ ضع التوست هنا فقط
+                toast.success("✅ تم تحديث بيانات الطالب بنجاح!", { icon: false });
+            } catch (error) {
+                console.error("❌ خطأ في تحديث بيانات الطالب:", error.response?.data || error);
+                // throw error;
+                toast.error("⚠️ حدث خطأ أثناء التحديث، تأكد من صحة البيانات!");
+            }
+        };
+        
+
+
+
+
+
+
+
+///////// students/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////// doctors/////////////////////////////////////////////////////////////////////////////////////////
+
 
     // ✅ جلب قائمة دكتور باستخدام Axios
     const getDoctors = async () => {
@@ -65,6 +176,9 @@
             throw error; // إعادة الخطأ لمعالجته في الواجهة
         }
     }
+
+
+
     const handleDeleteDoctor = async (id) => {
         try {
             const response = await axios.delete(`${API_URL}/doctor/${id}/delete`, {
@@ -208,8 +322,6 @@ const updateAdmin = async (id, AdminData) => {
         throw error;
     }
 };
-
-
 // admins////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Exams////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const getExams = async () => {
@@ -332,7 +444,7 @@ const getAssistant = async () => {
             },
         });
 
-        console.log("📢 البيانات المستلمة من API:", response.data);
+        // console.log("📢 البيانات المستلمة من API:", response.data);
 
         // استخراج المصفوفة فقط
         if (response.data && Array.isArray(response.data.assistants)) {
@@ -440,10 +552,11 @@ const updateAssistant = async (id, assistantData) => {
     getAdmins();
     getExams();
     getAssistant();
+    getstudents()
     }, []);
 
     return (
-    <DataContext.Provider value={{ doctors, admins, loading, error,exams,assistants,doctorsCount,assistantsCount,adminsCount, getDoctors, createDoctor, getAdmins,createAdmin,getExams,createExams,getAssistant,createAssistant,handleDeleteExam,handleDeleteAssistant,handleDeleteAdmin,handleDeleteDoctor,updateExam,updateAssistant,updateAdmin,updateDoctor }}>
+    <DataContext.Provider value={{ doctors, admins,students, loading, error,exams,assistants,doctorsCount,assistantsCount,adminsCount,StudentCount,getDoctors, createDoctor, getAdmins,createAdmin,getExams,createExams,getAssistant,createAssistant,createstudents,handleDeleteExam,handleDeleteStudent,handleDeleteAssistant,handleDeleteAdmin,handleDeleteDoctor,updateExam,updateAssistant,updateAdmin,updateDoctor,updatestudents }}>
         {children}
     </DataContext.Provider>
     );
