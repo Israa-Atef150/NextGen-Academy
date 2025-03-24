@@ -1,6 +1,6 @@
 export default function InstituteSection() {
   return (
-    <div id="instituteSection" className="bg-orange-100 py-10 px-5 md:px-20">
+    <div id="instituteSection" className=" py-10 px-5 md:px-20" style={{background:"#f7f7f7"}}>
       {/* العنوان الرئيسي */}
       <h1 className="text-4xl font-bold text-orange-500 text-center mb-6">معهدنا</h1>
       
@@ -38,7 +38,7 @@ export default function InstituteSection() {
       </div>
       
       {/* معلومات إضافية */}
-      <div className="bg-orange-500 text-white rounded-xl p-6 mt-10 shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
+      <div className="text-white rounded-xl p-6 mt-10 shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl" style={{background:"#929292"}}>
         <h3 className="text-xl font-semibold mb-4">لماذا تختار معهدنا؟</h3>
         <ul className="list-disc pr-5">
           <li className="mb-2">تخريج الكوادر العلمية القادرة على تصميم وبرمجة وصيانة وتشغيل نظم الحاسبات والمعلومات.</li>

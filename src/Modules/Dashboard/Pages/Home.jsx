@@ -9,7 +9,7 @@ import{useData} from '../DataContext/DataContext '
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
 export default function Home() {
-  const { doctorsCount, assistantsCount, adminsCount,StudentCount } = useData();
+  const { doctorsCount, assistantsCount, adminsCount,StudentCount,CoursesCount } = useData();
   const [stats, setStats] = useState([]);
 
   useEffect(() => {
@@ -17,10 +17,10 @@ export default function Home() {
       { icon: <FaUserGraduate />, label: "الطلاب", value: StudentCount, color: "text-pink-500" },
       { icon: <FaChalkboardTeacher />, label: "الأساتذة", value: doctorsCount, color: "text-yellow-500" },
       { icon: <GiTeacher />, label: "المعدين", value: assistantsCount, color: "text-yellow-500" },
-      { icon: <FaBookOpen />, label: "الدورات", value: "50", color: "text-green-500" },
+      { icon: <FaBookOpen />, label: "الدورات", value: CoursesCount, color: "text-green-500" },
       { icon: <FaUserTie />, label: "المشرفين", value: adminsCount, color: "text-blue-500" },
     ]);
-  }, [doctorsCount, assistantsCount, adminsCount,StudentCount]);
+  }, [doctorsCount, assistantsCount, adminsCount,StudentCount,CoursesCount]);
 
   const barData = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
@@ -28,12 +28,12 @@ export default function Home() {
   };
 
   const doughnutData = {
-    labels: ["Search Engine", "Social Post", "Paid Ads", "Referral Link", "Direct Link", "Other Source"],
-    datasets: [{ data: [40, 15, 10, 10, 15, 10], backgroundColor: ["#22C55E", "#6366F1", "#FBBF24", "#EC4899", "#F97316", "#A855F7"] }],
+    labels: ["Search Engine", "Social Post", "Paid Ads",  "Direct Link", "Other Source"],
+    datasets: [{ data: [6, 5, 4, 3, 5], backgroundColor: ["#22C55E", "#6366F1", "#FBBF24", "#EC4899", "#F97316", "#A855F7"] }],
   };
 
   return (
-    <div className="containerDashbord">
+    <div className="containerDashbord" style={{display:"flex",flexDirection:"column",gap:"10px"}}>
       <div className="grid-container">
         {stats.map((stat, index) => (
           <div key={index} className="card">
@@ -50,9 +50,16 @@ export default function Home() {
           <h3 className="text-lg font-semibold">Monthly</h3>
           <Bar data={barData} />
         </div>
-        <div className="chart-container" style={{ width: "38%" }}>
+        <div className="chart-container" id="Doughnut" style={{width: "fit-content" }}>
           <h3 className="text-lg font-semibold">Traffic Source</h3>
-          <Doughnut data={doughnutData} />
+          <Doughnut 
+  data={doughnutData} 
+  options={{
+    responsive: true,
+    maintainAspectRatio: false
+  }}
+/>
+
         </div>
       </div>
     </div>
