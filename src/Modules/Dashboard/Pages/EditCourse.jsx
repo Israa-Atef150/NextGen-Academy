@@ -11,6 +11,7 @@ export default function EditCourse() {
     name: "",
     doctor_id: "",
     student_st_year: "",
+    additional_student_st_year: ""
   });
 
   useEffect(() => {
@@ -55,12 +56,12 @@ export default function EditCourse() {
       return;
     }
 
-    if (!course.id) {
+    if (!id) {
       toast.error("لا يمكن تحديث الدورة بدون معرف صحيح.");
       return;
     }
 
-    const apiUrl = `https://ishraaq.up.railway.app/api/Cs/course/${course.id}/edit`;
+    const apiUrl = `https://ishraaq.up.railway.app/api/course/${id}/edit`;
 
     try {
       const response = await axios.put(apiUrl, course, {
@@ -109,6 +110,17 @@ export default function EditCourse() {
             type="text"
             name="student_st_year"
             value={course.student_st_year || ""}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
+        </div>
+
+        <div>
+          <label className="block text-gray-700">السنة الدراسية الإضافية</label>
+          <input
+            type="text"
+            name="additional_student_st_year"
+            value={course.additional_student_st_year || ""}
             onChange={handleChange}
             className="w-full p-2 border rounded"
           />
