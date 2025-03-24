@@ -13,25 +13,32 @@ export default function EditCourse() {
     student_st_year: "",
   });
 
-  // ✅ تصحيح الطلب: استخدام GET بدلًا من PUT لجلب البيانات
   useEffect(() => {
     const fetchCourse = async () => {
-        try {
-            const token = localStorage.getItem('token'); // Or wherever you store it
-            const response = await axios.put(
-                'https://ishraaq.up.railway.app/api/course/18/edit',
-                { /* course data */ },
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                }
-                }
-            );
-            console.log(response.data);
-        } catch (error) {
-            console.error('Error fetching course:', error.response?.data || error.message);
+      try {
+        if (!id) {
+          toast.error("لم يتم تحديد معرف الدورة.");
+          return;
         }
+
+        const response = await axios.get(
+          `https://ishraaq.up.railway.app/api/Cs/course/search?search=${id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        console.log("Course Data:", response.data);
+
+        if (response.data?.courses?.length > 0) {
+          setCourse(response.data.courses[0]);
+        } else {
+          toast.warn("لم يتم العثور على بيانات الدورة.");
+        }
+      } catch (error) {
+        console.error("Error fetching course:", error.response?.data || error.message);
+        toast.error("حدث خطأ أثناء جلب بيانات الدورة.");
+      }
     };
 
     fetchCourse();
@@ -48,22 +55,18 @@ export default function EditCourse() {
       return;
     }
 
-    const apiUrl = `https://ishraaq.up.railway.app/api/course/${id}/edit`;
-    console.log("Updating course at:", apiUrl);
+    if (!course.id) {
+      toast.error("لا يمكن تحديث الدورة بدون معرف صحيح.");
+      return;
+    }
 
-    // ✅ تأكد من أن البيانات تُرسل بالشكل الصحيح
-    const updatedCourseData = {
-      name: course.name,
-      doctor_id: course.doctor_id || "", // اجعل `doctor_id` دائمًا موجودًا
-      student_st_year: course.student_st_year,
-    };
-
-    console.log("Data being sent:", updatedCourseData);
+    const apiUrl = `https://ishraaq.up.railway.app/api/Cs/course/${course.id}/edit`;
 
     try {
-      const response = await axios.put(apiUrl, updatedCourseData, {
+      const response = await axios.put(apiUrl, course, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
       console.log("Update successful:", response.data);
       toast.success("تم تحديث الدورة بنجاح");
     } catch (error) {
@@ -80,17 +83,35 @@ export default function EditCourse() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-gray-700">اسم الدورة</label>
-          <input type="text" name="name" value={course.name} onChange={handleChange} className="w-full p-2 border rounded" />
+          <input
+            type="text"
+            name="name"
+            value={course.name || ""}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
         </div>
 
         <div>
           <label className="block text-gray-700">الدكتور</label>
-          <input type="text" name="doctor_id" value={course.doctor_id} onChange={handleChange} className="w-full p-2 border rounded" />
+          <input
+            type="text"
+            name="doctor_id"
+            value={course.doctor_id || ""}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
         </div>
 
         <div>
           <label className="block text-gray-700">السنة الدراسية</label>
-          <input type="text" name="student_st_year" value={course.student_st_year} onChange={handleChange} className="w-full p-2 border rounded" />
+          <input
+            type="text"
+            name="student_st_year"
+            value={course.student_st_year || ""}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
         </div>
 
         <button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded">
