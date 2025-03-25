@@ -74,8 +74,8 @@
         </div>
 
         {/* الجدول مع التمرير */}
-        <div className="overflow-auto max-h-[800px] border rounded-lg">
-        <table className="w-full border-collapse rounded-lg">
+        <div className="overflow-auto max-h-[760px] border rounded-lg" style={{ direction: 'ltr' }}>
+        <table className="w-full border-collapse rounded-lg" style={{ direction: 'rtl' }}>
             <thead>
             <tr className="bg-orange-500 text-white">
                 <th className="p-3">معرف</th>

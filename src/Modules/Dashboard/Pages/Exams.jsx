@@ -15,14 +15,15 @@
         }, [exams]);
     
         const handleSearch = () => {
-        if (searchQuery.trim() === "") {
-            setFilteredExams(exams);
-        } else {
-            const filtered = exams.filter((exam) =>
-                exam.name.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-            setFilteredExams(filtered);
-        }
+            if (searchQuery.trim() === "") {
+                setFilteredExams(admins);
+            } else {
+                const filtered = exams.filter((exam) =>
+                    exam.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                exam.id.toString().includes(searchQuery) // البحث في المعرف أيضاً
+                );
+                setFilteredExams(filtered);
+            }
         };
     
         const handleKeyDown = (e) => {
@@ -69,10 +70,11 @@
         </Link>
         </div>
             {/* ✅ إضافة Scroll للجدول */}
-        <div className="overflow-auto max-h-[780px] border rounded-lg" style={{ direction: 'ltr' }}>
+        <div className="overflow-auto max-h-[760px] border rounded-lg" style={{ direction: 'ltr' }}>
         <table className='w-full border-collapse rounded-lg'  style={{ direction: 'rtl' }}>
         <thead>
             <tr className='bg-orange-500 text-white'>
+            <th className='p-3'>معرف</th>
             <th className='p-3'>اسم الامتحان</th>
             <th className='p-3'>اسم الماده</th>
             <th className='p-3'>السنه الدراسيه</th>
@@ -84,6 +86,7 @@
             {filteredExams.length > 0 ? (
             filteredExams.map((exam, index) => (
                 <tr key={index} className='border-b border-gray-300 hover:bg-gray-100 transition'>
+                    <td className='p-3' style={{ textAlign: "center" }}>{exam.id}</td>
                     <td className='p-3' style={{ textAlign: "center" }}>{exam.name}</td>
                     <td className='p-3' style={{ textAlign: "center" }}>{exam.course.name}</td>
                 <td className='p-3' style={{ textAlign: "center" }}>{exam.course.year_study}</td>

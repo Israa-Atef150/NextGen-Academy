@@ -3,12 +3,75 @@ import {useData} from '../DataContext/DataContext '
 import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import axios from "axios";
 export default function AddQuestions() {
     const location = useLocation();
     const { state } = useLocation();
     const questionToEdit = state ?? null;
     const { createQuestion, updateQuestion } = useData();
+    const [questionId, setQuestionId] = useState("");
+    const [examId, setExamId] = useState("");
+
+    const sendData = async () => {
+        const token = localStorage.getItem("token");
+    
+        if (!token) {
+            alert("يرجى تسجيل الدخول أولاً");
+            return;
+        }
+    
+        if (!questionId || !examId) {
+            alert("يرجى إدخال جميع البيانات");
+            return;
+        }
+    
+        const url = `https://ishraaq.up.railway.app/api/question/${questionId}/add/exams`;
+    
+        try {
+            const response = await axios.put(url,  // 🔹 تم التغيير من POST إلى PUT
+                { exam: Number(examId) }, 
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            );
+    
+            console.log("Response:", response.data);
+            toast.success("✅ تم اضافة السؤال بنجاح");
+        } catch (error) {
+            console.error("Error:", error);
+            toast.error("⚠️ حدث خطأ أثناء الاضافة!");
+        }
+    };
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     const [questionType, setQuestionType] = useState(questionToEdit?.type || "multiple");
     const [content, setContent] = useState(questionToEdit?.content || '');
@@ -84,6 +147,7 @@ export default function AddQuestions() {
     };
 
     return (
+        <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
         <div className="bg-gray-100 p-6 rounded-lg shadow-md">
             <ToastContainer />
             <h3 className="text-lg font-semibold mb-4 text-right">
@@ -130,6 +194,34 @@ export default function AddQuestions() {
                     {questionToEdit ? "تحديث" : "إضافة"}
                 </button>
             </form>
+        </div>
+        <div className="bg-gray-100 p-6 rounded-lg shadow-md">
+    <h2 className="text-xl font-semibold mb-4">إضافة سؤال داخل الامتحان</h2>
+    <div className="flex flex-col gap-4">
+        <input
+            type="number"
+            className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 text-right"
+            placeholder="أدخل رقم السؤال"
+            value={questionId}
+            onChange={(e) => setQuestionId(e.target.value)}
+        />
+        <input
+            type="number"
+            className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 text-right"
+            placeholder="أدخل رقم الامتحان"
+            value={examId}
+            onChange={(e) => setExamId(e.target.value)}
+        />
+        <button
+            onClick={sendData}
+            className="w-full  text-white py-3 rounded-lg font-semibold transition"
+            style={{background:"rgb(234, 88, 12)"}}
+        >
+            إرسال
+        </button>
+    </div>
+</div>
+
         </div>
     );
 }
