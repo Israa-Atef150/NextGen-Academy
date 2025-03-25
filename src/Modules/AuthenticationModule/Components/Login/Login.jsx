@@ -28,7 +28,6 @@ export default function Login() {
       });
 
       console.log("تم تسجيل الدخول بنجاح:", response.data);
-      alert("تم تسجيل الدخول بنجاح!");
       localStorage.setItem("token", response.data.token);
 
       // التوجيه بناءً على نوع المستخدم
@@ -84,26 +83,12 @@ export default function Login() {
               </div>
 
               <div className="flex items-center justify-between flex-row-reverse">
-                <div className="flex items-start">
-                  <input id="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 dark:bg-gray-700 dark:border-gray-600" />
-                  <label htmlFor="remember" className="mr-3 text-sm text-gray-500 dark:text-gray-300">تذكرني</label>
-                </div>
-                <a href="forgetpass" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
-                  هل نسيت كلمة السر؟
-                </a>
+                
               </div>
 
-              {/* زر تسجيل الدخول */}
-              <button
-                type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                disabled={loading}
-              >
-                {loading ? "جاري تسجيل الدخول..." : "تسجيل دخول"}
-              </button>
-
               {/* اختيار نوع المستخدم */}
-              <div className="flex justify-center space-x-4">
+              <div className="flex  space-x-4" style={{alignItems:"center", justifyContent:"space-between"}}>
+                <div className="buttons" style={{display:"flex",alignContent:"center",gap:"3px"}}>
                 <button
                   type="button"
                   className={`px-4 py-2 rounded-lg ${userType === "student" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
@@ -118,11 +103,21 @@ export default function Login() {
                 >
                   أدمن
                 </button>
+                </div>
+                <div className="flex items-start">
+                  <input id="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 dark:bg-gray-700 dark:border-gray-600" />
+                  <label htmlFor="remember" className="mr-3 text-sm text-gray-500 dark:text-gray-300">تذكرني</label>
+                </div>
               </div>
+              {/* زر تسجيل الدخول */}
+              <button
+                type="submit"
+                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                disabled={loading}
+              >
+                {loading ? "جاري تسجيل الدخول..." : "تسجيل دخول"}
+              </button>
 
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                ليس لديك حساب حتى الآن؟ <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">إنشاء حساب</a>
-              </p>
             </form>
           </div>
         </div>

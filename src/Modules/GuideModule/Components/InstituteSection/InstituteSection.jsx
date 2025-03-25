@@ -38,9 +38,9 @@ export default function InstituteSection() {
       </div>
       
       {/* معلومات إضافية */}
-      <div className="text-white rounded-xl p-6 mt-10 shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl" style={{background:"#929292"}}>
-        <h3 className="text-xl font-semibold mb-4">لماذا تختار معهدنا؟</h3>
-        <ul className="list-disc pr-5">
+      <div className="text-white rounded-xl p-6 mt-10 shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl" style={{background:"#ffff"}}>
+        <h3 className="text-xl font-semibold mb-4" style={{color:"black"}}>لماذا تختار معهدنا؟</h3>
+        <ul className="list-disc pr-5" style={{color:"#4b5563"}}>
           <li className="mb-2">تخريج الكوادر العلمية القادرة على تصميم وبرمجة وصيانة وتشغيل نظم الحاسبات والمعلومات.</li>
           <li className="mb-2">لمساهمة في استيعاب وتطوير تكنولوجيا العصر.</li>
           <li className="mb-2">الإسهام في تنمية المجتمع وتطوير أساليب الخدمات والإنتاج.</li>

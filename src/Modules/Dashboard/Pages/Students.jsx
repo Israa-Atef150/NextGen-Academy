@@ -1,26 +1,66 @@
-import React, { useEffect } from "react";
-import {useData} from '../DataContext/DataContext '
-import { FaEdit, FaTrash } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import {useData} from '../DataContext/DataContext '
 
 export default function Students() {
-  const { students, error, handleDeleteStudent } = useData(); // جلب البيانات من الـ context
+  const { students, error, handleDeleteStudent } = useData();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredStudents, setFilteredStudents] = useState(students);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  // useEffect(() => {
-  //   console.log("📢 بيانات الطلاب:", students);
-  // }, [students]);
+  useEffect(() => {
+    setFilteredStudents(students);
+  }, [students]);
 
-  if (error) return <p className="text-center text-red-500">حدث خطأ: {error}</p>;
-  if (!Array.isArray(students)) return <p className="text-center text-red-500">البيانات غير صحيحة</p>;
+  const handleSearch = () => {
+    if (searchQuery.trim() === "") {
+      setFilteredStudents(students);
+    } else {
+        const filtered = students.filter((student) =>
+          student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        student.id.toString().includes(searchQuery) // البحث في المعرف أيضاً
+        );
+        setFilteredStudents(filtered);
+    }
+};
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(); // تنفيذ البحث عند الضغط على Enter
+      setIsExpanded(false); // إغلاق مربع البحث بعد البحث
+    }
+  };
 
   return (
     <div className="w-full p-6 rounded-lg space-y-6">
       <ToastContainer position="top-right" autoClose={3000} />
-      
+
       {/* العنوان + زر الإضافة */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-semibold text-gray-800">الطلاب</h2>
+
+        <div className="relative flex justify-center">
+          <div
+            className={`flex items-center border border-gray-300 rounded-full transition-all duration-300 ${
+              isExpanded ? "w-72 pl-4 pr-2" : "w-16 h-10 justify-center"
+            } overflow-hidden`}
+            onClick={() => setIsExpanded(true)}
+          >
+            <FaSearch className="text-gray-500 cursor-pointer" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="ابحث عن طالب..."
+              className={`transition-all duration-300 outline-none px-3 py-2 bg-transparent text-lg ${
+                isExpanded ? "w-full" : "w-0"
+              }`}
+            />
+          </div>
+        </div>
+
         <Link to="/dashboard/students/AddStudents">
           <button className="bg-orange-500 py-3 px-5 text-white rounded-xl">
             إضافة الطلاب
@@ -33,6 +73,7 @@ export default function Students() {
         <table className="w-full border-collapse rounded-lg" style={{ direction: "rtl" }}>
           <thead>
             <tr className="bg-orange-500 text-white">
+              <th className="p-3 text-center">معرف</th>
               <th className="p-3 text-center">الاسم</th>
               <th className="p-3 text-center">رقم الهاتف</th>
               <th className="p-3 text-center">تاريخ الميلاد</th>
@@ -44,9 +85,10 @@ export default function Students() {
             </tr>
           </thead>
           <tbody>
-            {students.length > 0 ? (
-              students.map((student, index) => (
+            {filteredStudents.length > 0 ? (
+              filteredStudents.map((student, index) => (
                 <tr key={index} className="border-b border-gray-300 hover:bg-gray-100 transition">
+                  <td className="p-3 text-center">{student.id || "غير متوفر"}</td>
                   <td className="p-3 text-center">{student.name || "غير متوفر"}</td>
                   <td className="p-3 text-center">{student.phone_number || "غير متوفر"}</td>
                   <td className="p-3 text-center">{student.birth_of_date || "غير متوفر"}</td>

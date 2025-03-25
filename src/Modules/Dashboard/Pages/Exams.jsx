@@ -1,12 +1,36 @@
-    import React, { useContext, useEffect } from 'react';
+    import React, { useState, useEffect } from "react";
     import {useData}from'../DataContext/DataContext '
-    import { FaEdit, FaTrash } from 'react-icons/fa';
+    import { FaEdit, FaTrash,FaSearch } from "react-icons/fa";
     import { Link } from 'react-router-dom';
     import { ToastContainer } from "react-toastify";
     export default function Exams() {
     // الوصول إلى البيانات من DataContext باستخدام useData
     const { exams, loading, error,handleDeleteExam } = useData();
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filteredExams, setFilteredExams] = useState(exams);
+    const [isExpanded, setIsExpanded] = useState(false);
 
+    useEffect(() => {
+        setFilteredExams(exams);
+        }, [exams]);
+    
+        const handleSearch = () => {
+        if (searchQuery.trim() === "") {
+            setFilteredExams(exams);
+        } else {
+            const filtered = exams.filter((exam) =>
+                exam.name.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            setFilteredExams(filtered);
+        }
+        };
+    
+        const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            handleSearch(); // تنفيذ البحث عند الضغط على Enter
+            setIsExpanded(false); // إغلاق مربع البحث بعد البحث
+        }
+        };
     // عرض حالة التحميل أو الخطأ
     if (loading) return <p className="text-center text-gray-500">جارٍ تحميل البيانات...</p>;
     if (error) return <p className="text-center text-red-500">حدث خطأ: {error}</p>;
@@ -14,8 +38,30 @@
     return (
     <div className='w-full p-6 rounded-lg space-y-6'>
             <ToastContainer position="top-right" autoClose={3000}  />
-        <div className='flex justify-between items-center'>
-        <h2 className='text-2xl font-semibold text-gray-800'>الامتحانات</h2>
+         {/* العنوان + زر الإضافة */}
+            <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-semibold text-gray-800">الامتحانات</h2>
+    
+            <div className="relative flex justify-center">
+                <div
+                className={`flex items-center border border-gray-300 rounded-full transition-all duration-300 ${
+                    isExpanded ? "w-72 pl-4 pr-2" : "w-16 h-10 justify-center"
+                } overflow-hidden`}
+                onClick={() => setIsExpanded(true)}
+                >
+                <FaSearch className="text-gray-500 cursor-pointer" />
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="ابحث عن امتحان..."
+                    className={`transition-all duration-300 outline-none px-3 py-2 bg-transparent text-lg ${
+                    isExpanded ? "w-full" : "w-0"
+                    }`}
+                />
+                </div>
+            </div>
         <Link to={'/dashboard/Exams/AddExams'}>
             <button className='bg-orange-500 py-3 px-5 text-white rounded-xl'>
             اضافة الامتحانات
@@ -35,8 +81,8 @@
             </tr>
         </thead>
         <tbody>
-            {exams.length > 0 ? (
-            exams.map((exam, index) => (
+            {filteredExams.length > 0 ? (
+            filteredExams.map((exam, index) => (
                 <tr key={index} className='border-b border-gray-300 hover:bg-gray-100 transition'>
                     <td className='p-3' style={{ textAlign: "center" }}>{exam.name}</td>
                     <td className='p-3' style={{ textAlign: "center" }}>{exam.course.name}</td>

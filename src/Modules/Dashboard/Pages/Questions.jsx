@@ -1,19 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { useData } from '../DataContext/DataContext '
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash,FaSearch } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 
 export default function Questions() {
 const { questions, error, handleDeletegetQuestions } = useData();
+const [searchQuery, setSearchQuery] = useState("");
+const [filteredQuestions, setFilteredQuestions] = useState(questions);
+const [isExpanded, setIsExpanded] = useState(false);
 
+useEffect(() => {
+    setFilteredQuestions(questions);
+    }, [questions]);
+
+    const handleSearch = () => {
+        if (searchQuery.trim() === "") {
+            setFilteredQuestions(questions);
+        } else {
+            const filtered = questions.filter((question) =>
+                question.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                question.id.toString().includes(searchQuery) // البحث في المعرف أيضاً
+            );
+            setFilteredQuestions(filtered);
+        }
+    };
+    
+
+    const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+        handleSearch(); // تنفيذ البحث عند الضغط على Enter
+        setIsExpanded(false); // إغلاق مربع البحث بعد البحث
+    }
+    };
 if (error) return <p className="text-center text-red-500">حدث خطأ: {error}</p>;
 
 return (
 <div className='w-full p-6 rounded-lg space-y-6'>
     <ToastContainer position="top-right" autoClose={3000} />
-    <div className='flex justify-between items-center'>
-        <h2 className='text-2xl font-semibold text-gray-800'>الاسئله</h2>
+    {/* العنوان + زر الإضافة */}
+    <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-semibold text-gray-800">الاسئله</h2>
+    
+            <div className="relative flex justify-center">
+                <div
+                className={`flex items-center border border-gray-300 rounded-full transition-all duration-300 ${
+                    isExpanded ? "w-72 pl-4 pr-2" : "w-16 h-10 justify-center"
+                } overflow-hidden`}
+                onClick={() => setIsExpanded(true)}
+                >
+                <FaSearch className="text-gray-500 cursor-pointer" />
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="ابحث عن سؤال..."
+                    className={`transition-all duration-300 outline-none px-3 py-2 bg-transparent text-lg ${
+                    isExpanded ? "w-full" : "w-0"
+                    }`}
+                />
+                </div>
+            </div>
         <Link to={'/dashboard/Questions/AddQuestions'}>
             <button className='bg-orange-500 py-3 px-5 text-white rounded-xl'>
                 اضافة الاسئله
@@ -32,8 +80,8 @@ return (
                 </tr>
             </thead>
             <tbody>
-                {questions.length > 0 ? (
-                    questions.map((question, index) => (
+                {filteredQuestions.length > 0 ? (
+                    filteredQuestions.map((question, index) => (
                         <tr key={index} className='border-b border-gray-300 hover:bg-gray-100 transition'>
                             <td className='p-3' style={{ textAlign: "center" }}>{question.id}</td>
                             <td className='p-3' style={{ textAlign: "center" }}>{question.content || 'غير متوفر'}</td>
