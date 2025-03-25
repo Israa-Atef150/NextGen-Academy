@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
+import { FaEdit, FaTrash, FaSearch,FaFileExcel } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import {useData} from '../DataContext/DataContext '
-
+import * as XLSX from "xlsx"; // 📂 استيراد مكتبة Excel
 export default function Students() {
   const { students, error, handleDeleteStudent } = useData();
   const [searchQuery, setSearchQuery] = useState("");
@@ -31,6 +31,26 @@ export default function Students() {
       setIsExpanded(false); // إغلاق مربع البحث بعد البحث
     }
   };
+
+  const exportToExcel = () => {
+  const worksheet = XLSX.utils.json_to_sheet(
+    filteredStudents.map((student) => ({
+      "معرف": student.id,
+      "الاسم": student.name,
+      "رقم الهاتف": student.phone_number || "غير متوفر",
+      "تاريخ الميلاد": student.birth_of_date || "غير متوفر",
+      "السنة الدراسية": student.year_study || "غير متوفر",
+      "النوع": student.gender || "غير متوفر",
+      "العنوان": student.address || "غير متوفر",
+      "الإيميل": student.email || "غير متوفر",
+    }))
+  );
+
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Students");
+  XLSX.writeFile(workbook, "students_list.xlsx"); // ✅ تصحيح اسم الملف
+    };
+
 
   return (
     <div className="w-full p-6 rounded-lg space-y-6">
@@ -60,14 +80,17 @@ export default function Students() {
             />
           </div>
         </div>
-
+        <div className="flex gap-4">
         <Link to="/dashboard/students/AddStudents">
           <button className="bg-orange-500 py-3 px-5 text-white rounded-xl">
             إضافة الطلاب
           </button>
         </Link>
+            <button onClick={exportToExcel} className="bg-green-500 flex items-center py-3 px-5 text-white rounded-xl">
+            <FaFileExcel className="ml-2" /> تصدير إلى Excel
+            </button>
       </div>
-
+      </div>
       {/* الجدول مع التمرير */}
       <div className="overflow-auto max-h-[760px] border rounded-lg" style={{ direction: 'ltr' }}>
         <table className="w-full border-collapse rounded-lg" style={{ direction: "rtl" }}>

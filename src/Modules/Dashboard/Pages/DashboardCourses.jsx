@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { FaEdit, FaTrash,FaSearch } from "react-icons/fa";
+import { FaEdit, FaTrash, FaSearch,FaFileExcel } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import {useData} from '../DataContext/DataContext '
 import { ToastContainer } from "react-toastify";
-
+import * as XLSX from "xlsx"; // 📂 استيراد مكتبة Excel
 export default function DashboardCourses() {
   const { courses, error, handleDeleteCouress } = useData(); // جلب البيانات من الـ context
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,6 +35,26 @@ export default function DashboardCourses() {
       }
       };
 
+      const exportToExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(
+          filteredCourses.map((course) => ({
+            "معرف": course.id,
+            "اسم الدورة": course.name,
+            "الدكتور": course.doctor?.name || "غير متوفر",
+            "المعيد": course.assistants?.map((assistant) => assistant.name).join(" , ") || "غير متوفر",
+            "السنة الدراسية": course.year_study || "غير متوفر",
+          }))
+        );
+      
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Courses");
+        XLSX.writeFile(workbook, "courses_list.xlsx"); // ✅ تغيير اسم الملف
+      };
+      
+
+
+
+      
   if (error) return <p className="text-center text-red-500">حدث خطأ: {error}</p>;
   if (!Array.isArray(courses)) return <p className="text-center text-red-500">البيانات غير صحيحة</p>;
 
@@ -66,11 +86,16 @@ export default function DashboardCourses() {
             />
             </div>
         </div>
+        <div className="flex gap-4">
         <Link to="/dashboard/courses/AddCourses">
           <button className="bg-orange-500 py-3 px-5 text-white rounded-xl hover:bg-orange-600 transition">
             إضافة الدورات
           </button>
         </Link>
+        <button onClick={exportToExcel} className="bg-green-500 flex items-center py-3 px-5 text-white rounded-xl">
+        <FaFileExcel className="ml-2" /> تصدير إلى Excel
+        </button>
+      </div>
       </div>
 
       {/* الجدول مع التمرير */}

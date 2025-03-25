@@ -51,28 +51,6 @@ export default function AddQuestions() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     const [questionType, setQuestionType] = useState(questionToEdit?.type || "multiple");
     const [content, setContent] = useState(questionToEdit?.content || '');
     const [answers, setAnswers] = useState(questionToEdit?.answers || [

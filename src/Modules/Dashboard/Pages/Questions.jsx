@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useData } from '../DataContext/DataContext '
-import { FaEdit, FaTrash,FaSearch } from "react-icons/fa";
+import { FaEdit, FaTrash, FaSearch,FaFileExcel } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
-
+import * as XLSX from "xlsx"; // 📂 استيراد مكتبة Excel
 export default function Questions() {
 const { questions, error, handleDeletegetQuestions } = useData();
 const [searchQuery, setSearchQuery] = useState("");
@@ -35,6 +35,21 @@ useEffect(() => {
     };
 if (error) return <p className="text-center text-red-500">حدث خطأ: {error}</p>;
 
+const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(
+        filteredQuestions.map((question) => ({
+        "معرف السؤال": question.id,
+        "محتوى السؤال": question.content || "غير متوفر",
+        "الإجابة الصحيحة": question.correct_answer?.content || "غير متوفر",
+        "الإجابات": question.answers?.map((answer) => answer.content).join(" , ") || "غير متوفر",
+        }))
+    );
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Questions");
+    XLSX.writeFile(workbook, "questions_list.xlsx");
+    };
+
 return (
 <div className='w-full p-6 rounded-lg space-y-6'>
     <ToastContainer position="top-right" autoClose={3000} />
@@ -62,11 +77,16 @@ return (
                 />
                 </div>
             </div>
+            <div className="flex gap-4">
         <Link to={'/dashboard/Questions/AddQuestions'}>
             <button className='bg-orange-500 py-3 px-5 text-white rounded-xl'>
                 اضافة الاسئله
             </button>
         </Link>
+        <button onClick={exportToExcel} className="bg-green-500 flex items-center py-3 px-5 text-white rounded-xl">
+        <FaFileExcel className="ml-2" /> تصدير إلى Excel
+        </button>
+    </div>
     </div>
     <div className="overflow-auto max-h-[760px] border rounded-lg" style={{ direction: 'ltr' }}>
         <table className='w-full border-collapse rounded-lg' style={{ direction: 'rtl' }}>
