@@ -6,9 +6,9 @@
     export default function Docters() {
     const { doctors, loading, error,handleDeleteDoctor} = useData(); // جلب البيانات من الـ context
 
-    useEffect(() => {
-    console.log("📢 بيانات الأطباء:", doctors);
-    }, [doctors]);
+    // useEffect(() => {
+    // console.log("📢 بيانات الأطباء:", doctors);
+    // }, [doctors]);
 
 
     if (loading) return <p className="text-center text-gray-600">جاري تحميل البيانات...</p>;

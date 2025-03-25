@@ -7,9 +7,9 @@ import { ToastContainer } from "react-toastify";
 export default function DashboardCourses() {
   const { courses, error, handleDeleteCouress } = useData(); // جلب البيانات من الـ context
 
-  useEffect(() => {
-    console.log("📢 بيانات الدورات:", courses);
-  }, [courses]);
+  // useEffect(() => {
+  //   console.log("📢 بيانات الدورات:", courses);
+  // }, [courses]);
 
   if (error) return <p className="text-center text-red-500">حدث خطأ: {error}</p>;
   if (!Array.isArray(courses)) return <p className="text-center text-red-500">البيانات غير صحيحة</p>;
@@ -23,7 +23,7 @@ export default function DashboardCourses() {
         <h2 className="text-2xl font-semibold text-gray-800">الدورات</h2>
         <Link to="/dashboard/courses/AddCourses">
           <button className="bg-orange-500 py-3 px-5 text-white rounded-xl hover:bg-orange-600 transition">
-            إضافة دورة
+            إضافة الدورات
           </button>
         </Link>
       </div>

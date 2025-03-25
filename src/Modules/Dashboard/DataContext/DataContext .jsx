@@ -10,6 +10,7 @@
     const [assistants, Setassistants] = useState([]);
     const [admins, setAdmins] = useState([]);
     const [exams, setExams] = useState([]);
+    const [questions, setQuestions] = useState([]);
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -61,12 +62,10 @@
                 });
         
                 console.log("تمت إضافة طالب:", response.data);
-                setStudents((prev) => [...prev, response.data]); // تحديث القائمة مباشرة
-                getstudents()
-                return response.data;
+            //    تحديث القائمة مباشرة
+            getstudents()
             } catch (error) {
                 console.error("خطأ في إنشاء طالب:", error);
-                throw error; // إعادة الخطأ لمعالجته في الواجهة
             }
         }
     
@@ -162,9 +161,7 @@ const getCouress = async () => {
             });
     
             console.log("✅ تم إنشاء الدورة:", response.data);
-            setCourses((prev) => [...prev, response.data.course]); // تحديث القائمة مباشرة
-    
-            return response.data;
+            getCouress()
         } catch (error) {
             console.error("❌ خطأ في إنشاء الدورة:", error.response?.data || error);
             throw error;
@@ -534,6 +531,116 @@ const updateExam = async (id, examsData) => {
 
 // Exams////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// questions////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const getquestions = async () => {
+    setLoading(true);
+    try {
+        const response = await axios.get(`${API_URL}/questions`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+        console.log("📢 البيانات المستلمة من API:", response.data);
+
+        // استخدام exams بدلًا من users
+        if (response.data && Array.isArray(response.data.questions)) {
+            setQuestions(response.data.questions); 
+        } else {
+            console.error("❌ البيانات المستلمة غير صحيحة!", response.data);
+            setQuestions([]); // تجنب الأخطاء بمصفوفة فارغة
+        }
+    } catch (err) {
+        setError(err.message);
+    } finally {
+        setLoading(false);
+    }
+};
+const handleDeletegetQuestions= async (id) => {
+    try {
+        const response = await axios.delete(`${API_URL}/question/${id}/delete`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (response.status === 200) {
+            setQuestions(prev => prev.filter(exam => exam.id !== id));
+            console.log(`✅ تم حذف الامتحان ID: ${id}`);
+            toast.success("✅ تمت حذف الامتحان بنجاح   !", {
+                icon: false
+            });
+        }
+    } catch (error) {
+        console.error("❌ خطأ في حذف الامتحان:", error);
+        toast.error("❌ فشل في حذف الامتحان!", { icon: false }); 
+    }
+};
+
+
+
+
+const createQuestion = async (QuestionData) => {
+    try {
+        const formattedData = {
+            content: QuestionData.content, // ✅ تأكد من إرسال هذا الحقل
+            answers: QuestionData.answers.map(answer => ({ content: answer.content })),
+            correct_answer_content: QuestionData.correct_answer_content
+        };
+        const response = await axios.post(`${API_URL}/question/create`, formattedData, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        console.log("✅ تمت إضافة سؤال:", response.data);
+        getquestions()
+    } catch (error) {
+        console.error("❌ خطأ في إنشاء سؤال:", error.response?.data || error);
+        throw error;
+    }
+};
+
+const updateQuestion = async (id, QuestionData) => { 
+    try {
+        const formattedData = {
+            content: QuestionData.content, // ✅ تأكد من إرسال هذا الحقل
+            answers: QuestionData.answers.map(answer => ({ content: answer.content })),
+            correct_answer_content: QuestionData.correct_answer_content
+        };
+        const response = await axios.put(`${API_URL}/question/${id}/edit`, formattedData, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        console.log("✅ تم تحديث الامتحان:", response.data);
+        getquestions()
+    } catch (error) {
+        console.error("❌ خطأ في تحديث الامتحان:", error.response?.data || error);
+        throw error;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// questions////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Assistant////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const getAssistant = async () => {
     setLoading(true);
@@ -644,10 +751,11 @@ const updateAssistant = async (id, assistantData) => {
     getAssistant();
     getstudents()
     getCouress()
+    getquestions()
     }, []);
 
     return (
-    <DataContext.Provider value={{ doctors,courses, admins,students, loading, error,exams,assistants,doctorsCount,assistantsCount,adminsCount,StudentCount,CoursesCount,getDoctors,createCouress,createDoctor, getAdmins,getCouress,createAdmin,getExams,createExams,getAssistant,createAssistant,createstudents,handleDeleteExam,handleDeleteCouress,handleDeleteStudent,handleDeleteAssistant,handleDeleteAdmin,handleDeleteDoctor,updateExam,updateAssistant,updateAdmin,updateDoctor,updatestudents,updateCouressCouress }}>
+    <DataContext.Provider value={{ doctors,courses, admins,students, loading, error,exams,questions,assistants,doctorsCount,assistantsCount,adminsCount,StudentCount,CoursesCount,getDoctors,createCouress,createDoctor, getAdmins,getCouress,createAdmin,getExams,createExams,createQuestion,getAssistant,createAssistant,createstudents,handleDeleteExam,handleDeleteCouress,handleDeleteStudent,handleDeleteAssistant,handleDeleteAdmin,handleDeleteDoctor,handleDeletegetQuestions,updateExam,updateQuestion,updateAssistant,updateAdmin,updateDoctor,updatestudents,updateCouressCouress }}>
         {children}
     </DataContext.Provider>
     );

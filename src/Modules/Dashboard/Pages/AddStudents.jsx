@@ -48,7 +48,6 @@ export default function AddStudent() {
             } else {
                 await createstudents(studentData);
                 toast.success("✅ تم إضافة الطالب بنجاح!", { icon: false });
-                getstudents(); // استدعاء التحديث فقط عند الإضافة
             }
         } catch (error) {
             console.error("❌ خطأ:", error.response?.data || error);

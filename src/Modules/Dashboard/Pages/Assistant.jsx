@@ -19,7 +19,7 @@
         <h2 className="text-2xl font-semibold text-gray-800">المعيدين</h2>
         <Link to={"/dashboard/Assistant/AddAssistant"}>
             <button className="bg-orange-500 py-3 px-5 text-white rounded-xl hover:bg-orange-600 transition">
-            إضافة معيد جديد
+            إضافة المعيدين
             </button>
         </Link>
         </div>

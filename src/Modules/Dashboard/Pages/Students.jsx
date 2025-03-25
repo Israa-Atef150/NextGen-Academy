@@ -5,13 +5,12 @@ import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 export default function Students() {
-  const { students, loading, error, handleDeleteStudent } = useData(); // جلب البيانات من الـ context
+  const { students, error, handleDeleteStudent } = useData(); // جلب البيانات من الـ context
 
-  useEffect(() => {
-    console.log("📢 بيانات الطلاب:", students);
-  }, [students]);
+  // useEffect(() => {
+  //   console.log("📢 بيانات الطلاب:", students);
+  // }, [students]);
 
-  if (loading) return <p className="text-center text-gray-600">جاري تحميل البيانات...</p>;
   if (error) return <p className="text-center text-red-500">حدث خطأ: {error}</p>;
   if (!Array.isArray(students)) return <p className="text-center text-red-500">البيانات غير صحيحة</p>;
 

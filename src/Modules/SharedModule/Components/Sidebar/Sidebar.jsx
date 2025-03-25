@@ -4,6 +4,7 @@ import { FaHome,FaLock, FaSignOutAlt, FaUser, FaBookOpen, FaBars, FaTimes,FaUser
 import { GiTeacher } from "react-icons/gi";
 import Logo from "../../../../assets/imgs/logo.jpg";
 import { AiOutlineFileDone } from "react-icons/ai";
+import { PiExamLight } from "react-icons/pi";
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
 
@@ -39,7 +40,8 @@ const menuItems = [
   { path: "/dashboard/Docters", label: "الأساتذة", icon: FaChalkboardTeacher },
   { path: "/dashboard/Assistant", label: "معيد", icon: GiTeacher },
   { path: "/dashboard/courses", label: "الدورات", icon: FaBookOpen },
-  { path: "/dashboard/Exams", label: "الامتحانات", icon: AiOutlineFileDone },
+  { path: "/dashboard/Exams", label: "الامتحانات", icon: PiExamLight  },
+  { path: "/dashboard/Questions", label: "الاسئله", icon: AiOutlineFileDone },
   { path: "/dashboard/Admin", label: "المشرفين", icon: FaUserTie },
   { path: "/", label: "تسجيل الخروج", icon: FaSignOutAlt },
 ];

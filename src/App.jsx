@@ -26,6 +26,8 @@ import Admin from './Modules/Dashboard/Pages/Admin'
 import { DataProvider } from "./Modules/Dashboard/DataContext/DataContext ";
 import Assistant from './Modules/Dashboard/Pages/Assistant'
 import AddAssistant from './Modules/Dashboard/Pages/AddAssistant'
+import Questions from './Modules/Dashboard/Pages/Questions'
+import AddQuestions from './Modules/Dashboard/Pages/AddQuestions'
 
 export default function App() {
   const routes=createBrowserRouter([
@@ -107,6 +109,14 @@ export default function App() {
         {
           path:"/dashboard/Exams",
           element:<Exams/>
+        },
+        {
+          path:"/dashboard/Questions",
+          element:<Questions/>
+        },
+        {
+          path:"/dashboard/Questions/AddQuestions",
+          element:<AddQuestions/>
         },
         {
           path:"/dashboard/Exams/AddExams",

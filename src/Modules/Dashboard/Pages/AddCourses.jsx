@@ -10,7 +10,7 @@ export default function AddCourses() {
   const navigate = useNavigate();
   const location = useLocation(); 
   const courseToEdit = location.state?.course; 
-  console.log(courseToEdit)
+
 
   const [courseData, setCourseData] = useState({
     name: "",
