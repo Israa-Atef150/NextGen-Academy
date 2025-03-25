@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import{useData} from'../DataContext/DataContext '
+import {useData} from '../DataContext/DataContext '
 import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,6 +10,7 @@ export default function AddQuestions() {
     const questionToEdit = state ?? null;
     const { createQuestion, updateQuestion } = useData();
 
+    const [questionType, setQuestionType] = useState(questionToEdit?.type || "multiple");
     const [content, setContent] = useState(questionToEdit?.content || '');
     const [answers, setAnswers] = useState(questionToEdit?.answers || [
         { content: '' },
@@ -23,10 +24,10 @@ export default function AddQuestions() {
         if (questionToEdit) {
             setContent(questionToEdit.content || '');
             setAnswers(questionToEdit.answers || [{ content: '' }, { content: '' }, { content: '' }, { content: '' }]);
-            setCorrectAnswer(questionToEdit.correct_answer?.content || ''); // ✅ التعديل هنا
+            setCorrectAnswer(questionToEdit.correct_answer?.content || '');
+            setQuestionType(questionToEdit.type || "multiple");
         }
     }, [questionToEdit]);
-    
 
     const handleAnswerChange = (index, value) => {
         const newAnswers = [...answers];
@@ -42,19 +43,29 @@ export default function AddQuestions() {
             return;
         }
 
-        if (answers.some(answer => !answer.content.trim())) {
-            toast.error("⚠️ لا يمكن ترك أي إجابة فارغة!");
+        const filteredAnswers = answers.filter(answer => answer.content.trim());
+        
+        if (questionType === "multiple" && filteredAnswers.length < 2) {
+            toast.error("⚠️ يجب إدخال إجابتين على الأقل!");
             return;
         }
+        
+        if (questionType === "true_false") {
+            if (filteredAnswers.length !== 2 || !filteredAnswers.some(a => a.content === "صح") || !filteredAnswers.some(a => a.content === "خطأ")) {
+                toast.error("⚠️ يجب أن تكون الإجابتان فقط: صح وخطأ!");
+                return;
+            }
+        }
 
-        if (!answers.some(answer => answer.content === correctAnswer)) {
+        if (!filteredAnswers.some(answer => answer.content === correctAnswer)) {
             toast.error("⚠️ يجب أن تكون الإجابة الصحيحة موجودة ضمن الإجابات!");
             return;
         }
 
         const questionData = {
             content,
-            answers,
+            type: questionType,
+            answers: filteredAnswers,
             correct_answer_content: correctAnswer
         };
 
@@ -68,7 +79,7 @@ export default function AddQuestions() {
             }
         } catch (error) {
             console.error("❌ خطأ:", error.response?.data || error);
-            toast.error("⚠️ حدث خطأ أثناء الحفظ، تأكد من صحة البيانات!");
+            toast.error("⚠️ حدث خطأ أثناء الحفظ!");
         }
     };
 
@@ -79,11 +90,20 @@ export default function AddQuestions() {
                 {questionToEdit ? "تعديل السؤال" : "إضافة سؤال"}
             </h3>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+                <select 
+                    value={questionType} 
+                    onChange={(e) => setQuestionType(e.target.value)}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 text-right"
+                >
+                    <option value="multiple">اختيار من متعدد</option>
+                    <option value="true_false">صح أو خطأ</option>
+                </select>
+
                 <input
                     type="text"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 text-right"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 text-right"
                     placeholder="نص السؤال"
                     required
                 />
@@ -93,16 +113,16 @@ export default function AddQuestions() {
                         type="text"
                         value={answer.content}
                         onChange={(e) => handleAnswerChange(index, e.target.value)}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 text-right"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 text-right"
                         placeholder={`الإجابة ${index + 1}`}
-                        required
+                        
                     />
                 ))}
                 <input
                     type="text"
                     value={correctAnswer}
                     onChange={(e) => setCorrectAnswer(e.target.value)}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 text-right"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 text-right"
                     placeholder="الإجابة الصحيحة"
                     required
                 />

@@ -1,4 +1,4 @@
-        import React from "react";
+        import React, { useEffect } from "react";
         import {useData} from '../DataContext/DataContext '
         import { FaEdit, FaTrash } from "react-icons/fa";
         import { Link } from "react-router-dom";
@@ -9,7 +9,11 @@
 
         if (loading) return <p className="text-center text-gray-500">جاري التحميل...</p>;
         if (error) return <p className="text-center text-red-500">حدث خطأ أثناء جلب البيانات!</p>;
-
+        
+        // useEffect(() => {
+        //     console.log("📢 بيانات الدورات:", assistants);
+        // }, [assistants]);
+        
         return (
         <div className="w-full p-6 rounded-lg space-y-6">
         <ToastContainer position="top-right" autoClose={3000} />

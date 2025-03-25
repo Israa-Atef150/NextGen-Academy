@@ -631,14 +631,6 @@ const updateQuestion = async (id, QuestionData) => {
 
 
 
-
-
-
-
-
-
-
-
 // questions////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Assistant////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -709,11 +701,29 @@ const handleDeleteAssistant = async (id) => {
 const updateAssistant = async (id, assistantData) => {
     try {
         const formattedData = {
-            name: assistantData.name,
-            course_id: Number(assistantData.course_id),
-            student_year: assistantData.year
+            name: assistantData.name?.trim() || "غير محدد",
+            phone_number: assistantData.phone_number?.trim() || null,
+            birth_of_date: assistantData.birth_of_date?.trim() || null,
+            email: assistantData.email?.trim() || null,
+            salary: assistantData.salary ? Number(assistantData.salary) : 0,
+            specialist: assistantData.specialist?.trim() || null,
+            gender: assistantData.gender || "male",
+            address: assistantData.address?.trim() || null,
+            doctor_id: assistantData.doctor_id ? Number(assistantData.doctor_id) : null,
+            student_ids: Array.isArray(assistantData.student_ids)
+                ? assistantData.student_ids
+                : assistantData.student_ids
+                ? assistantData.student_ids.split(",").map(Number)
+                : [],
+            course_ids: Array.isArray(assistantData.course_ids)
+                ? assistantData.course_ids
+                : assistantData.course_ids
+                ? assistantData.course_ids.split(",").map(Number)
+                : [],
         };
-
+        
+        console.log("📢 البيانات المرسلة إلى API:", formattedData);
+        
         // ✅ التحقق من أن students مصفوفة قبل الوصول إلى length
         if (Array.isArray(assistantData.students) && assistantData.students.length > 0) {
             formattedData.students = assistantData.students.map(Number);
