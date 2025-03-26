@@ -13,7 +13,7 @@
     flex-direction: column;
     justify-content: space-between;
   }
-  nav{
+  .content nav{
     margin-top: 30px;
   }
   .logout{

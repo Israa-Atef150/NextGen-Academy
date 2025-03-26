@@ -33,7 +33,7 @@ export default function NavBar() {
     <>
       <nav dir="rtl" className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
         <div className="flex flex-wrap items-center justify-between mx-auto p-4">
-          
+
           {/* شعار الموقع */}
           <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src={logo} className="h-12 w-12 rounded-full" alt="Logo" />
@@ -77,8 +77,7 @@ export default function NavBar() {
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
-                    `block py-2 px-3 rounded-sm md:bg-transparent md:p-0 transition-colors duration-200 ${
-                      isActive ? "text-orange-600 font-bold" : "text-gray-900 dark:text-white hover:text-orange-500"
+                    `block py-2 px-3 rounded-sm md:bg-transparent md:p-0 transition-colors duration-200 ${isActive ? "text-orange-600 font-bold" : "text-gray-900 dark:text-white hover:text-orange-500"
                     }`
                   }
                   onClick={(e) => handleNavigation(e, "hero-container")}
