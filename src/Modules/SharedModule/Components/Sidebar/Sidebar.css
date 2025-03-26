@@ -6,3 +6,22 @@
     background-color: transparent;
   } */
   /* --------- SideBar --------- */
+
+  .content{
+    height: 91.2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  nav{
+    margin-top: 30px;
+  }
+  .logout{
+    display: flex;
+    align-items: center;
+    background: #ff0000d1;
+    width: 100%;
+    padding: 6px;
+    border-radius: 18px;
+    margin-top: 10px;
+  }

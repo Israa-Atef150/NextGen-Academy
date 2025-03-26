@@ -136,7 +136,7 @@ export default function Students() {
                   <td className="p-3 text-center">{student.gender || "غير متوفر"}</td>
                   <td className="p-3 text-center">{student.address || "غير متوفر"}</td>
                   <td className="p-3 text-center">{student.email || "غير متوفر"}</td>
-                  <td className="p-3 flex gap-x-3 justify-center text-center">
+                  <td className="p-3 flex gap-x-3 justify-center text-center" style={{ alignItems: "baseline" }}>
                     <Link to="/dashboard/students/AddStudents" state={{ student }}>
                       <button className="text-blue-500 hover:text-blue-700 transition">
                         <FaEdit className="text-lg" />

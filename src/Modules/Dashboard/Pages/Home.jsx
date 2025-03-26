@@ -50,7 +50,7 @@ export default function Home() {
           <h3 className="text-lg font-semibold">Monthly</h3>
           <Bar data={barData} />
         </div>
-        <div className="chart-container" id="Doughnut" style={{width: "fit-content" }}>
+        <div className="chart-container" id="Doughnut" style={{width: "32%" }}>
           <h3 className="text-lg font-semibold">Traffic Source</h3>
           <Doughnut 
   data={doughnutData} 

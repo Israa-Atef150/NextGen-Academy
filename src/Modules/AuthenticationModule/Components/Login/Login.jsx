@@ -45,7 +45,7 @@ export default function Login() {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 background">
+    <section className="bg-gray-50 dark:bg-gray-900 background" >
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 text-right" dir="rtl" style={{ width: "50%" }}>
         <div className="w-full bg-gray-900 rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-900 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -96,7 +96,7 @@ export default function Login() {
                   className={`px-4 py-2 rounded-lg ${userType === "admin" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
                   onClick={() => setUserType("admin")}
                 >
-                  أدمن
+                  دكتور
                 </button>
                 </div>
                 <div className="flex items-start">

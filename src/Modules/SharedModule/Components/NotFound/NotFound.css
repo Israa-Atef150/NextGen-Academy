@@ -1,0 +1,33 @@
+.Notfound{
+height: 100%;
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.Notfound .cover{
+    height: 90%;
+    width: 100%;
+    animation: image 5s cubic-bezier(0.59, -0.1, 0.61, 1.18) infinite;
+}
+
+.Notfound img{
+    height: 100%;
+    margin: auto;
+}
+
+
+
+    
+    @keyframes image {
+        0%{
+            transform: translateY(0px);
+        }
+        50%{
+            transform: translateY(30px);
+        }
+        100%{
+            transform: translateY(0px);
+        }
+    }
+    

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx"; // استيراد مكتبة إنشاء Excel
-import {useData}from '../DataContext/DataContext '
+import {useData} from '../DataContext/DataContext '
 import { FaEdit, FaTrash, FaSearch, FaFileExcel } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -12,6 +12,10 @@ export default function Exams() {
     const [filteredExams, setFilteredExams] = useState(exams);
     const [isExpanded, setIsExpanded] = useState(false);
     const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
+    const [showStudentsModal, setShowStudentsModal] = useState(false);
+    const [selectedStudents, setSelectedStudents] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const studentsPerPage = 10; // عدد الطلاب في كل صفحة
     useEffect(() => {
         setFilteredExams(exams);
     }, [exams]);
@@ -35,18 +39,16 @@ export default function Exams() {
         }
     };
 
-        const handleSortById = () => {
+    const handleSortById = () => {
         const sortedExams = [...filteredExams].sort((a, b) => {
             return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
         });
-    
         setFilteredExams(sortedExams);
         setSortOrder(sortOrder === "asc" ? "desc" : "asc"); // تبديل الاتجاه
-        };
+    };
 
     // دالة تصدير البيانات إلى Excel
     const exportToExcel = () => {
-        // 🟢 إنشاء ورقة العمل الأولى (ملخص الامتحانات)
         const summarySheet = XLSX.utils.json_to_sheet(
             filteredExams.map((exam) => ({
                 "معرف الامتحان": exam.id,
@@ -54,8 +56,7 @@ export default function Exams() {
                 "عدد الطلاب": new Set(exam.student_exams.map((s) => s.id)).size, // عدد الطلاب بدون تكرار
             }))
         );
-    
-        // 🟢 إنشاء ورقة العمل الثانية (تفاصيل الطلاب لكل امتحان)
+
         const detailsSheet = XLSX.utils.json_to_sheet(
             filteredExams.flatMap((exam) =>
                 exam.student_exams.map((student) => ({
@@ -68,22 +69,46 @@ export default function Exams() {
                 }))
             )
         );
-    
-        // 🟢 إنشاء ملف Excel وإضافة الورقتين
+
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, summarySheet, "ملخص الامتحانات");
         XLSX.utils.book_append_sheet(workbook, detailsSheet, "تفاصيل الطلاب");
-    
-        // 🟢 حفظ الملف
         XLSX.writeFile(workbook, "exams_list.xlsx");
     };
-    
-    
+
+    const openStudentsModal = (students) => {
+        setSelectedStudents(students);
+        setShowStudentsModal(true);
+    };
+
+    const closeStudentsModal = () => {
+        setShowStudentsModal(false);
+        setSelectedStudents([]);
+    };
+
+
+    const totalPages = Math.ceil(selectedStudents.length / studentsPerPage);
+const displayedStudents = selectedStudents.slice(
+    (currentPage - 1) * studentsPerPage,
+    currentPage * studentsPerPage
+);
+
+const nextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+};
+
+const prevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+};
+
+
+
+
 
     if (loading) return <p className="text-center text-gray-500">جارٍ تحميل البيانات...</p>;
     if (error) return <p className="text-center text-red-500">حدث خطأ: {error}</p>;
-
-    return (
+        return(
+            <> 
         <div className='w-full p-6 rounded-lg space-y-6'>
             <ToastContainer position="top-right" autoClose={3000} />
             <div className="flex justify-between items-center">
@@ -147,7 +172,7 @@ export default function Exams() {
                                             <button
                                                 className="text-blue-500 text-xs mt-1 underline"
                                                 style={{background:"none",color:"orange",textDecoration:"none"}}
-                                                onClick={() => alert("عرض جميع الطلاب")} // هنا ضع المنطق المناسب لعرض المزيد
+                                                onClick={() =>  openStudentsModal(exam.student_exams)} // هنا ضع المنطق المناسب لعرض المزيد
                                             >
                                                 إظهار المزيد
                                             </button>
@@ -174,5 +199,45 @@ export default function Exams() {
                 </table>
             </div>
         </div>
-    );
+    {showStudentsModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" style={{position:"absolute"}}>
+        <div className="bg-white p-6 rounded-lg w-[600px] h-[600px] overflow-auto">
+            <h3 className="text-xl font-semibold mb-4">قائمة الطلاب</h3>
+            <ul>
+                {displayedStudents.map((student, index) => (
+                    <li key={index} className="border-b py-2">
+                        {student.name} ({student.id})
+                    </li>
+                    
+                ))}
+
+            </ul>
+    
+            {/* أزرار التنقل بين الصفحات */}
+            <div className="flex justify-between mt-4">
+                <button
+                    onClick={prevPage}
+                    disabled={currentPage === 1}
+                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg disabled:opacity-50"
+                >
+                    السابق
+                </button>
+                <span>صفحة {currentPage} من {totalPages}</span>
+                <button
+                    onClick={nextPage}
+                    disabled={currentPage === totalPages}
+                    className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg disabled:opacity-50"
+                >
+                    التالي
+                </button>
+            </div>
+    
+            <button onClick={closeStudentsModal} className="mt-4 bg-red-500 text-white py-2 px-4 rounded-lg">
+                إغلاق
+            </button>
+        </div>
+    </div>
+    )}
+</>
+);
 }

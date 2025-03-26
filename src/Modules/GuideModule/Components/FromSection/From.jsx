@@ -26,6 +26,7 @@ export default function From() {
                         placeholder="رقم الهاتف"
                         className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
                         required
+                        style={{direction:"rtl"}}
                     />
                     <input
                         type="text"
