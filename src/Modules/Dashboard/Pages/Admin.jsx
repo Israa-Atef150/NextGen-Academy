@@ -4,12 +4,16 @@ import { FaEdit, FaTrash, FaSearch,FaFileExcel } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import * as XLSX from "xlsx"; // 📂 استيراد مكتبة Excel
+import { FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
+
+
 export default function Admin() {
     const { admins, loading, error ,handleDeleteAdmin} = useData(); // ✅ جلب المشرفين من DataContext
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredAdmins, setFilteredAdmins] = useState(admins);
     const [isExpanded, setIsExpanded] = useState(false);
-
+    const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
+    
     useEffect(() => {
         setFilteredAdmins(admins);
         }, [admins]);
@@ -35,6 +39,14 @@ export default function Admin() {
     if (loading) return <p className="text-center text-gray-500">جارٍ تحميل البيانات...</p>;
     if (error) return <p className="text-center text-red-500">حدث خطأ: {error}</p>;
 
+        const handleSortById = () => {
+        const sortedAdmins= [...filteredAdmins].sort((a, b) => {
+            return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+        });
+        setFilteredAdmins(sortedAdmins);
+        setSortOrder(sortOrder === "asc" ? "desc" : "asc"); // تبديل الاتجاه
+        };
+
     const exportToExcel = () => {
         const worksheet = XLSX.utils.json_to_sheet(
             filteredAdmins.map((admin) => ({
@@ -50,14 +62,6 @@ export default function Admin() {
         XLSX.writeFile(workbook, "admins_list.xlsx");
     };
     
-        
-
-
-
-
-
-
-
     return (
         <div className="w-full p-6 rounded-lg space-y-6">
             <ToastContainer position="top-right" autoClose={3000}  />
@@ -85,7 +89,7 @@ export default function Admin() {
                     />
                     </div>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-3">
                 <Link to={'/dashboard/Admin/AddAdmin'}>
                     <button className="bg-orange-500 py-3 px-5 text-white rounded-xl">إضافة مشرف</button>
                 </Link>
@@ -98,7 +102,10 @@ export default function Admin() {
             <table className="w-full border-collapse rounded-lg" style={{ direction: 'rtl' }}>
                 <thead>
                     <tr className="bg-orange-500 text-white">
-                        <th className="p-3">معرف المشرف</th>
+                        <th className="p-3 text-center cursor-pointer flex items-center justify-center gap-2" onClick={handleSortById}>
+                            {sortOrder === "asc" ? <FaArrowDownLong /> : <FaArrowUpLong />}
+                            معرف
+                        </th>
                         <th className="p-3">اسم المشرف</th>
                         <th className="p-3">الإيميل</th>
                         <th className="p-3">الدور</th>

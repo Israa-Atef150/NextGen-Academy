@@ -4,13 +4,14 @@ import {useData}from '../DataContext/DataContext '
 import { FaEdit, FaTrash, FaSearch, FaFileExcel } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 
 export default function Exams() {
     const { exams, loading, error, handleDeleteExam } = useData();
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredExams, setFilteredExams] = useState(exams);
     const [isExpanded, setIsExpanded] = useState(false);
-
+    const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
     useEffect(() => {
         setFilteredExams(exams);
     }, [exams]);
@@ -33,6 +34,15 @@ export default function Exams() {
             setIsExpanded(false);
         }
     };
+
+        const handleSortById = () => {
+        const sortedExams = [...filteredExams].sort((a, b) => {
+            return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+        });
+    
+        setFilteredExams(sortedExams);
+        setSortOrder(sortOrder === "asc" ? "desc" : "asc"); // تبديل الاتجاه
+        };
 
     // دالة تصدير البيانات إلى Excel
     const exportToExcel = () => {
@@ -91,7 +101,7 @@ export default function Exams() {
                         />
                     </div>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-3">
                     <Link to={'/dashboard/Exams/AddExams'}>
                         <button className='bg-orange-500 py-3 px-5 text-white rounded-xl'>إضافة امتحان</button>
                     </Link>
@@ -105,7 +115,10 @@ export default function Exams() {
                 <table className='w-full border-collapse rounded-lg' style={{ direction: 'rtl' }}>
                     <thead>
                         <tr className='bg-orange-500 text-white'>
-                            <th className='p-3'>معرف</th>
+                            <th className="p-3 text-center cursor-pointer flex items-center justify-center gap-2" onClick={handleSortById}>
+                                {sortOrder === "asc" ? <FaArrowDownLong /> : <FaArrowUpLong />}
+                                معرف
+                            </th>
                             <th className='p-3'>اسم الامتحان</th>
                             <th className='p-3'>اسم المادة</th>
                             <th className='p-3'>السنة الدراسية</th>

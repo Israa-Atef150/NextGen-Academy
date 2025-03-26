@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { FaEdit, FaTrash, FaSearch,FaFileExcel } from "react-icons/fa";
+import { FaEdit, FaTrash, FaSearch, FaFileExcel } from "react-icons/fa";
+import { FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import {useData} from '../DataContext/DataContext '
-import * as XLSX from "xlsx"; // 📂 استيراد مكتبة Excel
+import * as XLSX from "xlsx";
+
 export default function Students() {
-  const { students, error, handleDeleteStudent } = useData();
+  const { students, handleDeleteStudent } = useData();
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredStudents, setFilteredStudents] = useState(students);
+  const [filteredStudents, setFilteredStudents] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
 
   useEffect(() => {
     setFilteredStudents(students);
@@ -18,39 +21,48 @@ export default function Students() {
     if (searchQuery.trim() === "") {
       setFilteredStudents(students);
     } else {
-        const filtered = students.filter((student) =>
-          student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        student.id.toString().includes(searchQuery) // البحث في المعرف أيضاً
-        );
-        setFilteredStudents(filtered);
-    }
-};
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSearch(); // تنفيذ البحث عند الضغط على Enter
-      setIsExpanded(false); // إغلاق مربع البحث بعد البحث
+      const filtered = students.filter((student) =>
+        student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        student.id.toString().includes(searchQuery)
+      );
+      setFilteredStudents(filtered);
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+      setIsExpanded(false);
+    }
+  };
+
+  const handleSortById = () => {
+    const sortedStudents = [...filteredStudents].sort((a, b) => {
+      return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+    });
+
+    setFilteredStudents(sortedStudents);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc"); // تبديل الاتجاه
+  };
+
   const exportToExcel = () => {
-  const worksheet = XLSX.utils.json_to_sheet(
-    filteredStudents.map((student) => ({
-      "معرف": student.id,
-      "الاسم": student.name,
-      "رقم الهاتف": student.phone_number || "غير متوفر",
-      "تاريخ الميلاد": student.birth_of_date || "غير متوفر",
-      "السنة الدراسية": student.year_study || "غير متوفر",
-      "النوع": student.gender || "غير متوفر",
-      "العنوان": student.address || "غير متوفر",
-      "الإيميل": student.email || "غير متوفر",
-    }))
-  );
+    const worksheet = XLSX.utils.json_to_sheet(
+      filteredStudents.map((student) => ({
+        "معرف": student.id,
+        "الاسم": student.name,
+        "رقم الهاتف": student.phone_number || "غير متوفر",
+        "تاريخ الميلاد": student.birth_of_date || "غير متوفر",
+        "السنة الدراسية": student.year_study || "غير متوفر",
+        "النوع": student.gender || "غير متوفر",
+        "العنوان": student.address || "غير متوفر",
+        "الإيميل": student.email || "غير متوفر",
+      }))
+    );
 
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Students");
-  XLSX.writeFile(workbook, "students_list.xlsx"); // ✅ تصحيح اسم الملف
-    };
-
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Students");
+    XLSX.writeFile(workbook, "students_list.xlsx");
+  };
 
   return (
     <div className="w-full p-6 rounded-lg space-y-6">
@@ -80,23 +92,28 @@ export default function Students() {
             />
           </div>
         </div>
-        <div className="flex gap-4">
-        <Link to="/dashboard/students/AddStudents">
-          <button className="bg-orange-500 py-3 px-5 text-white rounded-xl">
-            إضافة الطلاب
-          </button>
-        </Link>
-            <button onClick={exportToExcel} className="bg-green-500 flex items-center py-3 px-5 text-white rounded-xl">
-            <FaFileExcel className="ml-2" /> تصدير إلى Excel
+
+        <div className="flex gap-2">
+          <Link to="/dashboard/students/AddStudents">
+            <button className="bg-orange-500 py-3 px-5 text-white rounded-xl">
+              إضافة الطلاب
             </button>
+          </Link>
+          <button onClick={exportToExcel} className="bg-green-500 flex items-center py-3 px-5 text-white rounded-xl">
+            <FaFileExcel className="ml-2" /> تصدير إلى Excel
+          </button>
+        </div>
       </div>
-      </div>
-      {/* الجدول مع التمرير */}
-      <div className="overflow-auto max-h-[760px] border rounded-lg" style={{ direction: 'ltr' }}>
+
+      {/* الجدول */}
+      <div className="overflow-auto max-h-[760px] border rounded-lg" style={{ direction: "ltr" }}>
         <table className="w-full border-collapse rounded-lg" style={{ direction: "rtl" }}>
           <thead>
             <tr className="bg-orange-500 text-white">
-              <th className="p-3 text-center">معرف</th>
+              <th className="p-3 text-center cursor-pointer flex items-center justify-center gap-2" onClick={handleSortById}>
+                {sortOrder === "asc" ? <FaArrowDownLong /> : <FaArrowUpLong />}
+                معرف
+              </th>
               <th className="p-3 text-center">الاسم</th>
               <th className="p-3 text-center">رقم الهاتف</th>
               <th className="p-3 text-center">تاريخ الميلاد</th>
@@ -119,7 +136,7 @@ export default function Students() {
                   <td className="p-3 text-center">{student.gender || "غير متوفر"}</td>
                   <td className="p-3 text-center">{student.address || "غير متوفر"}</td>
                   <td className="p-3 text-center">{student.email || "غير متوفر"}</td>
-                  <td className="p-3 flex gap-x-3 justify-center text-center" style={{ alignItems: "baseline" }}>
+                  <td className="p-3 flex gap-x-3 justify-center text-center">
                     <Link to="/dashboard/students/AddStudents" state={{ student }}>
                       <button className="text-blue-500 hover:text-blue-700 transition">
                         <FaEdit className="text-lg" />
@@ -136,7 +153,7 @@ export default function Students() {
               ))
             ) : (
               <tr>
-                <td colSpan="8" className="text-center p-4">لا يوجد طلاب متاحين</td>
+                <td colSpan="9" className="text-center p-4">لا يوجد طلاب متاحين</td>
               </tr>
             )}
           </tbody>

@@ -81,11 +81,6 @@ export default function Login() {
                   required
                 />
               </div>
-
-              <div className="flex items-center justify-between flex-row-reverse">
-                
-              </div>
-
               {/* اختيار نوع المستخدم */}
               <div className="flex  space-x-4" style={{alignItems:"center", justifyContent:"space-between"}}>
                 <div className="buttons" style={{display:"flex",alignContent:"center",gap:"3px"}}>

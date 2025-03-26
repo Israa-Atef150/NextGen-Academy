@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaEdit, FaTrash, FaSearch,FaFileExcel } from "react-icons/fa";
+import { FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import {useData} from '../DataContext/DataContext '
 import { ToastContainer } from "react-toastify";
@@ -9,7 +10,7 @@ export default function DashboardCourses() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCourses, setFilteredCourses] = useState(courses);
   const [isExpanded, setIsExpanded] = useState(false);
-
+  const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
 
   useEffect(() => {
     setFilteredCourses(courses);
@@ -35,6 +36,15 @@ export default function DashboardCourses() {
       }
       };
 
+      const handleSortById = () => {
+        const sortedCourses = [...filteredCourses].sort((a, b) => {
+            return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+        });
+    
+        setFilteredCourses(sortedCourses);
+        setSortOrder(sortOrder === "asc" ? "desc" : "asc"); // تبديل الاتجاه
+        };
+        
       const exportToExcel = () => {
         const worksheet = XLSX.utils.json_to_sheet(
           filteredCourses.map((course) => ({
@@ -86,7 +96,7 @@ export default function DashboardCourses() {
             />
             </div>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-3">
         <Link to="/dashboard/courses/AddCourses">
           <button className="bg-orange-500 py-3 px-5 text-white rounded-xl hover:bg-orange-600 transition">
             إضافة الدورات
@@ -103,7 +113,10 @@ export default function DashboardCourses() {
         <table className="w-full border-collapse rounded-lg" style={{ direction: "rtl" }}>
           <thead>
             <tr className="bg-orange-500 text-white">
-              <th className="p-3 text-center">معرف </th>
+              <th className="p-3 text-center cursor-pointer flex items-center justify-center gap-2" onClick={handleSortById}>
+                  {sortOrder === "asc" ? <FaArrowDownLong /> : <FaArrowUpLong />}
+                  معرف
+              </th>
               <th className="p-3 text-center">اسم الدورة</th>
               <th className="p-3 text-center">الدكتور</th>
               <th className="p-3 text-center">المعيد</th>

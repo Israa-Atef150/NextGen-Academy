@@ -4,13 +4,15 @@ import { FaEdit, FaTrash, FaSearch,FaFileExcel } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import * as XLSX from "xlsx"; // 📂 استيراد مكتبة Excel
+import { FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 export default function Questions() {
 const { questions, error, handleDeletegetQuestions } = useData();
 const [searchQuery, setSearchQuery] = useState("");
 const [filteredQuestions, setFilteredQuestions] = useState(questions);
 const [isExpanded, setIsExpanded] = useState(false);
+    const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
 
-useEffect(() => {
+    useEffect(() => {
     setFilteredQuestions(questions);
     }, [questions]);
 
@@ -35,6 +37,15 @@ useEffect(() => {
     };
 if (error) return <p className="text-center text-red-500">حدث خطأ: {error}</p>;
 
+    const handleSortById = () => {
+    const sortedQuestions = [...filteredQuestions].sort((a, b) => {
+        return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+    });
+    
+    setFilteredQuestions(sortedQuestions);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc"); // تبديل الاتجاه
+    };
+    
 const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(
         filteredQuestions.map((question) => ({
@@ -77,7 +88,7 @@ return (
                 />
                 </div>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-2">
         <Link to={'/dashboard/Questions/AddQuestions'}>
             <button className='bg-orange-500 py-3 px-5 text-white rounded-xl'>
                 اضافة الاسئله
@@ -92,7 +103,10 @@ return (
         <table className='w-full border-collapse rounded-lg' style={{ direction: 'rtl' }}>
             <thead>
                 <tr className='bg-orange-500 text-white'>
-                    <th className='p-3'>معرف السؤال</th>
+                    <th className="p-3 text-center cursor-pointer flex items-center justify-center gap-2" onClick={handleSortById}>
+                    {sortOrder === "asc" ? <FaArrowDownLong /> : <FaArrowUpLong />}
+                    معرف
+                    </th>
                     <th className='p-3'>محتوي سؤال</th>
                     <th className='p-3'>الاجابه الصحيحه</th>
                     <th className='p-3'>الاجابات</th>

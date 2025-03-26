@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {useData} from '../DataContext/DataContext '
 import { FaEdit, FaTrash, FaSearch,FaFileExcel } from "react-icons/fa";
+import { FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import * as XLSX from "xlsx"; // 📂 استيراد مكتبة Excel
@@ -11,7 +12,8 @@ export default function Assistant() {
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredAssistants, setFilteredAssistants] = useState(assistants);
     const [isExpanded, setIsExpanded] = useState(false);
-
+    const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
+    
     useEffect(() => {
         setFilteredAssistants(assistants);
     }, [assistants]);
@@ -36,6 +38,14 @@ export default function Assistant() {
             handleSearch();
             setIsExpanded(false); // ✅ إغلاق مربع البحث بعد البحث
         }
+    };
+    const handleSortById = () => {
+    const sortedAssistant = [...filteredAssistants].sort((a, b) => {
+        return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+    });
+
+    setFilteredAssistants(sortedAssistant);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc"); // تبديل الاتجاه
     };
 
     // 📤 تصدير البيانات إلى Excel
@@ -91,7 +101,7 @@ export default function Assistant() {
                         />
                     </div>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-3">
                 <Link to={"/dashboard/Assistant/AddAssistant"}>
                     <button className="bg-orange-500 py-3 px-5 text-white rounded-xl hover:bg-orange-600 transition">
                         إضافة المعيدين
@@ -109,7 +119,10 @@ export default function Assistant() {
                 <table className="w-full border-collapse rounded-lg" style={{ direction: "rtl" }}>
                     <thead>
                         <tr className="bg-orange-500 text-white">
-                            <th className="p-3">معرف</th>
+                            <th className="p-3 text-center cursor-pointer flex items-center justify-center gap-2" onClick={handleSortById}>
+                                {sortOrder === "asc" ? <FaArrowDownLong /> : <FaArrowUpLong />}
+                                معرف
+                            </th>
                             <th className="p-3">اسم المعيد</th>
                             <th className="p-3">العنوان</th>
                             <th className="p-3">رقم الهاتف</th>

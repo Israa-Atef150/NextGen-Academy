@@ -43,7 +43,7 @@ export default function AdmissionRequirements() {
 
   return (
     <section className="requirements">
-      <h4 className="title">متطلبات التقديم للطلاب الجدد للعام الجامعى 2025/2024</h4>
+      <h4 className="title">متطلبات التقديم للطلاب الجدد للعام الجامعى 2026/2025</h4>
       <div className="requirementInfo">
         {requirementsData.map((section, index) => (
           <ol key={index} className="list">

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx"; // استيراد مكتبة إنشاء Excel
 import {useData} from '../DataContext/DataContext '
 import { FaEdit, FaTrash, FaSearch, FaFileExcel } from "react-icons/fa";
+import { FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
@@ -10,7 +11,7 @@ const { doctors, loading, error, handleDeleteDoctor } = useData();
 const [searchQuery, setSearchQuery] = useState("");
 const [filteredDoctors, setFilteredDoctors] = useState(doctors);
 const [isExpanded, setIsExpanded] = useState(false);
-
+  const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
 useEffect(() => {
 setFilteredDoctors(doctors);
 }, [doctors]);
@@ -33,7 +34,14 @@ if (e.key === "Enter") {
     setIsExpanded(false);
 }
 };
+const handleSortById = () => {
+    const sortedDoctors = [...filteredDoctors].sort((a, b) => {
+        return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+    });
 
+    setFilteredDoctors(sortedDoctors);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc"); // تبديل الاتجاه
+    };
 // دالة تصدير البيانات إلى Excel
 const exportToExcel = () => {
 const worksheet = XLSX.utils.json_to_sheet(
@@ -87,7 +95,7 @@ return (
         </div>
     </div>
 
-    <div className="flex gap-4">
+    <div className="flex gap-3">
         <Link to={"/dashboard/Docters/AddDocters"}>
         <button className="bg-orange-500 py-3 px-5 text-white rounded-xl">
             إضافة الأساتذة
@@ -105,7 +113,10 @@ return (
     <table className="w-full border-collapse rounded-lg" style={{ direction: "rtl" }}>
         <thead>
         <tr className="bg-orange-500 text-white">
-            <th className="p-3">معرف</th>
+            <th className="p-3 text-center cursor-pointer flex items-center justify-center gap-2" onClick={handleSortById}>
+                {sortOrder === "asc" ? <FaArrowDownLong /> : <FaArrowUpLong />}
+                معرف
+            </th>
             <th className="p-3">اسم الدكتور</th>
             <th className="p-3">العنوان</th>
             <th className="p-3">رقم الهاتف</th>
