@@ -22,18 +22,15 @@ export default function Login() {
         : "https://ishraaq.up.railway.app/api/login";
 
     try {
-      const response = await axios.post(apiUrl, {
-        email,
-        password,
-      });
+      const response = await axios.post(apiUrl, { email, password });
 
       console.log("تم تسجيل الدخول بنجاح:", response.data);
       alert("تم تسجيل الدخول بنجاح!");
       localStorage.setItem("token", response.data.token);
 
-      // التوجيه بناءً على نوع المستخدم
+      // توجيه المستخدم بعد تسجيل الدخول بناءً على النوع
       if (userType === "student") {
-        navigate("/"); // الطالب يذهب إلى صفحة home
+        navigate("/"); // الطالب يذهب إلى الصفحة الرئيسية (HeroSection)
       } else {
         navigate("/dashboard"); // الأدمن يذهب إلى لوحة التحكم
       }
@@ -93,7 +90,6 @@ export default function Login() {
                 </a>
               </div>
 
-              {/* زر تسجيل الدخول */}
               <button
                 type="submit"
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -102,7 +98,6 @@ export default function Login() {
                 {loading ? "جاري تسجيل الدخول..." : "تسجيل دخول"}
               </button>
 
-              {/* اختيار نوع المستخدم */}
               <div className="flex justify-center space-x-4">
                 <button
                   type="button"

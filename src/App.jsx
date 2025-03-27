@@ -27,7 +27,9 @@ import { DataProvider } from './Modules/Dashboard/DataContext/DataContext ';
 import Assistant from './Modules/Dashboard/Pages/Assistant';
 import AddAssistant from './Modules/Dashboard/Pages/AddAssistant';
 import EditCourse from './Modules/Dashboard/Pages/EditCourse';
-import EditStudent from './Modules/Dashboard/Pages/EditStudent'; // ✅ استيراد EditStudent
+import EditStudent from './Modules/Dashboard/Pages/EditStudent';
+import HomeSection from './Modules/HomeModules/Components/HomeSection/HomeSection';
+
 
 export default function App() {
   const routes = createBrowserRouter([
@@ -46,6 +48,11 @@ export default function App() {
       ],
     },
     {
+      path: '/home',
+      element: <HomeSection />,
+    },
+    
+    {
       path: '/dashboard',
       element: <MasterLayout />,
       errorElement: <NotFound />,
@@ -56,7 +63,7 @@ export default function App() {
         { path: 'courses/edit/:id', element: <EditCourse /> }, 
         { path: 'students', element: <Students /> },
         { path: 'students/add', element: <AddStudents /> },
-        { path: 'students/edit/:id', element: <EditStudent /> }, // ✅ مسار تعديل الطالب
+        { path: 'students/edit/:id', element: <EditStudent /> }, 
         { path: 'docters', element: <Docters /> },
         { path: 'docters/add', element: <AddDocters /> },
         { path: 'admin', element: <Admin /> },
