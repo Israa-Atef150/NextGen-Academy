@@ -11,15 +11,21 @@ export default function Exams() {
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredExams, setFilteredExams] = useState(exams);
     const [isExpanded, setIsExpanded] = useState(false);
-    const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
+    const [sortOrder, setSortOrder] = useState("asc"); // حالة الفرز
     const [showStudentsModal, setShowStudentsModal] = useState(false);
     const [selectedStudents, setSelectedStudents] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const studentsPerPage = 10; // عدد الطلاب في كل صفحة
     useEffect(() => {
-        setFilteredExams(exams);
+        if (Array.isArray(exams) && exams.length > 0) {
+            const sortedExams = [...exams].sort((a, b) => a.id - b.id);
+            setFilteredExams(sortedExams);
+            setSortOrder("asc"); // إعادة ضبط حالة الفرز إلى تصاعدي
+        } else {
+            setFilteredExams([]); // تعيين قائمة فارغة إذا لم تكن هناك بيانات
+        }
     }, [exams]);
-
+    
     const handleSearch = () => {
         if (searchQuery.trim() === "") {
             setFilteredExams(exams);
@@ -41,7 +47,7 @@ export default function Exams() {
 
     const handleSortById = () => {
         const sortedExams = [...filteredExams].sort((a, b) => {
-            return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+            return sortOrder === "desc" ? a.id - b.id : b.id - a.id;
         });
         setFilteredExams(sortedExams);
         setSortOrder(sortOrder === "asc" ? "desc" : "asc"); // تبديل الاتجاه

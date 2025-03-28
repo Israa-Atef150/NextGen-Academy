@@ -17,8 +17,9 @@ export default function AddCourses() {
     doctor_id: "",
     year_study: "",
     Path_of_Video: "",  // ✅ استخدم الاسم كما هو في الـ Backend
-    student_st_year: ""
-});
+    student_st_year: "",
+    code_of_course:""
+  });
 
 
 
@@ -30,7 +31,8 @@ useEffect(() => {
           doctor_id: courseToEdit.doctor_id || "",
           year_study: courseToEdit.year_study || "",
           Path_of_Video: courseToEdit.Path_of_Video || "", // ✅ الاسم مطابق للـ Backend
-          student_st_year: courseToEdit.student_st_year || ""
+          student_st_year: courseToEdit.student_st_year || "",
+          code_of_course: courseToEdit.code_of_course || ""
       });
   }
 }, [courseToEdit]);
@@ -55,6 +57,7 @@ const handleSubmit = async (e) => {
           year_study: courseData.year_study,
           Path_of_Video: courseData.Path_of_Video, // ✅ الاسم مطابق للـ Backend
           student_st_year: courseData.student_st_year,
+          code_of_course:courseData.code_of_course
       };
 
       console.log("📤 إرسال البيانات:", newCourse); // ✅ طباعة البيانات قبل الإرسال
@@ -84,15 +87,15 @@ const handleSubmit = async (e) => {
       <input type='text' name='doctor_id' placeholder='كود الدكتور' value={courseData.doctor_id} onChange={handleChange} className='border border-gray-300 p-2 rounded-md text-right w-full' />
       <input type='text' name='year_study' placeholder='السنة الدراسية' value={courseData.year_study} onChange={handleChange} className='border border-gray-300 p-2 rounded-md text-right w-full' />
       <input 
-    type='text' 
-    name='Path_of_Video' // ✅ يجب أن يكون مطابقًا للحقل في useState
-    placeholder='مسار الفيديو' 
-    value={courseData.Path_of_Video}  
-    onChange={handleChange} 
-    className='border border-gray-300 p-2 rounded-md text-right w-full' 
-/>
-
+      type='text' 
+      name='Path_of_Video' // ✅ يجب أن يكون مطابقًا للحقل في useState
+      placeholder='مسار الفيديو' 
+      value={courseData.Path_of_Video}  
+      onChange={handleChange} 
+      className='border border-gray-300 p-2 rounded-md text-right w-full' 
+      />
       <input type='text' name='student_st_year' placeholder='سنة الطالب الدراسية' value={courseData.student_st_year} onChange={handleChange} className='border border-gray-300 p-2 rounded-md text-right w-full' />
+      <input type='text' name='code_of_course' placeholder='sku' value={courseData.code_of_course} onChange={handleChange} className='border border-gray-300 p-2 rounded-md text-right w-full' />
         <button type="submit" className="col-span-2 bg-green-500 text-white p-2 rounded-md w-full">
           {courseToEdit ? "تحديث" : "إضافة"}
         </button>

@@ -11,10 +11,13 @@ export default function Students() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
+  const [sortOrder, setSortOrder] = useState("asc"); // حالة الفرز
 
   useEffect(() => {
-    setFilteredStudents(students);
+    // ترتيب البيانات تلقائيًا من الأصغر إلى الأكبر عند التهيئة
+    const sortedStudents = [...students].sort((a, b) => a.id - b.id);
+    setFilteredStudents(sortedStudents);
+    setSortOrder("asc"); // ضبط حالة الفرز على تصاعدي
   }, [students]);
 
   const handleSearch = () => {
@@ -38,7 +41,7 @@ export default function Students() {
 
   const handleSortById = () => {
     const sortedStudents = [...filteredStudents].sort((a, b) => {
-      return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+      return sortOrder === "desc" ? a.id - b.id : b.id - a.id;
     });
 
     setFilteredStudents(sortedStudents);

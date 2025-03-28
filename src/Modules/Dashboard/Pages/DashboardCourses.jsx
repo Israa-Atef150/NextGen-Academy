@@ -10,11 +10,16 @@ export default function DashboardCourses() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCourses, setFilteredCourses] = useState(courses);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
+  const [sortOrder, setSortOrder] = useState("asc"); // حالة الفرز
 
   useEffect(() => {
-    setFilteredCourses(courses);
-      }, [courses]);
+    if (Array.isArray(courses) && courses.length > 0) {
+      const sortedCourses = [...courses].sort((a, b) => a.id - b.id);
+      setFilteredCourses(sortedCourses);
+      setSortOrder("asc"); // ضبط حالة الفرز على تصاعدي
+    }
+  }, [courses]);
+
   
       const handleSearch = () => {
         if (searchQuery.trim() === "") {
@@ -38,7 +43,7 @@ export default function DashboardCourses() {
 
       const handleSortById = () => {
         const sortedCourses = [...filteredCourses].sort((a, b) => {
-            return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+            return sortOrder === "desc" ? a.id - b.id : b.id - a.id;
         });
     
         setFilteredCourses(sortedCourses);

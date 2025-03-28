@@ -11,11 +11,15 @@ const { doctors, loading, error, handleDeleteDoctor } = useData();
 const [searchQuery, setSearchQuery] = useState("");
 const [filteredDoctors, setFilteredDoctors] = useState(doctors);
 const [isExpanded, setIsExpanded] = useState(false);
-  const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
-useEffect(() => {
-setFilteredDoctors(doctors);
-}, [doctors]);
-
+  const [sortOrder, setSortOrder] = useState("asc"); // حالة الفرز
+  useEffect(() => {
+    if (doctors.length > 0) {
+      const sortedDoctors = [...doctors].sort((a, b) => a.id - b.id);
+      setFilteredDoctors(sortedDoctors);
+      setSortOrder("asc"); // ضبط حالة الفرز على تصاعدي
+    }
+  }, [doctors]);
+  
 const handleSearch = () => {
 if (searchQuery.trim() === "") {
     setFilteredDoctors(doctors);
@@ -36,7 +40,7 @@ if (e.key === "Enter") {
 };
 const handleSortById = () => {
     const sortedDoctors = [...filteredDoctors].sort((a, b) => {
-        return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+        return sortOrder === "desc" ? a.id - b.id : b.id - a.id;
     });
 
     setFilteredDoctors(sortedDoctors);

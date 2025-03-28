@@ -12,11 +12,18 @@ export default function Admin() {
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredAdmins, setFilteredAdmins] = useState(admins);
     const [isExpanded, setIsExpanded] = useState(false);
-    const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
+    const [sortOrder, setSortOrder] = useState("asc"); // حالة الفرز
     
     useEffect(() => {
-        setFilteredAdmins(admins);
-        }, [admins]);
+        if (Array.isArray(admins) && admins.length > 0) {
+            const sortedAdmins = [...admins].sort((a, b) => a.id - b.id); // فرز تلقائي
+            setFilteredAdmins(sortedAdmins);
+            setSortOrder("asc"); // إعادة تعيين الفرز
+        } else {
+            setFilteredAdmins([]); // تعيين قائمة فارغة لمنع الأخطاء
+        }
+    }, [admins]);
+    
     
         const handleSearch = () => {
             if (searchQuery.trim() === "") {
@@ -41,7 +48,7 @@ export default function Admin() {
 
         const handleSortById = () => {
         const sortedAdmins= [...filteredAdmins].sort((a, b) => {
-            return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+            return sortOrder === "desc" ? a.id - b.id : b.id - a.id;
         });
         setFilteredAdmins(sortedAdmins);
         setSortOrder(sortOrder === "asc" ? "desc" : "asc"); // تبديل الاتجاه

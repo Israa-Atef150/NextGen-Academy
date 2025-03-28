@@ -28,123 +28,152 @@ import Assistant from './Modules/Dashboard/Pages/Assistant'
 import AddAssistant from './Modules/Dashboard/Pages/AddAssistant'
 import Questions from './Modules/Dashboard/Pages/Questions'
 import AddQuestions from './Modules/Dashboard/Pages/AddQuestions'
+import Courses from './Modules/HomeModules/Components/HeroSection/coures'
+import HomeSection from './Modules/HomeModules/Components/HeroSection/HomeSection/HomeSection'
+import UserLayout from './Modules/SharedModule/Components/UserLayout/UserLayout'
 
 export default function App() {
-  const routes=createBrowserRouter([
+  const routes = createBrowserRouter([
     {
-    path:"/",
-    element:<AuthLayout/>,
-    errorElement:<NotFound/>,
-    children:[{
-      path:"",
-      element:<Guide/>
-    },
-    {
-      path:"login",
-      element:<Login/>
-    },
-    {
-      path:"AdmissionRequirements",
-      element:<AdmissionRequirements/>
-    },
-    {
-      path:"AboutUs",
-      element:<AboutUs/>
-    },
-    {
-      path:"CallUS",
-      element:<CallUs/>
-    },
-    {
-      path:"Edusystem",
-      element:<Edusystem/>
+      path: "/",
+      element: <AuthLayout />,
+      errorElement: <NotFound />,
+      children: [{
+        path: "",
+        element: <Guide />
+      },
+      {
+        path: "login",
+        element: <Login />
+      },
+      {
+        path: "AdmissionRequirements",
+        element: <AdmissionRequirements />
+      },
+      {
+        path: "AboutUs",
+        element: <AboutUs />
+      },
+      {
+        path: "CallUS",
+        element: <CallUs />
+      },
+      {
+        path: "Edusystem",
+        element: <Edusystem />
+      },
+
+      {
+        path: "forgetpass",
+        element: <Forgetpass />
+      },
+      ]
     },
 
+
     {
-      path:"forgetpass",
-      element:<Forgetpass/>
+    path: "/",
+    element: <UserLayout />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: "homeSection",
+        element: <HomeSection />
+      },
+      {
+        path: "homeSection/coures",
+        element: <Courses />
+      },
+    ]
     },
-  ]
-    },
+
+
+
+
+
+
+
+
+
 
     // إذا كنت بحاجة إلى MasterLayout، تأكد من استيراده
     {
       path: "/dashboard",
-      element: <MasterLayout/>,
+      element: <MasterLayout />,
       errorElement: <NotFound />,
       children: [
         {
-          path:"/dashboard",
-          element:<Home/>
+          path: "/dashboard",
+          element: <Home />
         },
         {
-          path:"/dashboard/courses",
-          element:<DashboardCourses/>
+          path: "/dashboard/courses",
+          element: <DashboardCourses />
         },
         {
-          path:"/dashboard/Courses/AddCourses",
-          element:<AddCourses/>
-          
+          path: "/dashboard/Courses/AddCourses",
+          element: <AddCourses />
+
         },
         {
-          path:"/dashboard/students",
-          element:<Students/>
+          path: "/dashboard/students",
+          element: <Students />
         },
         {
-          path:"/dashboard/Students/AddStudents",
-          element:<AddStudents/>
+          path: "/dashboard/Students/AddStudents",
+          element: <AddStudents />
         },
         {
-          path:"/dashboard/Docters",
-          element:<Docters/>
+          path: "/dashboard/Docters",
+          element: <Docters />
         },
         {
-          path:"/dashboard/Docters/AddDocters",
-          element:<AddDocters/>
+          path: "/dashboard/Docters/AddDocters",
+          element: <AddDocters />
         },
         {
-          path:"/dashboard/Admin",
-          element:<Admin/>
+          path: "/dashboard/Admin",
+          element: <Admin />
         },
         {
-          path:"/dashboard/Exams",
-          element:<Exams/>
+          path: "/dashboard/Exams",
+          element: <Exams />
         },
         {
-          path:"/dashboard/Questions",
-          element:<Questions/>
+          path: "/dashboard/Questions",
+          element: <Questions />
         },
         {
-          path:"/dashboard/Questions/AddQuestions",
-          element:<AddQuestions/>
+          path: "/dashboard/Questions/AddQuestions",
+          element: <AddQuestions />
         },
         {
-          path:"/dashboard/Exams/AddExams",
-          element:<AddExams/>
+          path: "/dashboard/Exams/AddExams",
+          element: <AddExams />
         },
         {
-          path:"/dashboard/Admin/AddAdmin",
-          element:<AddAdmin/>
+          path: "/dashboard/Admin/AddAdmin",
+          element: <AddAdmin />
         },
         {
-          path:"/dashboard/users/add-users",
-          element:<AddUsers/>
+          path: "/dashboard/users/add-users",
+          element: <AddUsers />
         },
         {
-          path:"/dashboard/Assistant",
-          element:<Assistant/>
+          path: "/dashboard/Assistant",
+          element: <Assistant />
         },
         {
-          path:"/dashboard/Assistant/AddAssistant",
-          element:<AddAssistant/>
+          path: "/dashboard/Assistant/AddAssistant",
+          element: <AddAssistant />
         },
       ],
     },
   ]);
 
   return (
-  <DataProvider> {/* Wrap RouterProvider with DataProvider */}
-    <RouterProvider router={routes} />
-  </DataProvider>
-)
+    <DataProvider> {/* Wrap RouterProvider with DataProvider */}
+      <RouterProvider router={routes} />
+    </DataProvider>
+  )
 }

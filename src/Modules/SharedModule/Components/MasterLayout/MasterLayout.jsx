@@ -25,7 +25,7 @@ export default function MasterLayout() {
       })
       .then((response) => {
         const userData = response.data;
-        if (userData.role !== "Super Admin" && userData.role !== "Admin") {
+        if (userData.role !== "Super Admin" && userData.role !== "Admin" && userData.role !== "User") {
           navigate("/login"); // منع الطالب من رؤية أي شيء
         } else {
           setUser(userData); // تخزين بيانات المستخدم

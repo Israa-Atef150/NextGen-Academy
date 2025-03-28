@@ -10,11 +10,18 @@ const { questions, error, handleDeletegetQuestions } = useData();
 const [searchQuery, setSearchQuery] = useState("");
 const [filteredQuestions, setFilteredQuestions] = useState(questions);
 const [isExpanded, setIsExpanded] = useState(false);
-    const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
+    const [sortOrder, setSortOrder] = useState("asc"); // حالة الفرز
 
     useEffect(() => {
-    setFilteredQuestions(questions);
+        if (Array.isArray(questions) && questions.length > 0) {
+            const sortedQuestions = [...questions].sort((a, b) => a.id - b.id);
+            setFilteredQuestions(sortedQuestions);
+            setSortOrder("asc"); // إعادة تعيين الفرز إلى تصاعدي
+        } else {
+            setFilteredQuestions([]); // تعيين قائمة فارغة في حال عدم وجود بيانات
+        }
     }, [questions]);
+    
 
     const handleSearch = () => {
         if (searchQuery.trim() === "") {
@@ -39,7 +46,7 @@ if (error) return <p className="text-center text-red-500">حدث خطأ: {error}
 
     const handleSortById = () => {
     const sortedQuestions = [...filteredQuestions].sort((a, b) => {
-        return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+        return sortOrder === "desc" ? a.id - b.id : b.id - a.id;
     });
     
     setFilteredQuestions(sortedQuestions);

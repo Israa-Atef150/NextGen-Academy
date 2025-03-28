@@ -12,12 +12,16 @@ export default function Assistant() {
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredAssistants, setFilteredAssistants] = useState(assistants);
     const [isExpanded, setIsExpanded] = useState(false);
-    const [sortOrder, setSortOrder] = useState("desc"); // حالة الفرز
+    const [sortOrder, setSortOrder] = useState("asc"); // حالة الفرز
     
     useEffect(() => {
-        setFilteredAssistants(assistants);
+        if (assistants.length > 0) {
+            const sortedAssistants = [...assistants].sort((a, b) => a.id - b.id);
+            setFilteredAssistants(sortedAssistants);
+            setSortOrder("asc"); // ضبط حالة الفرز على تصاعدي
+        }
     }, [assistants]);
-
+    
     // 🔍 البحث في قائمة المعيدين
     const handleSearch = () => {
         if (searchQuery.trim() === "") {
@@ -41,7 +45,7 @@ export default function Assistant() {
     };
     const handleSortById = () => {
     const sortedAssistant = [...filteredAssistants].sort((a, b) => {
-        return sortOrder === "asc" ? a.id - b.id : b.id - a.id;
+        return sortOrder === "desc" ? a.id - b.id : b.id - a.id;
     });
 
     setFilteredAssistants(sortedAssistant);
