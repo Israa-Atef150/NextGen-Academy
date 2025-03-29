@@ -32,7 +32,7 @@ export default function Login() {
 
       // التوجيه بناءً على نوع المستخدم
       if (userType === "student") {
-        navigate("/"); // الطالب يذهب إلى صفحة home
+        navigate("/homeSection"); // الطالب يذهب إلى صفحة home
       } else {
         navigate("/dashboard"); // الأدمن يذهب إلى لوحة التحكم
       }

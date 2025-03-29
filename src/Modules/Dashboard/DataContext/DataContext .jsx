@@ -38,6 +38,7 @@ export function DataProvider({ children }) {
                     "Content-Type": "application/json",
                 },
             });
+            console.log(response.data)
             if (response.data && Array.isArray(response.data.students)) {
                 setStudents(response.data.students); // ✅ استخدم المصفوفة فقط
                 setStudentCount(response.data.student_count)
